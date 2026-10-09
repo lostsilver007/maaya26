@@ -1,157 +1,135 @@
 import React, { useState, useEffect } from "react";
-import { Sparkles, Volume2, VolumeX, Menu, X, Compass, ArrowRight } from "lucide-react";
-import { playClick, setSoundEnabled } from "../utils/audioEffects";
+import { Volume2, VolumeX, Menu, X } from "lucide-react";
+import { playClick, setSoundEnabled, isSoundEnabled, onSoundChange } from "../utils/audioEffects";
+import { WORLDS } from "./worlds";
 
+// The nav is a strip of label-maker tape stuck across the top of the zine.
 export default function Navbar({ onOpenRegister }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [soundOn, setSoundOn] = useState(false);
+  const [soundOn, setSoundOn] = useState(isSoundEnabled);
+
+  useEffect(() => onSoundChange(setSoundOn), []);
 
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    if (!mobileMenuOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => e.key === "Escape" && setMobileMenuOpen(false);
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
     };
   }, [mobileMenuOpen]);
 
   const toggleSound = () => {
     const next = !soundOn;
-    setSoundOn(next);
     setSoundEnabled(next);
     if (next) playClick();
   };
 
-  const navLinks = [
-    { label: "3D CAMPUS MAP", href: "#venues" },
-    { label: "PROGRAMME", href: "#programme" },
-    { label: "CONCERT", href: "#concert" },
-    { label: "EDITIONS", href: "#editions" },
-    { label: "FAQ", href: "#faq" },
-  ];
-
   return (
-    <>
-      {/* Floating Pill Capsule Navbar */}
-      <header className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] sm:w-[94%] max-w-4xl">
-        <div className="rounded-full bg-[#F8F6F0]/90 sm:bg-[#F8F6F0]/85 backdrop-blur-xl px-3 sm:px-4 py-2 flex items-center justify-between shadow-2xl border border-white/20">
-          {/* Brand */}
-          <a
-            href="#"
-            onClick={playClick}
-            className="flex items-center gap-1.5 sm:gap-2 pl-1 sm:pl-2 text-[#1A1A1A] font-outfit font-black text-base sm:text-lg tracking-tight hover:opacity-80 transition-opacity"
-          >
-            <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-[#E63988]"></span>
-            <span>MAAYA</span>
-            <span className="text-[10px] sm:text-[11px] font-mono px-1.5 py-0.5 rounded-full bg-[#1A1A1A] text-[#F8F6F0]">
-              '26
-            </span>
-          </a>
+    <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+      <div className="relative mx-auto flex max-w-6xl items-center gap-2">
+        {/* Masthead sticker */}
+        <a
+          href="#top"
+          onClick={playClick}
+          className="sticker relative z-10 -rotate-3 bg-riso-pink px-2.5 py-1 font-sans text-lg leading-none font-black text-black transition-transform hover:rotate-0 sm:text-xl"
+          aria-label="Maaya 2026, back to the top"
+        >
+          MAAYA<span className="ml-1 rounded-sm bg-black px-1 align-middle text-xs text-riso-yellow">'26</span>
+        </a>
 
-          {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((item) => (
+        {/* Label tape */}
+        <div className="label-tape flex min-h-11 flex-1 items-center gap-1 py-1.5 pr-1.5 pl-3 shadow-[0_6px_14px_-6px_rgb(0_0_0/0.6)] sm:pl-4">
+          <nav aria-label="Sections" className="no-scrollbar hidden flex-1 items-center gap-0.5 overflow-x-auto lg:flex">
+            {WORLDS.map((w) => (
               <a
-                key={item.label}
-                href={item.href}
+                key={w.id}
+                href={w.href}
                 onClick={playClick}
-                className="px-3.5 py-1.5 text-xs font-outfit font-bold text-[#1A1A1A] hover:bg-[#1A1A1A]/10 rounded-full transition-colors"
+                className="embossed shrink-0 rounded-sm px-3 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15"
               >
-                {item.label}
+                {w.part}
               </a>
             ))}
           </nav>
+          <span className="flex-1 lg:hidden" />
 
-          {/* Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <button
-              onClick={toggleSound}
-              aria-label="Toggle Sound"
-              className={`p-1.5 sm:p-2 rounded-full text-xs font-bold transition-all flex items-center gap-1 ${
-                soundOn
-                  ? "bg-[#22E4F0] text-[#0C0E14]"
-                  : "bg-[#1A1A1A]/10 text-[#1A1A1A] hover:bg-[#1A1A1A]/20"
-              }`}
-            >
-              {soundOn ? <Volume2 size={15} /> : <VolumeX size={15} />}
-            </button>
+          <button
+            type="button"
+            onClick={toggleSound}
+            aria-pressed={soundOn}
+            aria-label={soundOn ? "Sound effects on" : "Sound effects off"}
+            className={`grid size-9 shrink-0 place-items-center rounded-full transition-colors ${
+              soundOn ? "bg-riso-yellow text-black" : "bg-white/10 text-white hover:bg-white/20"
+            }`}
+          >
+            {soundOn ? <Volume2 size={16} /> : <VolumeX size={16} />}
+          </button>
 
-            <button
-              onClick={() => {
-                playClick();
-                onOpenRegister();
-              }}
-              className="bg-[#1A1A1A] text-[#F8F6F0] px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-outfit font-bold rounded-full hover:bg-black transition-all flex items-center gap-1 sm:gap-1.5 shadow-md active:scale-95"
-            >
-              <Sparkles size={12} className="text-[#22E4F0]" />
-              <span>REGISTER</span>
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded-full text-[#1A1A1A] hover:bg-[#1A1A1A]/10"
-              aria-label="Toggle Menu"
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen((o) => !o)}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="zine-menu"
+            aria-label={mobileMenuOpen ? "Close the menu" : "Open the menu"}
+            className="grid size-9 shrink-0 place-items-center rounded-full bg-white/10 text-white lg:hidden"
+          >
+            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
 
-        {/* Mobile Fullscreen Drawer Overlay */}
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-2 p-5 rounded-3xl bg-[#0C0E14]/98 backdrop-blur-2xl border border-white/15 shadow-2xl space-y-3 animate-fade-in max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 border-b border-white/10 text-xs font-outfit text-[#8E96A4]">
-              <span>NAVIGATION MENU</span>
-              <span className="text-[#22E4F0] font-bold">PES UNIVERSITY EC</span>
-            </div>
+        {/* Register sticker */}
+        <button
+          type="button"
+          onClick={() => {
+            playClick();
+            onOpenRegister();
+          }}
+          className="sticker relative z-10 rotate-2 bg-riso-yellow px-3 py-2 text-sm font-black text-black transition-transform hover:-rotate-1 hover:scale-105 sm:px-4 sm:text-base"
+        >
+          Register
+        </button>
+      </div>
 
-            <div className="grid grid-cols-1 gap-1.5">
-              {navLinks.map((item) => (
+      {/* Phones: the menu is a full sheet of yellow riso paper. */}
+      {mobileMenuOpen && (
+        <div id="zine-menu" className="slap-in grain fixed inset-x-3 top-[4.25rem] bottom-3 overflow-y-auto bg-riso-yellow p-5 shadow-[6px_6px_0_#000] lg:hidden">
+          <p className="relative z-[2] text-sm font-semibold">Pick a world</p>
+          <ul className="relative z-[2] mt-3 space-y-3">
+            {WORLDS.map((w, i) => (
+              <li key={w.id}>
                 <a
-                  key={item.label}
-                  href={item.href}
+                  href={w.href}
                   onClick={() => {
                     playClick();
                     setMobileMenuOpen(false);
                   }}
-                  className="flex items-center justify-between py-3 px-4 rounded-2xl text-sm font-outfit font-bold text-[#F8F6F0] bg-white/5 hover:bg-white/10 active:bg-[#22E4F0]/20 transition-colors"
+                  className={`flex items-center gap-3 border-[3px] border-black bg-white p-2 pr-4 shadow-[4px_4px_0_#000] ${i % 2 ? "rotate-1" : "-rotate-1"}`}
                 >
-                  <span>{item.label}</span>
-                  <ArrowRight size={14} className="text-[#8E96A4]" />
+                  <span aria-hidden="true" className={`${w.swatch} size-12 shrink-0 border-2 border-black`} />
+                  <span>
+                    <span className="block text-2xl leading-none font-black condensed uppercase">{w.part}</span>
+                    <span className="mt-1 block text-sm text-black/70">{w.title}</span>
+                  </span>
                 </a>
-              ))}
-            </div>
-
-            <div className="pt-2 space-y-2">
-              <button
-                onClick={() => {
-                  playClick();
-                  setMobileMenuOpen(false);
-                  onOpenRegister();
-                }}
-                className="w-full py-3.5 rounded-full bg-[#E63988] text-[#1A1A1A] font-outfit font-black text-xs tracking-wider flex items-center justify-center gap-2 shadow-lg"
-              >
-                <Sparkles size={14} />
-                <span>REGISTER FOR EVENTS</span>
-              </button>
-
-              <a
-                href="https://fest-island.vercel.app/#venues"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full py-3 rounded-full bg-white/5 border border-white/10 text-[#22E4F0] font-outfit font-bold text-xs flex items-center justify-center gap-2"
-              >
-                <Compass size={14} />
-                <span>OPEN 3D CAMPUS MAP</span>
-              </a>
-            </div>
-          </div>
-        )}
-      </header>
-    </>
+              </li>
+            ))}
+          </ul>
+          <button
+            type="button"
+            onClick={() => {
+              playClick();
+              setMobileMenuOpen(false);
+              onOpenRegister();
+            }}
+            className="relative z-[2] mt-6 w-full bg-black py-4 text-lg font-black text-riso-yellow"
+          >
+            Register for an event
+          </button>
+        </div>
+      )}
+    </header>
   );
 }
