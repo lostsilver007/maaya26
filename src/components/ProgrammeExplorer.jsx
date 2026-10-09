@@ -1,8 +1,11 @@
 import React, { useState, useMemo } from "react";
+import { Search, X, ExternalLink } from "lucide-react";
 import { EVENTS } from "../data/festivalData";
-import { Search, MapPin, X, CheckCircle2, ExternalLink, Sparkles, Building, Clock, Users } from "lucide-react";
 import { playClick, playChime } from "../utils/audioEffects";
+import Modal, { CloseButton } from "./Modal";
 
+// World 2 — Cinema & Retro. A marquee over the box office; every event is a
+// ticket stub (admit one), and its rules are the fine print.
 const standardGuidelines = [
   "All participants must carry their valid college identity cards throughout the event.",
   "Participants must report to the venue and room at least 20 minutes prior to the start time.",
@@ -10,331 +13,289 @@ const standardGuidelines = [
   "Any form of malpractices, misconduct, or rule breach will lead to immediate disqualification.",
 ];
 
-export default function ProgrammeExplorer({
-  onOpenRegisterForEvent,
-  selectedEventForModal,
-  setSelectedEventForModal,
-}) {
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const shortDate = (iso) => (iso ? `${Number(iso.slice(8, 10))} ${MONTHS[Number(iso.slice(5, 7)) - 1]}` : "");
+const dayName = (day) => (day.toLowerCase().includes("week") ? "Pre-fest" : day);
+const FALLBACK_URL = "https://fest-island.vercel.app/#programme";
+
+const DAY_TABS = [
+  { label: "All", value: "all" },
+  { label: "Pre-fest week", value: "week" },
+  { label: "Day 1, 23 Oct", value: "day 1" },
+  { label: "Day 2, 24 Oct", value: "day 2" },
+];
+const countFor = (value) => (value === "all" ? EVENTS.length : EVENTS.filter((e) => e.day.toLowerCase().includes(value)).length);
+
+export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEventForModal }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [currentDayTab, setCurrentDayTab] = useState("all");
 
-  const categories = useMemo(() => {
-    const set = new Set();
-    EVENTS.forEach((e) => set.add(e.category));
-    return Array.from(set);
-  }, []);
+  const categories = useMemo(() => [...new Set(EVENTS.map((e) => e.category))], []);
 
   const filteredEvents = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
     return EVENTS.filter((ev) => {
-      const matchDay =
-        currentDayTab === "all" ||
-        ev.day.toLowerCase().includes(currentDayTab.toLowerCase());
+      const matchDay = currentDayTab === "all" || ev.day.toLowerCase().includes(currentDayTab);
       const matchCat = categoryFilter === "all" || ev.category === categoryFilter;
-      const matchSearch =
-        searchQuery === "" ||
-        ev.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ev.club.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ev.blurb.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ev.venue.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (ev.room && ev.room.toLowerCase().includes(searchQuery.toLowerCase())) ||
-        ev.category.toLowerCase().includes(searchQuery.toLowerCase());
-
+      const matchSearch = !q || [ev.name, ev.club, ev.blurb, ev.venue, ev.room ?? "", ev.category].some((s) => s.toLowerCase().includes(q));
       return matchDay && matchCat && matchSearch;
     });
   }, [currentDayTab, categoryFilter, searchQuery]);
 
-  const dayTabs = [
-    { label: "All Events", value: "all", count: EVENTS.length },
-    { label: "Day 1 (Oct 23)", value: "day 1", count: EVENTS.filter(e => e.day === "Day 1").length },
-    { label: "Day 2 (Oct 24)", value: "day 2", count: EVENTS.filter(e => e.day === "Day 2").length },
-    { label: "Pre-Fest Week", value: "week", count: EVENTS.filter(e => e.day.includes("Week")).length },
-  ];
+  const resetFilters = () => {
+    setSearchQuery("");
+    setCurrentDayTab("all");
+    setCategoryFilter("all");
+  };
+
+  const ev = selectedEventForModal;
 
   return (
-    <section id="programme" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <div>
-          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-outfit font-bold tracking-widest text-[#22E4F0] uppercase mb-2">
-            <span>OFFICIAL PROGRAMME · ALL 18 CLUB COMPETITIONS</span>
+    <section id="programme" className="tex-velvet grain-dark relative px-4 pt-24 pb-24 text-ticket sm:px-6 lg:px-8">
+      <div className="relative z-[2] mx-auto max-w-6xl">
+        {/* Marquee */}
+        <div className="marquee-frame mx-auto max-w-3xl text-center">
+          <div className="relative rounded-md bg-[#140204] px-4 py-6 sm:px-8 sm:py-8">
+            <p className="text-sm font-bold text-bulb/80">World 2: Cinema &amp; Retro</p>
+            <h2 className="mt-2 font-marquee text-[2.7rem] leading-none text-bulb [text-shadow:0_0_14px_rgb(255_211_107/0.75),0_0_42px_rgb(255_120_40/0.45)] sm:text-7xl">
+              Now showing
+            </h2>
+            <p className="mt-4 text-base font-semibold text-ticket/90 sm:text-lg">
+              {EVENTS.length} club events, from pre-fest week to the last night
+            </p>
           </div>
-          <h2 className="font-outfit font-black text-3xl sm:text-6xl text-[#F8F6F0] tracking-tight">
-            Schedule & Events
-          </h2>
-          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-[#8E96A4] max-w-2xl leading-relaxed">
-            Official competitions hosted by PES University student clubs. Check timings, rooms, and register below.
-          </p>
         </div>
 
-        <div className="text-[11px] sm:text-xs font-outfit font-bold text-[#22E4F0]">
-          Showing {filteredEvents.length} of {EVENTS.length} Events
-        </div>
-      </div>
+        {/* Box office: search and filters */}
+        <div className="mx-auto mt-12 max-w-4xl rounded-t-[2.5rem] border-[3px] border-[#1a0306] bg-[#3a0911] p-4 shadow-[inset_0_0_0_2px_rgb(255_211_107/0.25)] sm:p-6">
+          <label htmlFor="event-search" className="block text-center font-script text-2xl text-bulb">
+            Box office
+          </label>
+          <div className="relative mt-3">
+            <Search className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-ticket-red" size={18} aria-hidden="true" />
+            <input
+              id="event-search"
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search events, clubs or rooms"
+              className="min-h-12 w-full rounded-full border-[3px] border-[#1a0306] bg-ticket pr-12 pl-11 text-base font-semibold text-black placeholder:text-black/50 focus:outline-none"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery("")}
+                aria-label="Clear the search"
+                className="absolute top-1/2 right-2 grid size-9 -translate-y-1/2 place-items-center rounded-full text-black hover:bg-black/10"
+              >
+                <X size={18} />
+              </button>
+            )}
+          </div>
 
-      {/* Main Filter Container Card */}
-      <div className="fest-card p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 space-y-4 sm:space-y-6">
-        {/* Search Bar Pill */}
-        <div className="relative">
-          <Search className="absolute left-4 sm:left-5 top-1/2 -translate-y-1/2 text-[#8E96A4]" size={16} />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by event, club (CodeChef, Panache, Tonic...), room, category..."
-            className="w-full rounded-full bg-white/5 border border-white/10 text-[#F8F6F0] pl-10 sm:pl-12 pr-10 py-3 sm:py-3.5 placeholder:text-[#8E96A4] text-xs sm:text-sm font-outfit focus:ring-2 focus:ring-[#E63988] focus:outline-none transition-all"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-[#8E96A4] hover:text-white"
-            >
-              <X size={16} />
-            </button>
-          )}
-        </div>
-
-        {/* Day Switcher Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
-          {dayTabs.map((tab) => (
-            <button
-              key={tab.value}
-              onClick={() => {
-                playClick();
-                setCurrentDayTab(tab.value);
-              }}
-              className={`px-4 py-2 rounded-full text-[11px] sm:text-xs font-outfit font-bold shrink-0 transition-all flex items-center gap-1.5 ${
-                currentDayTab === tab.value
-                  ? "bg-[#F8F6F0] text-[#1A1A1A] shadow-md"
-                  : "bg-white/5 text-[#8E96A4] hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              <span>{tab.label}</span>
-              <span className="opacity-70 text-[10px]">({tab.count})</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Category Filter Chips */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1">
-          <button
-            onClick={() => {
-              playClick();
-              setCategoryFilter("all");
-            }}
-            className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-outfit font-bold shrink-0 transition-all ${
-              categoryFilter === "all"
-                ? "bg-[#22E4F0] text-[#1A1A1A]"
-                : "bg-white/5 text-[#8E96A4] border border-white/10"
-            }`}
-          >
-            All Categories
-          </button>
-
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => {
-                playClick();
-                setCategoryFilter(cat);
-              }}
-              className={`px-3.5 py-1.5 rounded-full text-[10px] sm:text-xs font-outfit font-bold shrink-0 transition-all ${
-                categoryFilter === cat
-                  ? "bg-[#22E4F0] text-[#1A1A1A]"
-                  : "bg-white/5 text-[#8E96A4] border border-white/10"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Events List Rows */}
-      {filteredEvents.length === 0 ? (
-        <div className="fest-card p-8 sm:p-12 text-center space-y-3">
-          <p className="font-outfit font-bold text-base sm:text-lg text-[#8E96A4]">No events match your search</p>
-          <button
-            onClick={() => {
-              setSearchQuery("");
-              setCurrentDayTab("all");
-              setCategoryFilter("all");
-            }}
-            className="pill-button-cyan px-5 py-2 text-xs font-outfit font-bold"
-          >
-            Reset Filters
-          </button>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {filteredEvents.map((ev) => (
-            <div
-              key={ev.id}
-              className="fest-card p-4 sm:p-6 fest-card-hover flex flex-col md:flex-row md:items-center justify-between gap-3.5 sm:gap-4"
-            >
-              {/* Left: Time, Club & Main Info */}
-              <div className="space-y-1.5 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-[11px] sm:text-xs font-mono font-bold text-[#22E4F0]">
-                    {ev.timeDisplay}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-outfit font-bold px-2.5 py-0.5 rounded-full uppercase bg-[#22E4F0]/15 text-[#22E4F0]">
-                    {ev.day}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-outfit font-bold px-2.5 py-0.5 rounded-full bg-white/10 text-[#F8F6F0]">
-                    Club: {ev.club}
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-outfit font-bold px-2 py-0.5 rounded-full bg-white/5 text-[#8E96A4]">
-                    {ev.category}
-                  </span>
-                  {ev.headline && (
-                    <span className="text-[9px] sm:text-[10px] font-outfit font-black px-2.5 py-0.5 rounded-full bg-[#E63988] text-white">
-                      HEADLINE
-                    </span>
-                  )}
-                </div>
-
-                <h3 className="font-outfit font-black text-lg sm:text-xl text-[#F8F6F0]">
-                  {ev.name}
-                </h3>
-
-                <p className="text-xs text-[#8E96A4] max-w-2xl leading-relaxed">
-                  {ev.blurb}
-                </p>
-              </div>
-
-              {/* Right: Venue, Room & Action Buttons */}
-              <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/5">
-                <div className="text-left md:text-right font-outfit text-xs text-[#8E96A4]">
-                  <div className="flex items-center gap-1 md:justify-end text-[#F8F6F0] font-semibold text-[11px] sm:text-xs">
-                    <MapPin size={12} className="text-[#22E4F0] shrink-0" />
-                    <span>{ev.venue}</span>
-                  </div>
-                  {ev.room && (
-                    <span className="text-[#8E96A4] block text-[10px] mt-0.5">
-                      {ev.room}
-                    </span>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-1.5 sm:gap-2">
+          <fieldset className="mt-5 min-w-0">
+            <legend className="text-sm font-bold text-bulb">Showtimes</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {DAY_TABS.map((tab) => {
+                const on = currentDayTab === tab.value;
+                return (
                   <button
+                    key={tab.value}
+                    type="button"
+                    aria-pressed={on}
                     onClick={() => {
                       playClick();
-                      setSelectedEventForModal(ev);
+                      setCurrentDayTab(tab.value);
                     }}
-                    className="px-3.5 sm:px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 text-[11px] sm:text-xs font-outfit font-bold text-[#F8F6F0] transition-colors border border-white/10 hover:border-white/20"
+                    className={`min-h-11 border-2 border-dashed px-3.5 text-sm font-bold transition-colors ${
+                      on ? "border-ticket bg-ticket text-ticket-red" : "border-ticket/40 text-ticket hover:border-ticket"
+                    }`}
                   >
-                    Rules
+                    {tab.label} <span className="tabular-nums opacity-70">({countFor(tab.value)})</span>
                   </button>
+                );
+              })}
+            </div>
+          </fieldset>
 
-                  <a
-                    href={ev.paymentUrl || "https://fest-island.vercel.app/#programme"}
-                    target="_blank"
-                    rel="noopener noreferrer"
+          <fieldset className="mt-4 min-w-0">
+            <legend className="text-sm font-bold text-bulb">Genre</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {["all", ...categories].map((cat) => {
+                const on = categoryFilter === cat;
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    aria-pressed={on}
                     onClick={() => {
-                      playChime();
+                      playClick();
+                      setCategoryFilter(cat);
                     }}
-                    className="pill-button-magenta px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-outfit font-bold shadow-sm flex items-center gap-1.5"
+                    className={`min-h-11 rounded-full px-4 text-sm font-bold transition-colors ${
+                      on ? "bg-bulb text-black" : "bg-black/30 text-ticket hover:bg-black/50"
+                    }`}
                   >
-                    <span>Register / Pay</span>
-                    <ExternalLink size={12} />
-                  </a>
-                </div>
-              </div>
+                    {cat === "all" ? "Every genre" : cat}
+                  </button>
+                );
+              })}
             </div>
-          ))}
+          </fieldset>
         </div>
-      )}
 
-      {/* Rules Modal (Safe, Comprehensive & Direct Payment Redirection) */}
-      {selectedEventForModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-2xl bg-[#0C0E14] border border-white/20 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setSelectedEventForModal(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white"
-            >
-              <X size={18} />
+        <p className="mx-auto mt-8 max-w-6xl text-sm font-semibold text-ticket/80" aria-live="polite">
+          Showing {filteredEvents.length} of {EVENTS.length} events
+        </p>
+
+        {/* Tickets */}
+        {filteredEvents.length === 0 ? (
+          <div className="ticket mx-auto mt-4 max-w-4xl px-6 py-10 text-center text-black sm:pl-[11rem]">
+            <p className="text-xl font-black">Nothing showing for that search.</p>
+            <p className="mt-1 text-base text-black/70">Clear the filters to see all {EVENTS.length} events again.</p>
+            <button type="button" onClick={resetFilters} className="mt-5 min-h-11 bg-ticket-red px-5 text-base font-black text-ticket">
+              Clear filters
             </button>
+          </div>
+        ) : (
+          <ul className="mx-auto mt-4 grid max-w-6xl gap-6 lg:grid-cols-2">
+            {filteredEvents.map((e) => (
+              <li key={e.id} className="drop-shadow-[0_8px_0_rgb(0_0_0/0.45)] transition-transform duration-200 hover:-rotate-[0.6deg]">
+                <article className="ticket relative grid h-full text-black sm:grid-cols-[9.5rem_1fr]">
+                  {/* Stub */}
+                  <div className="flex min-h-[4.75rem] items-center justify-between gap-3 bg-ticket-red px-5 py-2 text-ticket sm:flex-col sm:items-start sm:justify-center sm:py-5">
+                    <p className="text-xs font-bold tracking-wide uppercase opacity-90">Admit one</p>
+                    <p className="text-right sm:text-left">
+                      <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{dayName(e.day)}</span>
+                      <span className="block text-sm font-bold">{shortDate(e.date)}</span>
+                    </p>
+                    <p className="text-right sm:mt-2 sm:text-left">
+                      <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
+                      <span className="block text-sm font-semibold opacity-90">to {e.end}</span>
+                    </p>
+                  </div>
+                  {/* Body */}
+                  <div className="relative border-dashed border-black/30 p-5 sm:border-l-[3px] sm:p-6">
+                    {e.headline && (
+                      <span className="absolute top-3 right-3 grid size-[4.6rem] rotate-12 place-items-center rounded-full border-[3px] border-double border-ticket-red text-center text-[0.68rem] leading-tight font-black text-ticket-red uppercase sm:top-4 sm:right-5">
+                        Headline
+                        <br />
+                        event
+                      </span>
+                    )}
+                    <p className="pr-20 text-sm font-bold text-ticket-red">Hosted by {e.club}</p>
+                    <h3 className="mt-1 pr-20 text-2xl leading-tight font-black sm:text-[1.75rem]">{e.name}</h3>
+                    <p className="mt-2 line-clamp-3 max-w-prose text-base leading-relaxed text-black/75 sm:line-clamp-none">{e.blurb}</p>
+                    <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+                      <div className="flex gap-1.5">
+                        <dt className="font-semibold text-black/60">Where</dt>
+                        <dd className="font-bold">{e.room ? `${e.room}, ${e.venue}` : e.venue}</dd>
+                      </div>
+                      <div className="flex gap-1.5">
+                        <dt className="font-semibold text-black/60">Genre</dt>
+                        <dd className="font-bold">{e.category}</dd>
+                      </div>
+                      {e.teamSize && (
+                        <div className="flex gap-1.5">
+                          <dt className="font-semibold text-black/60">Team</dt>
+                          <dd className="font-bold">{e.teamSize}</dd>
+                        </div>
+                      )}
+                    </dl>
+                    <div className="mt-5 flex flex-wrap items-center gap-3">
+                      <a
+                        href={e.paymentUrl || FALLBACK_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={playChime}
+                        className="inline-flex min-h-11 items-center gap-2 bg-ticket-red px-5 text-base font-black text-ticket transition-transform hover:-translate-y-0.5"
+                      >
+                        Register
+                        <ExternalLink size={15} aria-hidden="true" />
+                      </a>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          playClick();
+                          setSelectedEventForModal(e);
+                        }}
+                        className="min-h-11 px-2 text-base font-bold underline decoration-2 underline-offset-4 hover:text-ticket-red"
+                      >
+                        Read the rules<span className="sr-only">: {e.name}</span>
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-            <div className="space-y-1.5 pr-8">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] sm:text-xs font-outfit font-bold text-[#22E4F0] uppercase tracking-wider">
-                  {selectedEventForModal.day} · Hosted by {selectedEventForModal.club}
-                </span>
-                {selectedEventForModal.teamSize && (
-                  <span className="text-[10px] font-outfit font-bold px-2 py-0.5 rounded-full bg-white/10 text-[#F8F6F0]">
-                    {selectedEventForModal.teamSize}
-                  </span>
-                )}
+      {/* The fine print */}
+      <Modal open={!!ev} onClose={() => setSelectedEventForModal(null)} labelledBy="rules-title" className="max-w-2xl">
+        {ev && (
+          <div className="bg-ticket text-black shadow-[8px_8px_0_#000]">
+            <div className="flex items-start justify-between gap-4 bg-ticket-red px-5 py-4 text-ticket sm:px-7">
+              <div>
+                <p className="text-sm font-bold">
+                  {dayName(ev.day)}, {shortDate(ev.date)}. Hosted by {ev.club}
+                </p>
+                <h2 id="rules-title" className="mt-1 text-2xl leading-tight font-black sm:text-3xl">
+                  {ev.name}
+                </h2>
               </div>
-              <h2 className="font-outfit font-black text-xl sm:text-3xl text-[#F8F6F0]">
-                {selectedEventForModal.name}
-              </h2>
-              <p className="text-xs sm:text-sm text-[#8E96A4] leading-relaxed">
-                {selectedEventForModal.blurb}
-              </p>
+              <CloseButton onClick={() => setSelectedEventForModal(null)} label="Close the rules" />
             </div>
-
-            {/* Event Coordinates */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 my-5 p-3.5 rounded-2xl bg-white/5 border border-white/5 text-xs font-outfit">
-              <div>
-                <span className="text-[#8E96A4] block text-[10px]">TIME</span>
-                <span className="font-bold text-[#F8F6F0]">{selectedEventForModal.timeDisplay || `${selectedEventForModal.time} - ${selectedEventForModal.end}`}</span>
-              </div>
-              <div>
-                <span className="text-[#8E96A4] block text-[10px]">VENUE</span>
-                <span className="font-bold text-[#F8F6F0] truncate block">{selectedEventForModal.venue}</span>
-              </div>
-              <div>
-                <span className="text-[#8E96A4] block text-[10px]">ROOM / STAGE</span>
-                <span className="font-bold text-[#22E4F0] truncate block">{selectedEventForModal.room || "Check Campus Map"}</span>
-              </div>
-            </div>
-
-            {/* Event Rules & Guidelines */}
-            <div className="space-y-2.5">
-              <h4 className="font-outfit font-bold text-[11px] sm:text-xs text-[#22E4F0] uppercase tracking-wider">
-                Event Guidelines & Rules:
-              </h4>
-              <ul className="space-y-2">
-                {(selectedEventForModal.rules && selectedEventForModal.rules.length > 0
-                  ? selectedEventForModal.rules
-                  : standardGuidelines
-                ).map((r, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#8E96A4] leading-relaxed">
-                    <CheckCircle2 size={15} className="text-[#22E4F0] shrink-0 mt-0.5" />
-                    <span>{r}</span>
-                  </li>
+            <div className="px-5 py-5 sm:px-7 sm:py-6">
+              <p className="text-base leading-relaxed text-black/80">{ev.blurb}</p>
+              <dl className="mt-5 grid grid-cols-2 gap-4 border-y-[3px] border-dashed border-black/25 py-4 text-sm sm:grid-cols-4">
+                <div>
+                  <dt className="font-semibold text-black/60">Time</dt>
+                  <dd className="font-black tabular-nums">{ev.timeDisplay || `${ev.time} – ${ev.end}`}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-black/60">Venue</dt>
+                  <dd className="font-black">{ev.venue}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-black/60">Room</dt>
+                  <dd className="font-black">{ev.room || "See the campus map"}</dd>
+                </div>
+                <div>
+                  <dt className="font-semibold text-black/60">Team</dt>
+                  <dd className="font-black">{ev.teamSize || "Open"}</dd>
+                </div>
+              </dl>
+              <h3 className="mt-5 font-script text-2xl text-ticket-red">The fine print</h3>
+              <ol className="mt-2 list-decimal space-y-2 pl-5 text-base leading-relaxed marker:font-black marker:text-ticket-red">
+                {(ev.rules?.length ? ev.rules : standardGuidelines).map((r, i) => (
+                  <li key={i}>{r}</li>
                 ))}
-              </ul>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-              <button
-                onClick={() => setSelectedEventForModal(null)}
-                className="px-4 py-2 rounded-full bg-white/5 text-xs font-outfit font-bold text-[#8E96A4] hover:text-white"
-              >
-                Close
-              </button>
-              <a
-                href={selectedEventForModal.paymentUrl || "https://fest-island.vercel.app/#programme"}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  playChime();
-                  setSelectedEventForModal(null);
-                }}
-                className="pill-button-magenta px-5 sm:px-6 py-2.5 text-xs font-outfit font-bold flex items-center gap-2 shadow-lg"
-              >
-                <span>Proceed to Payment / Register</span>
-                <ExternalLink size={13} />
-              </a>
+              </ol>
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+                <button type="button" onClick={() => setSelectedEventForModal(null)} className="min-h-11 px-2 text-base font-bold underline underline-offset-4">
+                  Back to the programme
+                </button>
+                <a
+                  href={ev.paymentUrl || FALLBACK_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => {
+                    playChime();
+                    setSelectedEventForModal(null);
+                  }}
+                  className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
+                >
+                  Register for {ev.name.length > 22 ? "this event" : ev.name}
+                  <ExternalLink size={15} aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </Modal>
     </section>
   );
 }

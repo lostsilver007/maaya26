@@ -1,160 +1,207 @@
 import React, { useState, useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Dices } from "lucide-react";
 import { FESTIVAL_INFO, EVENTS } from "../data/festivalData";
-import { Sparkles, Compass, ArrowRight, Dices, Calendar, MapPin } from "lucide-react";
 import { playClick, playWorldSwitch } from "../utils/audioEffects";
 import confetti from "canvas-confetti";
+import { WORLDS } from "./worlds";
 
-export default function HeroSection({ onOpenRegister, onSelectEvent }) {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+// MAAYA, cut out ransom-note style: one letter from each of Eclectria's five
+// worlds. This is the page's one big moment; the letters slap on in turn.
+const LETTERS = [
+  { ch: "M", world: "Denim & Street", chip: "tex-denim stitched", ink: "font-marker text-white", tilt: -7 },
+  { ch: "A", world: "Cinema & Retro", chip: "bg-ticket", ink: "font-marquee text-ticket-red", tilt: 5 },
+  { ch: "A", world: "Sports & Athleisure", chip: "tex-court", ink: "font-varsity varsity-outline", tilt: -3 },
+  { ch: "Y", world: "Indian Tradition", chip: "tex-cotton-faint", ink: "font-deva text-kumkum", tilt: 6 },
+  { ch: "A", world: "Cosmic Glamour", chip: "tex-space", ink: "font-cosmic chrome", tilt: -5 },
+];
 
+const TARGET = new Date(FESTIVAL_INFO.isoDate).getTime();
+function useCountdown() {
+  const [left, setLeft] = useState(() => Math.max(0, TARGET - Date.now()));
   useEffect(() => {
-    const targetDate = new Date("2026-10-23T08:30:00+05:30").getTime();
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60),
-        });
-      } else {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-      }
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
+    const id = setInterval(() => setLeft(Math.max(0, TARGET - Date.now())), 1000);
+    return () => clearInterval(id);
   }, []);
+  return {
+    days: Math.floor(left / 86400000),
+    hours: Math.floor((left / 3600000) % 24),
+    minutes: Math.floor((left / 60000) % 60),
+    seconds: Math.floor((left / 1000) % 60),
+    done: left === 0,
+  };
+}
+
+const CONTENTS_NOTE = {
+  denim: "6 venues on a 3D island",
+  cinema: `${EVENTS.length} club events`,
+  cosmic: "24 October, MRD main stage",
+  sports: "Retronomia to Eclectria",
+  heritage: "Dates, theme, registration",
+};
+
+const pad = (n) => String(n).padStart(2, "0");
+
+export default function HeroSection({ onSelectEvent }) {
+  const reduce = useReducedMotion();
+  const t = useCountdown();
 
   const handleRandomEvent = () => {
     playWorldSwitch(560);
-    const randomIndex = Math.floor(Math.random() * EVENTS.length);
-    const randomEvent = EVENTS[randomIndex];
-
-    try {
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ["#22E4F0", "#E63988", "#FFA502", "#4D96FF"],
-      });
-    } catch {
-      // Ignore
+    const randomEvent = EVENTS[Math.floor(Math.random() * EVENTS.length)];
+    if (!reduce) {
+      try {
+        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 }, colors: ["#ff48b0", "#0078bf", "#ffe800", "#000000"] });
+      } catch {
+        // Confetti is decoration only.
+      }
     }
-
     onSelectEvent(randomEvent);
   };
 
-  const keyStats = [
-    { value: "18+", label: "Official Club Events", sub: "Technical, Cultural & Misc" },
-    { value: "6", label: "Campus Venues", sub: "MRD, Engg, Pharmacy & Oval" },
-    { value: "23 & 24", label: "October 2026", sub: "Pre-Fest from Oct 13" },
-    { value: "15+", label: "Student Clubs", sub: "PESU EC Campus" },
-  ];
+  // The one orchestrated entrance: the letters first, then the rest settles in.
+  const slap = (i) =>
+    reduce
+      ? { style: { rotate: `${LETTERS[i].tilt}deg` } }
+      : {
+          initial: { opacity: 0, scale: 1.7, rotate: LETTERS[i].tilt * -3, y: -30 },
+          animate: { opacity: 1, scale: 1, rotate: LETTERS[i].tilt, y: 0 },
+          transition: { type: "spring", stiffness: 520, damping: 22, delay: 0.15 + i * 0.13 },
+        };
+  const after = (d) =>
+    reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.45, delay: 0.95 + d, ease: [0.2, 0.9, 0.3, 1] } };
 
   return (
-    <section className="relative pt-28 sm:pt-36 pb-16 sm:pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col items-center text-center">
-      {/* Background Soft Glows */}
-      <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[#22E4F0]/08 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none"></div>
-      <div className="absolute top-1/3 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-[#E63988]/08 rounded-full blur-[100px] sm:blur-[140px] pointer-events-none"></div>
+    <section id="top" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
+      <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
+        {/* ── Left: the masthead ── */}
+        <div className="lg:col-span-7">
+          <motion.p {...after(-0.8)} className="scrap inline-block -rotate-1 px-3 py-1.5 text-sm font-semibold sm:text-base">
+            PES University Electronic City Campus presents
+          </motion.p>
 
-      {/* Tagline Subtitle */}
-      <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1 rounded-full bg-[#22E4F0]/10 text-[#22E4F0] border border-[#22E4F0]/25 text-[10px] sm:text-xs font-outfit font-bold tracking-widest uppercase mb-4 sm:mb-6 max-w-full truncate">
-        <Sparkles size={12} className="shrink-0" />
-        <span className="truncate">PES UNIVERSITY EC CAMPUS · BENGALURU</span>
-      </div>
+          <h1 aria-label="Maaya" className="relative mt-6 flex w-fit items-end gap-x-1 sm:mt-8 sm:gap-x-2">
+            {LETTERS.map((l, i) => (
+              <motion.span
+                key={i}
+                aria-hidden="true"
+                title={l.world}
+                {...slap(i)}
+                className={`${l.chip} grid h-[5.2rem] w-[3.9rem] place-items-center overflow-hidden shadow-[5px_6px_0_rgb(0_0_0/0.85)] sm:h-[8.5rem] sm:w-[6.4rem] lg:h-[9.5rem] lg:w-[7.1rem]`}
+              >
+                <span className={`${l.ink} block text-[3.6rem] leading-none sm:text-[6rem] lg:text-[6.8rem]`}>{l.ch}</span>
+              </motion.span>
+            ))}
+            <motion.span
+              aria-hidden="true"
+              {...(reduce
+                ? { style: { rotate: "12deg" } }
+                : { initial: { opacity: 0, scale: 2, rotate: 0 }, animate: { opacity: 1, scale: 1, rotate: 12 }, transition: { type: "spring", stiffness: 480, damping: 18, delay: 0.85 } })}
+              className="sticker absolute -right-3 -bottom-5 z-10 bg-riso-yellow px-2 py-1 text-2xl font-black sm:-right-9 sm:-bottom-4 sm:text-4xl"
+            >
+              '26
+            </motion.span>
+          </h1>
 
-      {/* Hero Title */}
-      <h1 className="font-outfit font-black text-5xl sm:text-8xl md:text-9xl text-[#F8F6F0] tracking-tight leading-[0.95] mb-2">
-        MAAYA <span className="text-[#22E4F0]">'26</span>
-      </h1>
+          <motion.p {...after(0)} className="misprint mt-9 text-[2.6rem] leading-[0.95] font-black tracking-tight expanded sm:mt-8 sm:text-7xl lg:text-[5.4rem]">
+            ECLECTRIA
+          </motion.p>
+          <motion.p {...after(0.1)} className="mt-3 inline-block -rotate-2 bg-black px-3 py-1 font-script text-xl text-white sm:text-3xl">
+            Different by design
+          </motion.p>
 
-      {/* Concept & Theme Title */}
-      <div className="mt-1 sm:mt-2 mb-3 sm:mb-4">
-        <span className="font-outfit font-extrabold text-2xl sm:text-4xl md:text-5xl text-[#E63988] tracking-tight">
-          ECLECTRIA
-        </span>
-        <span className="font-outfit font-semibold text-sm sm:text-2xl text-[#8E96A4] block mt-1">
-          Different by Design · 23rd & 24th October 2026
-        </span>
-      </div>
+          <motion.div {...after(0.2)} className="scrap relative mt-8 max-w-xl rotate-[0.6deg] p-4 sm:p-5">
+            <span className="tape -top-3 left-6 -rotate-6" aria-hidden="true" />
+            <p className="text-lg leading-snug font-extrabold sm:text-xl">Five days. Five identities. One world.</p>
+            <p className="mt-1.5 text-base leading-relaxed text-black/80">
+              ECLECTRIA is a world where different styles, eras, cultures and identities come together.
+            </p>
+          </motion.div>
 
-      {/* Narrative description */}
-      <p className="max-w-2xl text-xs sm:text-base text-[#8E96A4] font-medium leading-relaxed mb-6 sm:mb-8 px-2">
-        Five days. Five identities. One world. ECLECTRIA is a world where different styles, eras, cultures and identities come together.
-      </p>
-
-      {/* Countdown Pill */}
-      <div className="mb-8 sm:mb-10 inline-flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 bg-[#0C0E14]/85 text-[#22E4F0] rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 sm:py-3.5 border border-[#22E4F0]/40 shadow-[0_0_30px_rgba(34,228,240,0.2)] backdrop-blur-md font-mono text-xs sm:text-sm font-bold w-full sm:w-auto">
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-outfit uppercase tracking-widest text-[#8E96A4]">
-          <Calendar size={13} className="text-[#22E4F0]" />
-          <span>FESTIVAL COUNTDOWN:</span>
+          <motion.div {...after(0.3)} className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            <a
+              href="#programme"
+              onClick={playClick}
+              className="inline-flex min-h-12 items-center bg-black px-6 text-base font-black text-riso-yellow shadow-[5px_5px_0_var(--color-riso-blue)] transition-transform hover:-translate-y-0.5 sm:text-lg"
+            >
+              Explore events
+            </a>
+            <a
+              href="#venues"
+              onClick={playClick}
+              className="inline-flex min-h-12 items-center border-[3px] border-black bg-paper px-5 text-base font-black shadow-[5px_5px_0_#000] transition-transform hover:-translate-y-0.5 sm:text-lg"
+            >
+              Open the 3D campus
+            </a>
+            <button
+              type="button"
+              onClick={handleRandomEvent}
+              className="sticker inline-flex min-h-12 items-center gap-2 rounded-full bg-riso-yellow px-5 text-base font-black transition-transform hover:rotate-6"
+            >
+              <Dices size={18} aria-hidden="true" />
+              Pick a random event
+            </button>
+          </motion.div>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3 text-sm sm:text-base font-black text-[#F8F6F0]">
-          <span><strong className="text-[#22E4F0]">{timeLeft.days}</strong>d</span>
-          <span>:</span>
-          <span><strong className="text-[#22E4F0]">{String(timeLeft.hours).padStart(2, "0")}</strong>h</span>
-          <span>:</span>
-          <span><strong className="text-[#22E4F0]">{String(timeLeft.minutes).padStart(2, "0")}</strong>m</span>
-          <span>:</span>
-          <span><strong className="text-[#E63988]">{String(timeLeft.seconds).padStart(2, "0")}</strong>s</span>
-        </div>
-      </div>
 
-      {/* Pill Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full sm:w-auto max-w-sm sm:max-w-none">
-        <a
-          href="#programme"
-          onClick={playClick}
-          className="w-full sm:w-auto pill-button-magenta px-6 sm:px-7 py-3 text-xs sm:text-sm font-outfit tracking-wider flex items-center justify-center gap-2 shadow-lg"
-        >
-          <span>EXPLORE EVENTS</span>
-          <ArrowRight size={15} />
-        </a>
-
-        <a
-          href="#venues"
-          onClick={playClick}
-          className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#0C0E14]/80 text-[#F8F6F0] border border-[#22E4F0]/40 text-xs sm:text-sm font-outfit font-bold hover:bg-[#22E4F0]/15 hover:border-[#22E4F0] transition-all flex items-center justify-center gap-2 shadow-sm"
-        >
-          <Compass size={15} className="text-[#22E4F0]" />
-          <span>3D CAMPUS ISLAND</span>
-        </a>
-
-        <button
-          onClick={handleRandomEvent}
-          className="w-full sm:w-auto px-5 py-3 rounded-full bg-white/5 border border-white/15 text-[#F8F6F0] text-xs sm:text-sm font-outfit font-bold hover:bg-white/10 transition-colors flex items-center justify-center gap-2"
-        >
-          <Dices size={15} className="text-[#FFA502]" />
-          <span>RANDOM EVENT</span>
-        </button>
-      </div>
-
-      {/* Metric Highlights */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 mt-12 sm:mt-16 w-full max-w-4xl">
-        {keyStats.map((stat, idx) => (
-          <div
-            key={idx}
-            className="fest-card p-3.5 sm:p-5 text-left flex flex-col justify-between"
-          >
-            <span className="text-xl sm:text-3xl font-outfit font-black text-[#F8F6F0]">
-              {stat.value}
-            </span>
-            <div className="mt-1">
-              <span className="text-[11px] sm:text-xs font-outfit font-bold text-[#22E4F0] block">
-                {stat.label}
+        {/* ── Right: date, countdown, contents ── */}
+        <div className="relative lg:col-span-5 lg:pt-6">
+          <div className="flex flex-wrap items-start gap-4 sm:gap-6">
+            <motion.div
+              {...(reduce
+                ? { style: { rotate: "8deg" } }
+                : { initial: { opacity: 0, scale: 0.4, rotate: -40 }, animate: { opacity: 1, scale: 1, rotate: 8 }, transition: { type: "spring", stiffness: 300, damping: 14, delay: 1.1 } })}
+              className="starburst grid size-40 shrink-0 place-items-center bg-riso-yellow text-center sm:size-48"
+            >
+              <span className="block leading-none">
+                <span className="block text-[2.6rem] font-black tracking-tight condensed sm:text-5xl">23–24</span>
+                <span className="block text-base font-extrabold sm:text-lg">October 2026</span>
               </span>
-              <span className="text-[10px] sm:text-[11px] text-[#8E96A4] block truncate">
-                {stat.sub}
-              </span>
-            </div>
+            </motion.div>
+
+            {/* Countdown, on a ticket stub */}
+            <motion.div {...after(0.35)} className="scrap relative -rotate-2 border-l-[6px] border-dashed border-riso-pink-deep p-4 pr-5">
+              <p className="text-sm font-semibold">{t.done ? "Maaya is here" : "Doors open in"}</p>
+              <p className="mt-1 flex items-baseline gap-2 font-black tabular-nums condensed">
+                <span className="text-4xl sm:text-5xl">{t.days}</span>
+                <span className="text-sm">days</span>
+                <span className="text-3xl sm:text-4xl">{pad(t.hours)}</span>
+                <span className="text-sm">hrs</span>
+              </p>
+              <p className="flex items-baseline gap-2 font-black tabular-nums condensed">
+                <span className="text-3xl text-riso-blue sm:text-4xl">{pad(t.minutes)}</span>
+                <span className="text-sm">min</span>
+                <span className="text-3xl text-riso-pink-deep sm:text-4xl">{pad(t.seconds)}</span>
+                <span className="text-sm">sec</span>
+              </p>
+              <p className="mt-2 text-xs font-semibold text-black/70">{FESTIVAL_INFO.preFestDates}</p>
+            </motion.div>
           </div>
-        ))}
+
+          {/* In this issue: the site's sections, in page order */}
+          <motion.nav {...after(0.45)} aria-label="In this issue" className="scrap relative mt-8 rotate-1 p-5 sm:p-6">
+            <span className="tape -top-3 right-8 rotate-3" aria-hidden="true" />
+            <p className="font-script text-2xl">In this issue</p>
+            <ol className="mt-3 divide-y-2 divide-dashed divide-black/25">
+              {WORLDS.map((w, i) => (
+                <li key={w.id}>
+                  <a href={w.href} onClick={playClick} className="group flex items-center gap-3 py-2.5">
+                    <span aria-hidden="true" className={`${w.swatch} size-10 shrink-0 border-2 border-black transition-transform group-hover:-rotate-6`} />
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-lg leading-tight font-black group-hover:underline">{w.part}</span>
+                      <span className="block text-sm text-black/70">
+                        {w.title}. {CONTENTS_NOTE[w.id]}
+                      </span>
+                    </span>
+                    <span className="text-sm font-black tabular-nums">p.{pad(i + 2)}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </motion.nav>
+        </div>
       </div>
+      <span className="edge-torn flip bottom-0" style={{ "--edge": "var(--color-denim)" }} aria-hidden="true" />
     </section>
   );
 }

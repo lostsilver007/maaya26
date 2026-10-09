@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { MotionConfig } from "framer-motion";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
+import WorldTicker from "./components/WorldTicker";
 import CampusIslandSection from "./components/CampusIslandSection";
 import ProgrammeExplorer from "./components/ProgrammeExplorer";
 import ConcertSection from "./components/ConcertSection";
@@ -11,6 +13,9 @@ import RegistrationModal from "./components/RegistrationModal";
 import RulebookModal from "./components/RulebookModal";
 import { EVENTS } from "./data/festivalData";
 
+// MAAYA '26 · ECLECTRIA, laid out as a collage zine: a riso-printed cover,
+// then one section per world (denim, cinema, cosmic, sports, tradition), then
+// the riso back cover.
 export default function App() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [registerEvent, setRegisterEvent] = useState(null);
@@ -23,56 +28,27 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0C0E14] text-[#F8F6F0] relative selection:bg-[#E63988] selection:text-white font-inter">
-      {/* Floating Pill Capsule Navbar */}
+    <MotionConfig reducedMotion="user">
+      <a href="#programme" className="sr-only z-[80] bg-black px-4 py-3 font-bold text-riso-yellow focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+        Skip to the programme
+      </a>
       <Navbar onOpenRegister={() => handleOpenRegister(null)} />
 
-      {/* Main Content */}
       <main id="main">
-        {/* Clean Hero with Countdown & Metrics */}
-        <HeroSection
-          onOpenRegister={() => handleOpenRegister(null)}
-          onSelectEvent={(ev) => setSelectedEventForModal(ev)}
-        />
-
-        {/* Embedded 3D Fest Island & Campus Venues */}
+        <HeroSection onSelectEvent={(ev) => setSelectedEventForModal(ev)} />
+        <WorldTicker />
         <CampusIslandSection />
-
-        {/* Programme Explorer (Official Events from Fest-Island) */}
-        <ProgrammeExplorer
-          onOpenRegisterForEvent={(ev) => handleOpenRegister(ev)}
-          selectedEventForModal={selectedEventForModal}
-          setSelectedEventForModal={setSelectedEventForModal}
-        />
-
-        {/* Concert Pro-Night Section */}
+        <ProgrammeExplorer selectedEventForModal={selectedEventForModal} setSelectedEventForModal={setSelectedEventForModal} />
         <ConcertSection />
-
-        {/* Past Editions & Retrospective */}
         <PastEditionsSection />
-
-        {/* FAQ Support */}
         <AnnouncementsAndFAQ />
       </main>
 
-      {/* Footer */}
-      <Footer
-        onOpenRulebook={() => setIsRulebookOpen(true)}
-        onOpenRegister={() => handleOpenRegister(null)}
-      />
+      <Footer onOpenRulebook={() => setIsRulebookOpen(true)} onOpenRegister={() => handleOpenRegister(null)} />
 
-      {/* Interactive Registration Modal */}
-      <RegistrationModal
-        isOpen={isRegisterOpen}
-        onClose={() => setIsRegisterOpen(false)}
-        initialEvent={registerEvent}
-      />
-
-      {/* Code of Conduct Modal */}
-      <RulebookModal
-        isOpen={isRulebookOpen}
-        onClose={() => setIsRulebookOpen(false)}
-      />
-    </div>
+      {/* Keyed by event so opening it for a different event starts on that event. */}
+      <RegistrationModal key={registerEvent?.id ?? "none"} isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} initialEvent={registerEvent} />
+      <RulebookModal isOpen={isRulebookOpen} onClose={() => setIsRulebookOpen(false)} />
+    </MotionConfig>
   );
 }
