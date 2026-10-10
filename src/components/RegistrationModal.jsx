@@ -5,7 +5,7 @@ import { playChime, playClick } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
 
 const FALLBACK_URL = "https://fest-island.vercel.app/#programme";
-const dayName = (day) => (day.toLowerCase().includes("week") ? "Pre-fest week" : day);
+const dayName = (day) => day;
 
 // The box office: pick an event, check its details, go to its payment page.
 export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
@@ -70,6 +70,12 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                 <dt className="font-semibold text-black/60">Genre</dt>
                 <dd className="font-black">{ev.category}</dd>
               </div>
+              {ev.contact && (
+                <div className="col-span-2">
+                  <dt className="font-semibold text-black/60">Club contact</dt>
+                  <dd className="font-bold text-black/90">{ev.contact}</dd>
+                </div>
+              )}
             </dl>
           </div>
 
