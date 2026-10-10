@@ -255,12 +255,11 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* In this issue: the site's sections, in page order */}
-          <motion.nav {...land(0.45, { x: 140, y: 60, r: 14 }, 1)} aria-label="In this issue" className="scrap relative mt-8 p-5 sm:p-6">
+          {/* The site's sections, in page order */}
+          <motion.nav {...land(0.45, { x: 140, y: 60, r: 14 }, 1)} aria-label="Sections" className="scrap relative mt-8 px-5 py-3 sm:px-6 sm:py-4">
             <span className="tape -top-3 right-8 rotate-3" aria-hidden="true" />
-            <p className="font-script text-2xl">In this issue</p>
-            <ol className="mt-3 divide-y-2 divide-dashed divide-black/25">
-              {WORLDS.map((w, i) => (
+            <ol className="divide-y-2 divide-dashed divide-black/25">
+              {WORLDS.map((w) => (
                 <li key={w.id}>
                   <a href={w.href} onClick={playClick} className="group flex items-center gap-3 py-2.5">
                     <span aria-hidden="true" className={`${w.swatch} size-10 shrink-0 border-2 border-black transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110`} />
@@ -270,7 +269,6 @@ export default function HeroSection() {
                         {w.title}. {CONTENTS_NOTE[w.id]}
                       </span>
                     </span>
-                    <span className="text-sm font-black tabular-nums transition-transform group-hover:translate-x-1">{pad(i + 2)}</span>
                   </a>
                 </li>
               ))}
