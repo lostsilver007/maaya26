@@ -79,25 +79,35 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
             </dl>
           </div>
 
-          <p className="mt-4 text-sm text-black/70">Registration and payment finish on the event's own payment page, which opens in a new tab.</p>
+          {ev.paymentUrl ? (
+            <p className="mt-4 text-sm text-black/70">Registration finishes on the event's official registration form, which opens in a new tab.</p>
+          ) : (
+            <p className="mt-4 text-sm font-bold text-ticket-red">Registration form link will be updated soon.</p>
+          )}
 
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
             <button type="button" onClick={onClose} className="min-h-11 px-2 text-base font-bold underline underline-offset-4">
               Not now
             </button>
-            <a
-              href={ev.paymentUrl || FALLBACK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                playChime();
-                onClose();
-              }}
-              className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
-            >
-              Go to the payment page
-              <ExternalLink size={15} aria-hidden="true" />
-            </a>
+            {ev.paymentUrl ? (
+              <a
+                href={ev.paymentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  playChime();
+                  onClose();
+                }}
+                className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
+              >
+                Register now
+                <ExternalLink size={15} aria-hidden="true" />
+              </a>
+            ) : (
+              <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/40 bg-black/5 px-5 text-base font-bold text-black/60">
+                Will be updated soon
+              </span>
+            )}
           </div>
         </div>
       </div>

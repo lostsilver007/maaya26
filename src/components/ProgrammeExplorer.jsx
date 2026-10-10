@@ -96,19 +96,25 @@ function Ticket({ e, punched, onPunch, onRules }) {
             )}
           </dl>
           <div className="relative mt-5 flex flex-wrap items-center gap-3">
-            <a
-              href={e.paymentUrl || FALLBACK_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => {
-                playChime();
-                onPunch(e.id);
-              }}
-              className="inline-flex min-h-11 items-center gap-2 bg-ticket-red px-5 text-base font-black text-ticket shadow-[3px_3px_0_#000] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#000] active:translate-y-0.5 active:shadow-none"
-            >
-              Register
-              <ExternalLink size={15} aria-hidden="true" />
-            </a>
+            {e.paymentUrl ? (
+              <a
+                href={e.paymentUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => {
+                  playChime();
+                  onPunch(e.id);
+                }}
+                className="inline-flex min-h-11 items-center gap-2 bg-ticket-red px-5 text-base font-black text-ticket shadow-[3px_3px_0_#000] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#000] active:translate-y-0.5 active:shadow-none"
+              >
+                Register
+                <ExternalLink size={15} aria-hidden="true" />
+              </a>
+            ) : (
+              <span className="inline-flex min-h-11 items-center border-[2px] border-dashed border-black/40 bg-black/5 px-4 text-sm font-bold text-black/70">
+                Will be updated soon
+              </span>
+            )}
             <button
               type="button"
               onClick={() => {
@@ -331,19 +337,25 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                 <button type="button" onClick={() => setSelectedEventForModal(null)} className="min-h-11 px-2 text-base font-bold underline underline-offset-4">
                   Back to the programme
                 </button>
-                <a
-                  href={ev.paymentUrl || FALLBACK_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => {
-                    playChime();
-                    setSelectedEventForModal(null);
-                  }}
-                  className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
-                >
-                  Register for {ev.name.length > 22 ? "this event" : ev.name}
-                  <ExternalLink size={15} aria-hidden="true" />
-                </a>
+                {ev.paymentUrl ? (
+                  <a
+                    href={ev.paymentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      playChime();
+                      setSelectedEventForModal(null);
+                    }}
+                    className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
+                  >
+                    Register for {ev.name.length > 22 ? "this event" : ev.name}
+                    <ExternalLink size={15} aria-hidden="true" />
+                  </a>
+                ) : (
+                  <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/40 bg-black/5 px-5 text-base font-bold text-black/70">
+                    Will be updated soon
+                  </span>
+                )}
               </div>
             </div>
           </div>

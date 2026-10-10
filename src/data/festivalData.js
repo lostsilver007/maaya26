@@ -86,7 +86,7 @@ export const EVENTS = [
     timeDisplay: "04:45 PM – 07:00 PM",
     blurb: "Elysian Threads is an exciting intercollege fashion walk where students take to the runway to showcase their creativity, style, and individuality. Featuring bold designs, unique silhouettes, and creative styling, the event brings together diverse interpretations of fashion and celebrates self-expression.",
     headline: true,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: null,
     teamSize: "Teams of 8 to 16",
     contact: "Kushi Niranjana (7975881735)",
     rules: [
@@ -114,7 +114,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 12:00 PM",
     blurb: "A 3-hour digital art competition where participants create an original 1:1 artwork from scratch under timed checkpoints and creative constraints.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/tW5WTAYJvvt3E1Ha7",
     teamSize: "Individual / Solo",
     contact: "Abhiroop (9036314996), Navya Kishor (6284123362)",
     rules: [
@@ -140,7 +140,7 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 11:30 AM",
     blurb: "A mind-bending team challenge where you decode hidden rules, spot unexpected glitches, and adapt before the game changes again.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/a3DS8qVkqZkBmCyN8",
     teamSize: "Teams of 2 to 4",
     contact: "Hrudhay Prakash (9448303526)",
     rules: [
@@ -166,7 +166,7 @@ export const EVENTS = [
     timeDisplay: "11:30 AM – 02:30 PM",
     blurb: "Shazam offers a dynamic experience where participants listen to the given song snippets, clues, pictures, etc, and answer the given questions.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/JdWcmYm3q6m7oous5",
     teamSize: "Teams of 2",
     contact: "Blason Raj (7406110532), Tanisha Dalmia (87924 94474)",
     rules: [
@@ -192,7 +192,7 @@ export const EVENTS = [
     timeDisplay: "10:30 AM – 02:30 PM",
     blurb: "A campus-wide treasure hunt where teams solve coding challenges, uncover hidden clues, and race to unlock the next challenge.",
     headline: true,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/Gq14yKXfoCxCA98e7",
     teamSize: "Teams of 2 to 3",
     contact: "Aniket Barun (9431515754)",
     rules: [
@@ -218,7 +218,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 12:00 PM",
     blurb: "Investigate a mysterious aircraft crash by analysing clues, evidence, and a preliminary airline report to reconstruct what actually happened.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/DYbfW75KNWKMFvYe8",
     teamSize: "Teams of 2 to 3",
     contact: "Hemaksh B (96259 96922)",
     rules: [
@@ -243,7 +243,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 02:00 PM",
     blurb: "Operation Infinity is a team-based, Avengers-themed mission game in which participants complete six challenges, recover the Infinity Stones, solve a final code and identify a secretly compromised teammate while demonstrating teamwork, logical reasoning, observation and problem-solving skills.",
     headline: true,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/yZD17gmvyL1uLsLQ6",
     teamSize: "Teams of 4",
     contact: "Kishan C M (9110416794), Soumodev Roy (7010464676)",
     rules: [
@@ -269,7 +269,7 @@ export const EVENTS = [
     timeDisplay: "11:30 AM – 02:30 PM",
     blurb: "A mystery-heist challenge where teams race to recover Neural Hive's stolen AI model — through strategy, deduction, and risk, no coding required.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeh_fAGkaLaZCsdJmuCzCSOfToe-8Mr4FpVIDZNd1hVz-pHNw/viewform?usp=sharing&ouid=111032860154513717892",
     teamSize: "Teams of 2 to 3",
     contact: "Yajat Soni (8073090546)",
     rules: [
@@ -295,7 +295,7 @@ export const EVENTS = [
     timeDisplay: "08:00 AM – 11:00 AM",
     blurb: "A Celebration of art in motion, where teams from every style compete.",
     headline: true,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/LtxgHfNDYQPyxrjj7",
     teamSize: "Teams of 6 to 25",
     contact: "Architha (9947562567), Nethra (900808730), Ruchitha (9964877270)",
     rules: [
@@ -321,7 +321,7 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 11:30 AM",
     blurb: "A fast-paced hybrid robotics competition combining digital puzzles, campus treasure hunts, and a hands-on robot challenge to test teamwork, logic, and robotics skills.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/tnxFr4K8PorWAZEp7",
     teamSize: "Teams of 2 to 4",
     contact: "Modhak Kushalappa (6362356827)",
     rules: [
@@ -346,7 +346,7 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 11:30 AM",
     blurb: "A solo singing competition celebrating the beauty of Indian and Western music.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/6MJ6CAVAP2PWPq449",
     teamSize: "Solo / Individual",
     contact: "Abhirama H Y & Blason Raj (9483202575)",
     rules: [
@@ -371,7 +371,7 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 11:30 AM",
     blurb: "Venture Wars is a three-round startup simulation where teams bid for problem statements, sabotage rivals with crises, and pitch their way to the top.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/Ghq2ryL8NaUiueEY9",
     teamSize: "Teams of 2 to 4",
     contact: "Krish Gupta (9682674911)",
     rules: [
@@ -396,7 +396,7 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 10:30 AM",
     blurb: "ಮಾತಿಗೆ ಮಿತಿ ಇಲ್ಲ, ತರ್ಕಕ್ಕೆ ತಡೆ ಇಲ್ಲ — Words Without Limits, Reason Without Boundaries.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/cWkSVEhk9QePeXDN8",
     teamSize: "Teams of 2 (For & Against)",
     contact: "Manjunath V (8904753396)",
     rules: [
@@ -422,7 +422,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 02:00 PM",
     blurb: "An immersive technical crisis simulation in which teams navigate an evolving disruption, formulate strategic responses, collaborate under pressure, and adapt to emerging developments.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/KhmYypGSZTP6RAQV7",
     teamSize: "Teams of 2",
     contact: "Yash Tadi (+91 70165 53540)",
     rules: [
@@ -447,7 +447,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 01:00 PM",
     blurb: "A high pressure filmmaking challenge where participants are given a genre on the spot and have around 3 hours to create an original 2-minute short film.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSelYoeIHlrdGbDi_Dqcm2g1mHjeaJEK3xd1laN-JgzmcP_y2A/viewform?usp=publish-editor",
     teamSize: "Teams of 2 to 5",
     contact: "Dushyanth Reddy (8639498517)",
     rules: [
@@ -473,7 +473,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 02:00 PM",
     blurb: "A thrilling whodunit where teams of two solve riddles, uncover clues, and piece together the mystery through sharp detective work and teamwork.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/wo2PX1sHSDt4ZZNu8",
     teamSize: "Teams of 2",
     contact: "Shubhika Pradeep (9818270173), Ianna Elizabeth Reni (9036938896)",
     rules: [
@@ -498,7 +498,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 12:00 PM",
     blurb: "A fast-paced hands-on design challenge where teams build creative solutions out of scrap and recyclable materials.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSduLa9j-6KBgKoPSU24vT5ItG9NkO2Llq3iI6YYN9Ivcbs_PQ/viewform?usp=dialog",
     teamSize: "Teams of 2 to 3",
     contact: "Bhuvan V. (9880637357), Likitha Marella (81233 82455)",
     rules: [
@@ -523,7 +523,7 @@ export const EVENTS = [
     timeDisplay: "11:00 AM – 01:00 PM",
     blurb: "PES University's premier high-energy musical showdown featuring top student bands competing live for the championship title.",
     headline: true,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: "https://forms.gle/JgJcPmLJfhkSPzAb7",
     teamSize: "Bands of 3 to 8 members",
     contact: "Samarth Ramesha (8867195937)",
     rules: [
@@ -548,7 +548,7 @@ export const EVENTS = [
     timeDisplay: "09:00 AM – 12:00 PM",
     blurb: "A lively open-air wellness and fun decompression zone featuring interactive games, stress-busters, and engaging community activities to recharge your festival spirit.",
     headline: false,
-    paymentUrl: "https://fest-island.vercel.app/#programme",
+    paymentUrl: null,
     teamSize: "Individual / Open to all",
     contact: "Shubhika Pradeep (9818270173), Kalash Jain (8792300506)",
     rules: [
