@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { prefersReducedMotion } from "./env";
+import { finePointer, prefersReducedMotion } from "./env";
 import { setPrinted, willPlay } from "./printState";
 
 // The cover comes off a riso duplicator. Four drum passes sweep down the
@@ -94,7 +94,7 @@ export default function PrintIntro() {
       <div className="halftone absolute inset-0 opacity-40" />
       {/* The drum and its rollers */}
       <div className="print-drum absolute inset-x-0 top-0 z-20 flex h-14 items-center justify-between px-4 text-sm font-black text-white sm:px-8">
-        <span className="condensed uppercase">Riso · Issue 26</span>
+        <span className="condensed hidden uppercase min-[400px]:inline">Riso · Issue 26</span>
         <span className="flex items-center gap-2">
           <span className="size-3 rounded-full" style={{ background: PASSES[pass].ink, boxShadow: "0 0 0 2px #fff" }} />
           Pass {pass + 1} of 4: {PASSES[pass].name}
@@ -110,15 +110,17 @@ export default function PrintIntro() {
                 className={`print-pass col-start-1 row-start-1 ${i === pass && run < 4 ? "print-wipe" : ""}`}
                 style={{ color: p.ink, transform: `translate(${p.dx}, ${p.dy})`, mixBlendMode: i < 3 ? "multiply" : "normal" }}
               >
-                <p className="text-[24vw] leading-[0.82] font-black tracking-tight expanded sm:text-[19vw] lg:text-[15rem]">MAAYA</p>
-                <p className="mt-3 text-[6vw] font-black tracking-tight expanded sm:text-[4.4vw] lg:text-6xl">ECLECTRIA · 23–24 OCT</p>
+                <p className="text-[min(19vw,15rem)] leading-[0.82] font-black tracking-tight expanded">MAAYA</p>
+                <p className="mt-[0.4em] text-[min(5.2vw,3.75rem)] font-black tracking-tight expanded">ECLECTRIA · 23–24 OCT</p>
               </div>
             ) : null,
           )}
         </div>
       </div>
       {run < 4 && <div key={run} className="print-head absolute inset-x-0 z-10 h-3" style={{ background: PASSES[pass].ink }} />}
-      <p className="absolute right-4 bottom-4 z-20 bg-black px-3 py-1.5 text-sm font-bold text-white sm:right-8 sm:bottom-6">Press any key to skip</p>
+      <p className="absolute right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-20 bg-black px-3 py-1.5 text-sm font-bold text-white sm:right-8 sm:bottom-6">
+        {finePointer ? "Click or press any key to skip" : "Tap to skip"}
+      </p>
     </div>
   );
 }

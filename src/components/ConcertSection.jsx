@@ -28,17 +28,17 @@ function HoloCard() {
       ref={card}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      className="tex-holo relative mx-auto w-full max-w-sm rotate-2 rounded-3xl p-2.5 shadow-[0_30px_60px_-20px_rgb(255_122_217/0.55)] transition-transform duration-150 ease-out"
+      className="tex-holo relative mx-auto w-full max-w-[17.5rem] rotate-2 rounded-3xl p-2 shadow-[0_30px_60px_-20px_rgb(255_122_217/0.55)] transition-transform duration-150 ease-out sm:max-w-sm sm:p-2.5"
     >
-      <div className="rounded-[1.1rem] bg-space/90 p-6 text-center sm:p-7">
+      <div className="rounded-[1.1rem] bg-space/90 p-5 text-center sm:p-7">
         <p className="text-sm font-bold text-holo-cyan">Headliner</p>
-        <p className="mt-3 font-cosmic text-4xl leading-none font-black chrome sm:text-5xl">TBA</p>
-        <p className="mt-4 text-base leading-relaxed text-white/85">Lineup reveals and student passes drop on the official Instagram page.</p>
+        <p className="mt-2 font-cosmic text-3xl leading-none font-black chrome sm:mt-3 sm:text-5xl">TBA</p>
+        <p className="mt-3 text-sm leading-relaxed text-white/85 sm:mt-4 sm:text-base">Lineup reveals and student passes drop on the official Instagram page.</p>
         <a
           href={FESTIVAL_INFO.socials.instagram}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-flex min-h-12 items-center rounded-full bg-white px-6 text-base font-black text-space transition-transform hover:scale-105"
+          className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:mt-6 sm:min-h-12 sm:px-6 sm:text-base"
         >
           Follow @maayapesu
         </a>
@@ -112,7 +112,7 @@ export default function ConcertSection() {
               </text>
             </svg>
           </div>
-          <div className="relative z-10 -mt-24 sm:-mt-32">
+          <div className="relative z-10 -mt-6 sm:-mt-32">
             <HoloCard />
           </div>
         </div>
