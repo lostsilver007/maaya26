@@ -16,8 +16,17 @@ function getAudioContext() {
   return audioCtx;
 }
 
+// Components that show the sound state (the nav toggle) subscribe here, so a
+// button elsewhere (the concert sound check) can switch sound on too.
+const soundListeners = new Set();
+export function onSoundChange(listener) {
+  soundListeners.add(listener);
+  return () => soundListeners.delete(listener);
+}
+
 export function setSoundEnabled(val) {
   soundEnabled = val;
+  soundListeners.forEach((l) => l(val));
   if (val) {
     getAudioContext();
     playChime();

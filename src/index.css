@@ -1,104 +1,490 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-ink: #0C0E14;
-    --bg-surface: #121520;
-    --text-cream: #F8F6F0;
-    --text-muted: #8E96A4;
-    --accent-cyan: #22E4F0;
-    --accent-magenta: #E63988;
-    --accent-charcoal: #1A1A1A;
-  }
+/* ────────────────────────────────────────────────────────────────────────
+   MAAYA '26 · ECLECTRIA — "Different by design"
+   A collage zine: the opening and closing pages are riso-printed paper, and
+   every section in between is cut from a different world's material:
+     venues     → denim & street      (twill, copper stitching, patches)
+     programme  → cinema & retro      (velvet, marquee bulbs, ticket stock)
+     concert    → cosmic glamour      (deep space, chrome, holo foil)
+     archive    → sports & athleisure (court green, varsity felt, jerseys)
+     questions  → indian tradition    (cotton, block print, marigolds)
+   All textures are CSS / inline SVG: no image files to load.
+   ──────────────────────────────────────────────────────────────────────── */
 
+@theme {
+  /* Riso zine (hero, nav, footer): real riso ink colours on newsprint */
+  --color-paper: #f4f0e6;
+  --color-ink: #000000;
+  --color-riso-pink: #ff48b0;
+  --color-riso-pink-deep: #e0218f;
+  --color-riso-blue: #0078bf;
+  --color-riso-yellow: #ffe800;
+
+  /* Denim & street */
+  --color-denim: #2e3f6e;
+  --color-denim-deep: #1c2849;
+  --color-denim-fade: #8ea3cf;
+  --color-thread: #f2a541;
+  --color-rivet: #c07a3e;
+  --color-leather: #74461f;
+
+  /* Cinema & retro */
+  --color-velvet: #5b0f1a;
+  --color-velvet-deep: #2c050b;
+  --color-bulb: #ffd36b;
+  --color-ticket: #f7e7c1;
+  --color-ticket-red: #b3122a;
+
+  /* Cosmic glamour */
+  --color-space: #07041a;
+  --color-nebula: #2a0f55;
+  --color-holo-pink: #ff7ad9;
+  --color-holo-cyan: #7af7ff;
+  --color-holo-lime: #c8ff7a;
+  --color-holo-lilac: #b48cff;
+
+  /* Sports & athleisure */
+  --color-court: #1d6b45;
+  --color-court-deep: #0f4a2e;
+  --color-varsity: #f2b705;
+  --color-jersey: #f6f5ef;
+
+  /* Indian tradition */
+  --color-cotton: #f6ead0;
+  --color-saffron: #f28c28;
+  --color-marigold: #ffb000;
+  --color-kumkum: #b3122e;
+  --color-madder: #9e2a2b;
+  --color-leaf: #2f6b2f;
+
+  --font-sans: "Archivo", system-ui, -apple-system, sans-serif;
+  --font-script: "Shrikhand", "Archivo", serif;
+  --font-deva: "Rozha One", Georgia, serif;
+  --font-varsity: "Graduate", Georgia, serif;
+  --font-marquee: "Monoton", "Archivo", sans-serif;
+  --font-cosmic: "Unbounded", "Archivo", sans-serif;
+  --font-marker: "Permanent Marker", "Archivo", cursive;
+}
+
+:root {
+  /* Paper grain: dark speckle for light materials, light speckle for dark ones. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  --grain-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Torn paper edge (used as a mask, filled with the colour above it). */
+  --torn: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='22' viewBox='0 0 240 22' preserveAspectRatio='none'%3E%3Cpath d='M0 0H240V12L233 16 226 10 219 18 211 13 204 20 197 11 189 17 181 14 173 21 166 12 158 16 151 10 143 19 136 14 128 20 121 11 113 17 106 13 98 20 91 12 83 18 76 11 68 16 61 21 53 13 46 18 38 10 31 17 23 12 16 19 8 14 0 18Z'/%3E%3C/svg%3E");
+  /* Block-print motif in madder red. */
+  --blockprint: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Cg fill='%239e2a2b'%3E%3Ccircle cx='24' cy='24' r='3.4'/%3E%3Cellipse cx='24' cy='14.5' rx='3' ry='5.6'/%3E%3Cellipse cx='24' cy='33.5' rx='3' ry='5.6'/%3E%3Cellipse cx='14.5' cy='24' rx='5.6' ry='3'/%3E%3Cellipse cx='33.5' cy='24' rx='5.6' ry='3'/%3E%3Ccircle cx='24' cy='1.8' r='1.6'/%3E%3Ccircle cx='24' cy='46.2' r='1.6'/%3E%3Ccircle cx='1.8' cy='24' r='1.6'/%3E%3Ccircle cx='46.2' cy='24' r='1.6'/%3E%3Cpath d='M0 0h5L0 5zM48 0v5L43 0zM0 48v-5L5 48zM48 48h-5L48 43z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-ink);
-    color: var(--text-cream);
     -webkit-tap-highlight-color: transparent;
+    background: var(--color-riso-pink);
   }
-
   body {
     overflow-x: hidden;
-    background-color: #0C0E14;
     min-height: 100vh;
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-riso-pink);
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-riso-yellow);
+    color: #000;
+  }
+  /* One focus style that reads on every material: yellow ring, black halo. */
+  :focus-visible {
+    outline: 3px solid var(--color-riso-yellow);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px #000;
+  }
+  /* Sections that only take focus from script (e.g. after a replay) */
+  [tabindex="-1"]:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  section[id] {
+    scroll-margin-top: 4.5rem;
   }
 }
 
-.font-outfit {
-  font-family: 'Outfit', sans-serif;
-}
-
-.font-inter {
-  font-family: 'Inter', sans-serif;
-}
-
-/* Fest-island Glassmorphic Dark Container */
-.fest-card {
-  background-color: rgba(12, 14, 20, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.25rem;
-}
-
-@media (min-width: 640px) {
-  .fest-card {
-    border-radius: 1.5rem;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-.fest-card-hover {
-  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+/* Component styles live in a layer so Tailwind utilities (fixed, absolute,
+   z-index, positions) on the same element still win. */
+@layer components {
+/* ── Type helpers ─────────────────────────────────────────────────────── */
+.condensed {
+  font-stretch: 72%;
 }
-.fest-card-hover:hover {
-  border-color: rgba(34, 228, 240, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px -5px rgba(34, 228, 240, 0.15);
+.semi-condensed {
+  font-stretch: 85%;
+}
+.expanded {
+  font-stretch: 118%;
 }
 
-/* Custom Pill Buttons & Controls */
-.pill-button-magenta {
-  background-color: #E63988;
-  color: #1A1A1A;
-  font-weight: 700;
+/* Riso misregistration: the ink layers never quite line up. */
+.misprint {
+  text-shadow:
+    0.045em 0.03em 0 var(--color-riso-blue),
+    -0.035em -0.025em 0 var(--color-riso-yellow);
+}
+
+/* Liquid chrome lettering (cosmic). */
+.chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #dfe4f0 22%, #8b93a7 44%, #f9fbff 50%, #a7afc2 64%, #e8ecf5 82%, #ffffff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 18px rgb(180 140 255 / 0.45)) drop-shadow(0 2px 0 rgb(255 122 217 / 0.6));
+}
+
+/* Varsity outline numerals (sports). */
+.varsity-outline {
+  color: var(--color-varsity);
+  -webkit-text-stroke: 3px var(--color-court-deep);
+  paint-order: stroke fill;
+  text-shadow:
+    5px 5px 0 var(--color-jersey),
+    8px 8px 0 var(--color-court-deep);
+}
+
+/* ── Textures ─────────────────────────────────────────────────────────── */
+.grain,
+.grain-dark {
+  position: relative;
+  isolation: isolate;
+}
+.grain::after,
+.grain-dark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.grain::after {
+  background-image: var(--grain);
+  mix-blend-mode: multiply;
+  opacity: 0.32;
+}
+.grain-dark::after {
+  background-image: var(--grain-light);
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+}
+
+.halftone {
+  background-image: radial-gradient(circle at center, rgb(0 0 0 / 0.16) 1.3px, transparent 1.8px);
+  background-size: 8px 8px;
+}
+
+.tex-paper {
+  background-color: var(--color-paper);
+}
+
+/* Riso pink flood with a coarse halftone in deeper pink. */
+.tex-riso {
+  background-color: var(--color-riso-pink);
+  background-image:
+    radial-gradient(circle at center, var(--color-riso-pink-deep) 1.6px, transparent 2.2px),
+    radial-gradient(120% 80% at 85% 10%, rgb(255 232 0 / 0.28), transparent 60%);
+  background-size: 9px 9px, 100% 100%;
+}
+
+/* Raw denim: right-hand twill, slub, and a worn wash in the middle. */
+.tex-denim {
+  background-color: var(--color-denim);
+  background-image:
+    radial-gradient(90% 60% at 50% 40%, rgb(142 163 207 / 0.28), transparent 70%),
+    repeating-linear-gradient(135deg, rgb(255 255 255 / 0.07) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(45deg, rgb(0 0 0 / 0.18) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0.025) 0 2px, transparent 2px 11px);
+}
+
+/* Theatre velvet: vertical folds. */
+.tex-velvet {
+  background-color: var(--color-velvet);
+  background-image:
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.38) 0, rgb(255 255 255 / 0.05) 34px, rgb(0 0 0 / 0.38) 72px),
+    radial-gradient(80% 50% at 50% 0%, rgb(255 211 107 / 0.18), transparent 70%);
+}
+
+/* Deep space with three layers of stars. */
+.tex-space {
+  background-color: var(--color-space);
+  background-image:
+    radial-gradient(1.2px 1.2px at 20% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 70% 80%, #fff, transparent),
+    radial-gradient(1.6px 1.6px at 45% 60%, #e9dcff, transparent),
+    radial-gradient(1px 1px at 85% 15%, #fff, transparent),
+    radial-gradient(1.4px 1.4px at 10% 85%, #cdfaff, transparent),
+    radial-gradient(70% 55% at 75% 20%, rgb(180 140 255 / 0.32), transparent 70%),
+    radial-gradient(60% 50% at 15% 85%, rgb(255 122 217 / 0.22), transparent 70%);
+  background-size: 220px 220px, 300px 300px, 260px 260px, 340px 340px, 280px 280px, 100% 100%, 100% 100%;
+}
+
+/* Holographic foil. --holo-angle is driven by the pointer where it is used. */
+.tex-holo {
+  --holo-angle: 210deg;
+  background:
+    repeating-linear-gradient(115deg, rgb(255 255 255 / 0.35) 0 2px, transparent 2px 9px),
+    conic-gradient(from var(--holo-angle), var(--color-holo-pink), var(--color-holo-cyan), var(--color-holo-lime), var(--color-bulb), var(--color-holo-lilac), var(--color-holo-pink));
+}
+
+/* Basketball court: varnished green with a hint of boards. */
+.tex-court {
+  background-color: var(--color-court);
+  background-image:
+    repeating-linear-gradient(90deg, rgb(0 0 0 / 0.07) 0 2px, transparent 2px 64px),
+    radial-gradient(70% 60% at 50% 40%, rgb(255 255 255 / 0.07), transparent 70%);
+}
+
+/* Athletic mesh. */
+.tex-mesh {
+  background-image: radial-gradient(circle at center, rgb(0 0 0 / 0.14) 1.6px, transparent 2px);
+  background-size: 7px 7px;
+}
+
+/* Hand block-printed cotton. */
+.tex-cotton {
+  background-color: var(--color-cotton);
+  background-image: var(--blockprint);
+  background-size: 48px 48px;
+  background-blend-mode: multiply;
+}
+.tex-cotton-faint {
+  background-color: var(--color-cotton);
+  background-image: linear-gradient(rgb(246 234 208 / 0.86), rgb(246 234 208 / 0.86)), var(--blockprint);
+  background-size: 100% 100%, 48px 48px;
+}
+
+/* ── Edges between worlds ─────────────────────────────────────────────── */
+/* Torn paper, filled with --edge (the colour of the section above). */
+.edge-torn {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 22px;
+  background: var(--edge, #000);
+  -webkit-mask: var(--torn) repeat-x 0 0 / 240px 22px;
+  mask: var(--torn) repeat-x 0 0 / 240px 22px;
+  pointer-events: none;
+  z-index: 3;
+}
+.edge-torn.flip {
+  transform: scaleY(-1);
+}
+
+/* Frayed denim hem: loose threads hanging into the next section. */
+.edge-fringe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26px;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    repeating-linear-gradient(90deg, var(--color-denim) 0 2px, transparent 2px 3px, var(--color-denim-fade) 3px 4px, transparent 4px 6px);
+  -webkit-mask: linear-gradient(#000 30%, transparent), repeating-linear-gradient(90deg, #000 0 3px, rgb(0 0 0 / 0.55) 3px 5px, #000 5px 9px, transparent 9px 10px);
+  mask: linear-gradient(#000 30%, transparent), repeating-linear-gradient(90deg, #000 0 3px, rgb(0 0 0 / 0.55) 3px 5px, #000 5px 9px, transparent 9px 10px);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+/* Curtain hem: scallops in velvet. */
+.edge-scallop {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 28px;
+  pointer-events: none;
+  z-index: 3;
+  background:
+    radial-gradient(circle at 50% 0, var(--color-velvet-deep) 0 15px, var(--color-bulb) 15px 17px, transparent 17.5px) 0 0 / 40px 28px repeat-x;
+}
+
+/* ── Collage pieces ───────────────────────────────────────────────────── */
+/* Masking tape: a translucent strip with ragged ends. */
+.tape {
+  position: absolute;
+  width: 92px;
+  height: 26px;
+  background: linear-gradient(90deg, rgb(245 238 212 / 0.86), rgb(236 226 190 / 0.9));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
+  clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 55%, 100% 82%, 97% 100%, 2% 96%, 0 70%, 4% 45%, 0 18%);
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* A torn paper scrap with a soft lift shadow. */
+.scrap {
+  background-color: var(--color-paper);
+  box-shadow: 3px 4px 0 rgb(0 0 0 / 0.85);
+}
+
+/* Die-cut sticker: thick white border and a lifted shadow. */
+.sticker {
+  border: 4px solid #fff;
+  box-shadow: 0 6px 14px -4px rgb(0 0 0 / 0.45);
+}
+
+/* Starburst sticker. */
+.starburst {
+  clip-path: polygon(50% 0, 59% 13%, 74% 5%, 76% 21%, 93% 21%, 87% 36%, 100% 46%, 88% 57%, 96% 72%, 80% 75%, 79% 92%, 64% 86%, 54% 100%, 45% 87%, 30% 96%, 26% 80%, 9% 80%, 14% 64%, 0 54%, 12% 43%, 4% 28%, 20% 24%, 22% 7%, 37% 13%);
+}
+
+/* Label-maker tape (nav): glossy black strip, embossed letters, ragged ends. */
+.label-tape {
+  background: linear-gradient(180deg, #2a2a2a 0%, #050505 55%, #151515 100%);
+  clip-path: polygon(0 8%, 1.2% 0, 98.6% 0, 100% 12%, 99% 50%, 100% 88%, 98.8% 100%, 1% 100%, 0 90%, 0.8% 50%);
+}
+.embossed {
+  color: #f4f4f4;
+  text-shadow:
+    0 1px 0 rgb(255 255 255 / 0.25),
+    0 -1px 0 rgb(0 0 0 / 0.9);
+  letter-spacing: 0.08em;
+}
+
+/* Copper stitching inset from the edge. */
+.stitched {
+  outline: 2px dashed var(--color-thread);
+  outline-offset: -9px;
+}
+.stitched-light {
+  outline: 2px dashed rgb(255 255 255 / 0.7);
+  outline-offset: -7px;
+}
+
+/* Rivets on a denim pocket. */
+.rivet {
+  position: absolute;
+  width: 14px;
+  height: 14px;
   border-radius: 9999px;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
-}
-.pill-button-magenta:hover, .pill-button-magenta:active {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+  background: radial-gradient(circle at 35% 35%, #f6c48c, var(--color-rivet) 45%, #6b3d16 80%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+  z-index: 5;
 }
 
-.pill-button-cyan {
-  background-color: #22E4F0;
-  color: #0C0E14;
-  font-weight: 700;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
+/* Movie ticket: notches top and bottom at the perforation (--stub). */
+.ticket {
+  --stub: 9.5rem;
+  --notch: 11px;
+  background-color: var(--color-ticket);
+  -webkit-mask:
+    radial-gradient(circle at var(--stub) 0, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) top / 100% 51% no-repeat,
+    radial-gradient(circle at var(--stub) 100%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle at var(--stub) 0, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) top / 100% 51% no-repeat,
+    radial-gradient(circle at var(--stub) 100%, transparent var(--notch), #000 calc(var(--notch) + 0.5px)) bottom / 100% 51% no-repeat;
 }
-.pill-button-cyan:hover, .pill-button-cyan:active {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+/* Phones: the stub sits on top, the notches move to the sides. */
+@media (max-width: 639px) {
+  .ticket {
+    --stub: 4.75rem;
+    -webkit-mask:
+      radial-gradient(circle at 0 var(--stub), transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--stub), transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+    mask:
+      radial-gradient(circle at 0 var(--stub), transparent var(--notch), #000 calc(var(--notch) + 0.5px)) left / 51% 100% no-repeat,
+      radial-gradient(circle at 100% var(--stub), transparent var(--notch), #000 calc(var(--notch) + 0.5px)) right / 51% 100% no-repeat;
+  }
 }
 
-.pill-button-cream {
-  background-color: #F8F6F0;
-  color: #1A1A1A;
-  font-weight: 700;
-  border-radius: 9999px;
-  transition: all 0.2s ease;
-  touch-action: manipulation;
+/* Marquee sign: a frame of bulbs, every other one flashing. */
+.marquee-frame {
+  position: relative;
+  padding: 22px;
+  background: #1a0306;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 3px #3b0a10, 0 18px 40px -12px rgb(0 0 0 / 0.8);
 }
-.pill-button-cream:hover, .pill-button-cream:active {
-  background-color: #ffffff;
-  transform: translateY(-1px);
+.marquee-frame::before,
+.marquee-frame::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  padding: 20px;
+  border-radius: 11px;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.marquee-frame::before {
+  background: radial-gradient(circle at 10px 10px, #ffe9a8 0 2.5px, var(--color-bulb) 3px 4.5px, rgb(255 211 107 / 0.3) 5px 7px, transparent 7.5px) 0 0 / 20px 20px;
+}
+.marquee-frame::after {
+  background: radial-gradient(circle at 10px 10px, #fff 0 3px, #fff3c4 3.5px 5px, rgb(255 243 196 / 0.45) 5.5px 8px, transparent 8.5px) 0 0 / 40px 40px;
+  animation: bulbs 0.9s steps(1) infinite;
+}
+@keyframes bulbs {
+  50% {
+    opacity: 0;
+  }
 }
 
-/* Hide scrollbar for horizontal swipeable tabs */
+/* Jersey cut-out (sports). */
+.jersey {
+  clip-path: polygon(30% 0, 40% 6%, 50% 9%, 60% 6%, 70% 0, 100% 12%, 92% 34%, 82% 30%, 82% 100%, 18% 100%, 18% 30%, 8% 34%, 0 12%);
+}
+
+/* Notched banner (sports). */
+.banner-notch {
+  clip-path: polygon(0 0, 100% 0, 93% 50%, 100% 100%, 0 100%);
+}
+
+/* Zine ticker tape. */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 38s linear infinite;
+}
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Modals rise in like a sticker being slapped on. */
+@keyframes slap {
+  0% {
+    opacity: 0;
+    transform: scale(1.08) rotate(-2.5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.985) rotate(0.6deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+.slap-in {
+  animation: slap 0.42s cubic-bezier(0.2, 0.9, 0.25, 1.2) both;
+}
+
+}
+
+/* Hide scrollbar for horizontal swipeable chips. */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -106,30 +492,419 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-
-/* Glow Rings */
-.ring-glow-cyan {
-  border: 1px solid rgba(34, 228, 240, 0.5);
-  box-shadow: 0 0 20px rgba(34, 228, 240, 0.25);
+/* World cursors (fine pointers only). Controls keep the pointer / text cursors. */
+@media (pointer: fine) {
+  [data-cursor="scissors"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M7 1 L19 25' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M7 1 L19 25' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='27' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='27' cy='20' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23000'/%3E%3C/svg%3E") 4 4, auto;
+  }
+  [data-cursor="needle"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M22 22 C31 15 31 31 20 30 S9 26 14 31' stroke='%23f2a541' stroke-width='2.2' fill='none'/%3E%3Cpath d='M2 2 L24 24' stroke='%23000' stroke-width='4.6' stroke-linecap='round'/%3E%3Cpath d='M2 2 L24 24' stroke='%23eef1f5' stroke-width='2.4' stroke-linecap='round'/%3E%3Cellipse cx='21.5' cy='21.5' rx='0.9' ry='2.2' transform='rotate(-45 21.5 21.5)' fill='%23000'/%3E%3C/svg%3E") 2 2, auto;
+  }
+  [data-cursor="popcorn"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M7 13 L25 13 L22 31 L10 31 Z' fill='%23fff' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'/%3E%3Cpath d='M11.5 13 L12.8 31 M16 13 L16 31 M20.5 13 L19.2 31' stroke='%23c8102e' stroke-width='2.4'/%3E%3Cg fill='%23fff3c4' stroke='%23000' stroke-width='1.4'%3E%3Ccircle cx='9' cy='11' r='4'/%3E%3Ccircle cx='23.5' cy='11' r='3.8'/%3E%3Ccircle cx='19' cy='8.5' r='4.2'/%3E%3Ccircle cx='13.5' cy='8' r='4.4'/%3E%3Ccircle cx='16' cy='4' r='3.2'/%3E%3C/g%3E%3C/svg%3E") 16 3, auto;
+  }
+  [data-cursor="star"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 1 C17.5 11 21 14.5 31 16 C21 17.5 17.5 21 16 31 C14.5 21 11 17.5 1 16 C11 14.5 14.5 11 16 1 Z' fill='%23fff' stroke='%23ff7ad9' stroke-width='1.8'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%237af7ff'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor="ball"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23f28c28' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M3 16 H29 M16 3 V29 M7 6.5 C12.5 12 12.5 20 7 25.5 M25 6.5 C19.5 12 19.5 20 25 25.5' stroke='%23000' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor="marigold"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg fill='%23ffb000' stroke='%23b86200' stroke-width='1'%3E%3Ccircle cx='25.20' cy='16.00' r='4.6'/%3E%3Ccircle cx='23.44' cy='21.41' r='4.6'/%3E%3Ccircle cx='18.84' cy='24.75' r='4.6'/%3E%3Ccircle cx='13.16' cy='24.75' r='4.6'/%3E%3Ccircle cx='8.56' cy='21.41' r='4.6'/%3E%3Ccircle cx='6.80' cy='16.00' r='4.6'/%3E%3Ccircle cx='8.56' cy='10.59' r='4.6'/%3E%3Ccircle cx='13.16' cy='7.25' r='4.6'/%3E%3Ccircle cx='18.84' cy='7.25' r='4.6'/%3E%3Ccircle cx='23.44' cy='10.59' r='4.6'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='6.4' fill='%23f28c28' stroke='%23b86200'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23b3122e'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor] :is(a, button, label, select, summary) {
+    cursor: pointer;
+  }
+  [data-cursor] :is(input[type="search"], input[type="text"], textarea) {
+    cursor: text;
+  }
+  [data-cursor] .grab {
+    cursor: grab;
+  }
+  [data-cursor] .grab:active {
+    cursor: grabbing;
+  }
 }
 
-.ring-glow-magenta {
-  border: 1px solid rgba(230, 57, 136, 0.5);
-  box-shadow: 0 0 20px rgba(230, 57, 136, 0.25);
+/* ── Level two: the moving parts ──────────────────────────────────────── */
+@layer components {
+  /* Riso overprint: three plates of the same words; --ox/--oy (−0.5…0.5)
+     come from the pointer and scroll, so the inks drift out of register. */
+  .overprint {
+    --ox: 0;
+    --oy: 0;
+    display: grid;
+  }
+  .overprint > span {
+    grid-area: 1 / 1;
+  }
+  .overprint-plate {
+    mix-blend-mode: multiply;
+    transform: translate(calc((0.05em + var(--ox) * 0.16em) * var(--dx)), calc((0.035em + var(--oy) * 0.12em) * var(--dy)));
+    will-change: transform;
+  }
+
+  /* Split-flap tiles (airport departure board). */
+  .flap {
+    position: relative;
+    display: inline-block;
+    width: 0.66em;
+    height: 1.12em;
+    perspective: 220px;
+    border-radius: 0.08em;
+    background: #161616;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 2px 0 #000;
+  }
+  .flap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 1px);
+    height: 2px;
+    background: #000;
+    z-index: 5;
+  }
+  .flap-half {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    text-align: center;
+    color: #f4f4f4;
+    backface-visibility: hidden;
+  }
+  .flap-half > span {
+    display: block;
+    height: 1.12em;
+    line-height: 1.12em;
+  }
+  .flap-top {
+    top: 0;
+    border-radius: 0.08em 0.08em 0 0;
+    background: linear-gradient(#262626, #1b1b1b);
+    transform-origin: 50% 100%;
+  }
+  .flap-bottom {
+    bottom: 0;
+    border-radius: 0 0 0.08em 0.08em;
+    background: linear-gradient(#141414, #1c1c1c);
+    transform-origin: 50% 0;
+  }
+  .flap-bottom > span {
+    margin-top: -0.56em;
+  }
+  .flap-fold {
+    z-index: 3;
+    animation: flap-fold 0.22s ease-in both;
+  }
+  .flap-unfold {
+    z-index: 4;
+    animation: flap-unfold 0.22s 0.22s ease-out both;
+  }
+  @keyframes flap-fold {
+    to {
+      transform: rotateX(-90deg);
+    }
+  }
+  @keyframes flap-unfold {
+    from {
+      transform: rotateX(90deg);
+    }
+    to {
+      transform: rotateX(0);
+    }
+  }
+
+  /* Theatre curtains and the valance over them. */
+  .curtain {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 52%;
+    z-index: 6;
+    background-color: #6a1120;
+    background-image:
+      linear-gradient(transparent 92%, rgb(255 211 107 / 0.95) 92% 94%, transparent 94%),
+      repeating-linear-gradient(90deg, rgb(0 0 0 / 0.5) 0, rgb(255 255 255 / 0.08) 22px, rgb(0 0 0 / 0.45) 46px, rgb(0 0 0 / 0.55) 52px);
+    box-shadow: inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .curtain::after {
+    /* Gold fringe along the hem. */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    height: 16px;
+    background: repeating-linear-gradient(90deg, var(--color-bulb) 0 2px, transparent 2px 5px);
+    -webkit-mask: linear-gradient(#000, transparent);
+    mask: linear-gradient(#000, transparent);
+  }
+  .curtain-left {
+    left: 0;
+    box-shadow:
+      inset -30px 0 40px -10px rgb(0 0 0 / 0.7),
+      inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .curtain-right {
+    right: 0;
+    box-shadow:
+      inset 30px 0 40px -10px rgb(0 0 0 / 0.7),
+      inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .valance {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 64px;
+    z-index: 7;
+    background:
+      radial-gradient(circle at 50% 100%, transparent 0 22px, var(--color-bulb) 22px 25px, transparent 25.5px) 0 36px / 56px 28px repeat-x,
+      linear-gradient(#3a0710, #5b0f1a 70%, transparent 70%);
+    filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.55));
+  }
+
+  /* Broken-neon flicker on a single letter. */
+  .neon-flicker {
+    animation: neon-flicker 5.5s infinite;
+  }
+  @keyframes neon-flicker {
+    0%, 17%, 19%, 21%, 60%, 62%, 100% {
+      opacity: 1;
+    }
+    18%, 20%, 61% {
+      opacity: 0.25;
+    }
+  }
+
+  /* Film grain that keeps crawling (cinema). */
+  .film-grain::after {
+    animation: grain-crawl 0.9s steps(6) infinite;
+  }
+  @keyframes grain-crawl {
+    0% { background-position: 0 0; }
+    20% { background-position: -40px 30px; }
+    40% { background-position: 60px -20px; }
+    60% { background-position: -20px -60px; }
+    80% { background-position: 30px 50px; }
+    100% { background-position: 0 0; }
+  }
+
+  /* Jerseys on hangers swing when touched. */
+  .hanger-swing {
+    transform-origin: 50% 0;
+  }
+  .hanger-swing:hover {
+    animation: swing 1.6s ease-in-out;
+  }
+  @keyframes swing {
+    15% { transform: rotate(7deg); }
+    35% { transform: rotate(-5deg); }
+    55% { transform: rotate(3deg); }
+    75% { transform: rotate(-1.5deg); }
+    100% { transform: rotate(0); }
+  }
+
+  /* Spray-paint drips under the denim heading. */
+  .drip {
+    position: absolute;
+    width: 0.12em;
+    border-radius: 0 0 9999px 9999px;
+    background: currentColor;
+    transform-origin: top;
+  }
+
+  /* Diya flame. */
+  .flame {
+    animation: flame 1.4s ease-in-out infinite alternate;
+    transform-origin: 50% 100%;
+  }
+  @keyframes flame {
+    0% { transform: scale(1, 1) rotate(-3deg); }
+    50% { transform: scale(0.92, 1.08) rotate(2deg); }
+    100% { transform: scale(1.05, 0.95) rotate(-1deg); }
+  }
+
+  /* Ticket punch hole. */
+  .punch {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    background: var(--color-velvet-deep);
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.6);
+  }
+
+  /* Iron-on shine that sweeps across a patch on hover. */
+  .shine {
+    overflow: hidden;
+  }
+  .shine::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.55) 50%, transparent 62%);
+    transform: translateX(-120%);
+    transition: transform 0.75s ease;
+  }
+  .shine:hover::before,
+  .shine:focus-visible::before {
+    transform: translateX(120%);
+  }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* ── Level three: the print run, the spotlight, the court ────────────── */
+@layer components {
+  /* Riso print intro */
+  .print-drum {
+    background: linear-gradient(#444, #0b0b0b 55%, #2b2b2b);
+    box-shadow: 0 5px 0 #000, inset 0 -3px 0 rgb(255 255 255 / 0.18);
+  }
+  .print-wipe {
+    animation: print-wipe 0.42s linear both;
+  }
+  @keyframes print-wipe {
+    0%,
+    26% {
+      clip-path: inset(0 0 100% 0);
+    }
+    74%,
+    100% {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  .print-head {
+    top: 3.5rem;
+    box-shadow: 0 0 22px 6px currentColor;
+    opacity: 0.85;
+    animation: print-head 0.42s linear both;
+  }
+  @keyframes print-head {
+    to {
+      top: 100%;
+    }
+  }
+  .print-eject {
+    animation: print-eject 0.65s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes print-eject {
+    to {
+      transform: translateY(104%) rotate(2.5deg);
+      box-shadow: 0 -30px 60px rgb(0 0 0 / 0.4);
+    }
+  }
 }
-::-webkit-scrollbar-track {
-  background: #0C0E14;
+
+@layer components {
+  /* Follow-spot over the theatre velvet (cinema). */
+  .spotlight {
+    background:
+      radial-gradient(circle 240px at var(--sx, 50%) var(--sy, 340px), rgb(255 228 160 / 0.14), transparent 70%),
+      radial-gradient(circle 420px at var(--sx, 50%) var(--sy, 340px), transparent 35%, rgb(10 0 2 / 0.58) 100%);
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 9999px;
+
+@layer components {
+  /* Half-time court */
+  .court-floor {
+    background-color: #2a8457;
+    background-image:
+      linear-gradient(rgb(0 0 0 / 0.18), transparent 30%),
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 48px),
+      radial-gradient(60% 80% at 50% 100%, rgb(255 255 255 / 0.14), transparent 70%);
+  }
+  .ball {
+    border-radius: 9999px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23231208' stroke-width='2'%3E%3Cpath d='M1 24 H47 M24 1 V47'/%3E%3Cpath d='M9 6 C17 15 17 33 9 42 M39 6 C31 15 31 33 39 42'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100%,
+      radial-gradient(circle at 34% 30%, #ffb26b, #f07a1c 45%, #b8520b 85%);
+    box-shadow:
+      inset -4px -6px 10px rgb(0 0 0 / 0.35),
+      0 10px 14px -6px rgb(0 0 0 / 0.55);
+    will-change: transform;
+  }
+  .net {
+    transition: transform 0.2s;
+  }
+  .net-swish {
+    animation: net-swish 0.6s ease-out;
+  }
+  @keyframes net-swish {
+    30% {
+      transform: scaleY(1.45) scaleX(0.86);
+    }
+    60% {
+      transform: scaleY(0.9);
+    }
+  }
+  .call {
+    animation: call-pop 1.6s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+  }
+  @keyframes call-pop {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.4) rotate(-12deg);
+    }
+    18%,
+    70% {
+      opacity: 1;
+      transform: translateX(-50%) scale(1) rotate(-3deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px) scale(0.95) rotate(-3deg);
+    }
+  }
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 228, 240, 0.6);
+
+@layer components {
+  /* Clay diya with a flickering flame (tradition). */
+  .diya {
+    position: relative;
+    width: 46px;
+    height: 18px;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: radial-gradient(120% 140% at 50% 0, #e58a4a, #a8441a 60%, #6f2a0e);
+    box-shadow:
+      0 -16px 34px -6px rgb(255 176 0 / 0.55),
+      0 3px 0 rgb(0 0 0 / 0.3);
+  }
+  .diya .flame {
+    position: absolute;
+    bottom: 80%;
+    left: 50%;
+    width: 11px;
+    height: 20px;
+    margin-left: -5.5px;
+    border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+    background: radial-gradient(ellipse at 50% 72%, #fffbe0 0 18%, #ffd34d 40%, #f28c28 66%, #e2412a 80%);
+    filter: drop-shadow(0 0 6px #ffb000) drop-shadow(0 0 14px rgb(255 140 40 / 0.7));
+    animation-duration: var(--flick, 1.4s);
+  }
+
+  /* Marigold petals thrown when an answer opens. */
+  .petal {
+    position: absolute;
+    left: -4px;
+    top: -6px;
+    width: 8px;
+    height: 12px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: petal-fly 0.9s cubic-bezier(0.15, 0.7, 0.3, 1) both;
+  }
+  @keyframes petal-fly {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(0.4) rotate(0);
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx), calc(var(--dy) + 30px)) scale(1) rotate(var(--r));
+    }
+  }
 }

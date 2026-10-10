@@ -1,22 +1,21 @@
 import React from "react";
-import { Book, Download, CheckCircle2, X } from "lucide-react";
+import { Download } from "lucide-react";
 import { playChime } from "../utils/audioEffects";
+import Modal, { CloseButton } from "./Modal";
 
+const rules = [
+  "All delegates must carry a valid College Identity Card and Government ID throughout the fest days.",
+  "Decisions of appointed judges and organizers are final and binding in all competitive events.",
+  "Any form of obscenity, hate speech, or defaming content leads to immediate disqualification.",
+  "Participants must report to the designated room / venue at least 30 minutes prior to scheduled start times.",
+  "Possession or consumption of alcohol, tobacco or banned substances is strictly prohibited with zero tolerance.",
+  "Participation certificates and event accolades will be distributed at the Grand Valedictory.",
+];
+
+// The rulebook: a typed sheet of paper taped into the zine.
 export default function RulebookModal({ isOpen, onClose }) {
-  if (!isOpen) return null;
-
-  const rules = [
-    "All delegates must carry a valid College Identity Card and Government ID throughout the fest days.",
-    "Decisions of appointed judges and organizers are final and binding in all competitive events.",
-    "Any form of obscenity, hate speech, or defaming content leads to immediate disqualification.",
-    "Participants must report to the designated room / venue at least 30 minutes prior to scheduled start times.",
-    "Possession or consumption of alcohol, tobacco or banned substances is strictly prohibited with zero tolerance.",
-    "Participation certificates and event accolades will be distributed at the Grand Valedictory.",
-  ];
-
   const handleDownload = () => {
     playChime();
-    const element = document.createElement("a");
     const file = new Blob(
       [
         `========================================
@@ -37,64 +36,51 @@ Emergency Helpline: +91 80197 70591 / +91 63634 57241
 Website: https://fest-island.vercel.app/
 ========================================`,
       ],
-      { type: "text/plain" }
+      { type: "text/plain" },
     );
-    element.href = URL.createObjectURL(file);
-    element.download = "MAAYA_2026_OFFICIAL_RULEBOOK.txt";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+    const url = URL.createObjectURL(file);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "MAAYA_2026_OFFICIAL_RULEBOOK.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md">
-      <div className="relative w-full max-w-2xl bg-[#0C0E14] border border-white/20 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl max-h-[90vh] flex flex-col justify-between overflow-hidden">
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full bg-white/5 hover:bg-white/10 text-white"
-        >
-          <X size={18} />
-        </button>
-
-        <div className="space-y-1">
-          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-outfit font-bold text-[#22E4F0] uppercase tracking-wider">
-            <Book size={13} />
-            <span>CODE OF CONDUCT</span>
-          </div>
-          <h2 className="font-outfit font-black text-xl sm:text-3xl text-[#F8F6F0]">
-            Festival Guidelines & Rules
-          </h2>
-        </div>
-
-        <div className="my-5 overflow-y-auto space-y-2.5 max-h-[50vh] pr-2">
-          {rules.map((rule, idx) => (
-            <div
-              key={idx}
-              className="p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/5 flex items-start gap-3"
-            >
-              <CheckCircle2 size={15} className="text-[#22E4F0] shrink-0 mt-0.5" />
-              <span className="text-xs sm:text-sm text-[#8E96A4] leading-relaxed font-outfit">{rule}</span>
+    <Modal open={isOpen} onClose={onClose} labelledBy="rulebook-title" className="max-w-2xl">
+      <div className="grain relative bg-paper px-5 pt-8 pb-6 text-black shadow-[8px_8px_0_#000] sm:px-9 sm:pt-10">
+        <span className="tape -top-3 left-10 -rotate-6" aria-hidden="true" />
+        <span className="tape -top-3 right-10 rotate-6" aria-hidden="true" />
+        <div className="relative z-[2]">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="font-script text-2xl text-riso-pink-deep">Code of conduct</p>
+              <h2 id="rulebook-title" className="text-2xl leading-tight font-black sm:text-3xl">
+                The Maaya rulebook
+              </h2>
             </div>
-          ))}
-        </div>
-
-        <div className="pt-3 border-t border-white/10 flex items-center justify-between gap-3">
-          <button
-            onClick={handleDownload}
-            className="pill-button-cyan px-4 sm:px-5 py-2 text-xs font-outfit font-bold flex items-center gap-2"
-          >
-            <Download size={14} />
-            <span>Download (.txt)</span>
-          </button>
-
-          <button
-            onClick={onClose}
-            className="px-4 sm:px-5 py-2 rounded-full bg-white/10 text-xs font-outfit font-bold text-[#F8F6F0] hover:bg-white/20"
-          >
-            Close
-          </button>
+            <CloseButton onClick={onClose} label="Close the rulebook" />
+          </div>
+          <ol className="mt-6 list-decimal space-y-3 pl-6 text-base leading-relaxed marker:font-black">
+            {rules.map((rule, i) => (
+              <li key={i} className="border-b-2 border-dashed border-black/15 pb-3 pl-1">
+                {rule}
+              </li>
+            ))}
+          </ol>
+          <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" onClick={onClose} className="min-h-11 px-2 text-base font-bold underline underline-offset-4">
+              Close
+            </button>
+            <button type="button" onClick={handleDownload} className="inline-flex min-h-12 items-center gap-2 bg-black px-5 text-base font-black text-riso-yellow">
+              <Download size={16} aria-hidden="true" />
+              Download the rulebook (.txt)
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

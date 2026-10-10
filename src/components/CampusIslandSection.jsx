@@ -1,139 +1,179 @@
-import React, { useState } from "react";
-import { VENUES_DATA } from "../data/festivalData";
-import { Compass, Maximize2, Minimize2, ExternalLink, MapPin } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import { Maximize2, Minimize2, ExternalLink } from "lucide-react";
+import { VENUES_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
+import Stitches from "./fx/Stitches";
+
+// World 1 — Denim & Street. The 3D island sits in a stitched denim pocket
+// with copper rivets; the venues are embroidered patches sewn on below.
+const PATCHES = [
+  { bg: "bg-[#c8401e]", text: "text-white", shape: "rounded-[2rem] lg:aspect-square lg:rounded-full", tilt: "-rotate-2" },
+  { bg: "bg-[#f3ead3]", text: "text-denim-deep", shape: "rounded-[2rem] sm:rounded-t-[9rem]", tilt: "rotate-1" },
+  { bg: "bg-[#e9b44c]", text: "text-black", shape: "rounded-[2rem]", tilt: "rotate-2" },
+  { bg: "bg-[#1f6f66]", text: "text-white", shape: "rounded-[2rem] sm:rounded-t-[9rem]", tilt: "-rotate-1" },
+  { bg: "bg-[#f4a3c0]", text: "text-black", shape: "rounded-[2rem] lg:aspect-square lg:rounded-full", tilt: "rotate-1" },
+  { bg: "bg-white", text: "text-black", shape: "rounded-[2rem]", tilt: "-rotate-2" },
+];
+
+// Paint drips under the sprayed heading: [left em, length em, delay s]. They
+// hang from the first few letters of the last line (at its shortest, at
+// tablet width, that line is just "island"), into the gap above the intro.
+const DRIPS = [
+  [0.25, 0.4, 0.9],
+  [0.8, 0.55, 1.05],
+  [1.35, 0.28, 1.2],
+  [1.95, 0.48, 1.0],
+  [2.6, 0.34, 1.15],
+];
+
+// The heading goes on like spray paint: a soft wipe that sharpens, then
+// drips. The parent watches the viewport (a fully clipped element never
+// counts as visible), and the wipe and drips follow as variants.
+function SprayHeading({ children }) {
+  const reduce = useReducedMotion();
+  const wipe = {
+    hidden: { clipPath: "inset(-10% 100% -10% 0%)", filter: "blur(10px)" },
+    shown: { clipPath: "inset(-10% 0% -10% 0%)", filter: "blur(0px)", transition: { duration: 1.1, ease: [0.45, 0, 0.2, 1] } },
+  };
+  const drip = (delay) => ({
+    hidden: { scaleY: 0 },
+    shown: { scaleY: 1, transition: { delay, duration: 1.4, ease: [0.3, 0, 0.2, 1] } },
+  });
+  return (
+    <motion.h2
+      {...(reduce ? {} : { initial: "hidden", whileInView: "shown", viewport: { once: true, amount: 0.5 } })}
+      className="relative mt-4 max-w-3xl -rotate-1 font-marker text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-7xl"
+    >
+      <motion.span variants={reduce ? undefined : wipe} className="block [text-shadow:0_0_18px_rgb(255_255_255/0.25)]">
+        {children}
+      </motion.span>
+      <span aria-hidden="true" className="absolute inset-x-0 bottom-[0.08em] h-0">
+        {DRIPS.map(([left, len, delay]) => (
+          <motion.span key={left} variants={reduce ? undefined : drip(delay)} className="drip top-0" style={{ left: `${left}em`, height: `${len}em` }} />
+        ))}
+      </span>
+    </motion.h2>
+  );
+}
 
 export default function CampusIslandSection() {
+  const reduce = useReducedMotion();
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const islandUrl = FESTIVAL_INFO.festIslandUrl;
 
-  const toggleFullscreen = () => {
-    playClick();
-    setIsFullscreen(!isFullscreen);
-  };
-
-  const islandUrl = "https://fest-island.vercel.app/#venues";
+  useEffect(() => {
+    if (!isFullscreen) return;
+    const onKey = (e) => e.key === "Escape" && setIsFullscreen(false);
+    window.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [isFullscreen]);
 
   return (
-    <section id="venues" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
-        <div>
-          <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-outfit font-bold tracking-widest text-[#22E4F0] uppercase mb-2">
-            <Compass size={13} />
-            <span>WHERE IT HAPPENS · 3D CAMPUS SIMULATOR</span>
+    <section id="venues" data-cursor="needle" className="tex-denim grain-dark relative z-[5] overflow-x-clip px-4 pt-20 pb-24 text-white sm:px-6 sm:pt-24 lg:px-8">
+      <div className="relative z-[2] mx-auto max-w-6xl">
+        {/* World label: a leather jeans patch */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="inline-block -rotate-2 rounded-sm bg-leather px-3 py-1.5 text-sm font-bold text-[#f6dcc0] shadow-[inset_0_0_0_2px_rgb(0_0_0/0.25),0_3px_0_rgb(0_0_0/0.4)] [text-shadow:0_1px_0_rgb(0_0_0/0.5)]">
+              World 1: Denim &amp; Street
+            </p>
+            <SprayHeading>Six venues, one floating island</SprayHeading>
+            <p className="mt-10 max-w-2xl text-base leading-relaxed text-white sm:mt-12 sm:text-lg lg:mt-14">
+              PES University's EC campus, rebuilt as a low-poly 3D island. Drag it around, zoom in, and find the building your event is in.
+            </p>
           </div>
-          <h2 className="font-outfit font-black text-3xl sm:text-6xl text-[#F8F6F0] tracking-tight">
-            Venues & Fest Island
-          </h2>
-          <p className="mt-2 sm:mt-3 text-xs sm:text-base text-[#8E96A4] max-w-2xl leading-relaxed">
-            PES University Electronic City Campus reconstructed as a floating low-poly 3D island. Drag to rotate and explore stages.
-          </p>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-3">
-          <button
-            onClick={toggleFullscreen}
-            className="px-3.5 sm:px-4 py-2 rounded-full bg-white/5 border border-white/10 text-[#F8F6F0] text-[11px] sm:text-xs font-outfit font-bold hover:bg-white/10 transition-all flex items-center gap-1.5"
-          >
-            {isFullscreen ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
-            <span>{isFullscreen ? "COLLAPSE" : "FULLSCREEN"}</span>
-          </button>
-
-          <a
-            href={islandUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={playClick}
-            className="pill-button-cyan px-4 sm:px-5 py-2 text-[11px] sm:text-xs font-outfit tracking-wider flex items-center gap-1.5 shadow-md"
-          >
-            <span>3D APP</span>
-            <ExternalLink size={13} />
-          </a>
-        </div>
-      </div>
-
-      {/* 3D Viewer Frame */}
-      <div
-        className={`relative transition-all duration-500 rounded-2xl sm:rounded-3xl overflow-hidden border border-white/15 bg-[#0C0E14] shadow-2xl ${
-          isFullscreen
-            ? "fixed inset-2 sm:inset-4 z-50 rounded-xl sm:rounded-2xl h-[calc(100vh-16px)] sm:h-[calc(100vh-32px)] border-2 border-[#22E4F0]"
-            : "w-full h-[460px] sm:h-[600px] md:h-[700px]"
-        }`}
-      >
-        {/* Top Floating Mini Bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 bg-[#0C0E14]/85 backdrop-blur-md px-4 sm:px-6 py-2.5 sm:py-3 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-[11px] sm:text-xs font-outfit text-[#8E96A4]">
-            <span className="w-2 h-2 rounded-full bg-[#22E4F0] animate-pulse"></span>
-            <span className="font-bold text-[#F8F6F0]">MAAYA 3D ENGINE</span>
-            <span className="hidden sm:inline">· Drag to rotate, scroll to zoom</span>
+        {/* The pocket */}
+        <div
+          className={
+            isFullscreen
+              ? "fixed inset-2 z-[70] flex flex-col bg-denim-deep p-2 sm:inset-4"
+              : "tex-denim relative mt-10 rounded-b-[2.5rem] rounded-t-lg border-2 border-denim-deep p-3 shadow-[0_14px_0_-4px_rgb(0_0_0/0.35)] sm:p-5"
+          }
+        >
+          {!isFullscreen && (
+            <>
+              <Stitches radiusTop={6} radiusBottom={34} />
+              <span className="rivet top-3 left-3" aria-hidden="true" />
+              <span className="rivet top-3 right-3" aria-hidden="true" />
+            </>
+          )}
+          <div className="flex flex-wrap items-center justify-between gap-3 px-1 pb-3 sm:px-3">
+            <p className="font-marker text-xl text-thread sm:text-2xl">Fest Island, live</p>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  playClick();
+                  setIsFullscreen((f) => !f);
+                }}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-thread px-4 text-sm font-bold text-thread transition-colors hover:bg-thread hover:text-denim-deep"
+              >
+                {isFullscreen ? <Minimize2 size={16} aria-hidden="true" /> : <Maximize2 size={16} aria-hidden="true" />}
+                {isFullscreen ? "Exit full screen" : "Full screen"}
+              </button>
+              <a
+                href={islandUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                className="inline-flex min-h-11 items-center gap-2 rounded-sm bg-leather px-4 text-sm font-bold text-[#f6dcc0] shadow-[inset_0_0_0_2px_rgb(0_0_0/0.25)]"
+              >
+                Open in a new tab
+                <ExternalLink size={15} aria-hidden="true" />
+              </a>
+            </div>
           </div>
-
-          <a
-            href={islandUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[11px] sm:text-xs font-outfit font-bold text-[#22E4F0] hover:underline"
-          >
-            Full Map View ↗
-          </a>
+          <iframe
+            src={islandUrl}
+            title="Fest Island: PES University's EC campus in 3D"
+            className={`w-full rounded-lg border-2 border-black bg-[#120b2b] ${isFullscreen ? "flex-1" : "h-[440px] sm:h-[560px] md:h-[640px]"}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            loading="lazy"
+          />
         </div>
 
-        {/* The Live Interactive Iframe */}
-        <iframe
-          src={islandUrl}
-          title="PES University 3D Fest Island"
-          className="w-full h-full pt-10 sm:pt-11 border-0 bg-[#0C0E14]"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          loading="lazy"
-        />
-      </div>
-
-      {/* Venues Grid Showcase */}
-      <div className="mt-10 sm:mt-12">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h3 className="font-outfit font-bold text-lg sm:text-xl text-[#F8F6F0]">
-            Campus Venues Directory
-          </h3>
-          <span className="text-[11px] sm:text-xs font-outfit text-[#8E96A4]">
-            6 OFFICIAL VENUES
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
-          {VENUES_DATA.map((venue) => (
-            <div
-              key={venue.id}
-              className="fest-card p-4 sm:p-6 fest-card-hover flex flex-col justify-between"
-            >
-              <div>
-                <div className="flex items-center gap-1.5 text-[10px] font-outfit font-bold tracking-widest text-[#22E4F0] uppercase mb-2">
-                  <MapPin size={12} />
-                  <span>PESU EC CAMPUS</span>
-                </div>
-
-                <h4 className="font-outfit font-black text-lg sm:text-xl text-[#F8F6F0]">
-                  {venue.name}
-                </h4>
-                <p className="text-xs text-[#8E96A4] mt-2 leading-relaxed">
-                  {venue.role}
-                </p>
-              </div>
-
-              <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-white/10 flex items-center justify-between">
+        {/* Venues as embroidered patches */}
+        <h3 className="mt-16 font-marker text-3xl text-thread sm:text-4xl">Where things happen</h3>
+        <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+          {VENUES_DATA.map((venue, i) => {
+            const p = PATCHES[i % PATCHES.length];
+            return (
+              <motion.li
+                key={venue.id}
+                className={`${p.tilt} transition-transform duration-300 hover:-translate-y-1.5 hover:rotate-0`}
+                {...(reduce
+                  ? {}
+                  : {
+                      initial: { opacity: 0, scale: 1.35, rotate: (i % 2 ? 1 : -1) * 18 },
+                      whileInView: { opacity: 1, scale: 1, rotate: 0 },
+                      viewport: { once: true, amount: 0.4 },
+                      transition: { type: "spring", stiffness: 330, damping: 16, delay: (i % 3) * 0.08 },
+                    })}
+              >
                 <a
                   href={islandUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={playClick}
-                  className="pill-button-cream px-3.5 sm:px-4 py-1.5 text-[11px] sm:text-xs font-outfit font-bold hover:bg-[#E63988] hover:text-white transition-colors"
+                  className={`${p.bg} ${p.text} ${p.shape} shine relative flex h-full min-h-44 flex-col items-center justify-center border-[6px] border-thread px-7 py-8 text-center shadow-[0_0_0_3px_var(--color-denim-deep),0_8px_0_3px_rgb(0_0_0/0.35)] outline-2 outline-offset-[-14px] outline-current/40 outline-dashed`}
                 >
-                  Explore in 3D →
+                  <span className="text-2xl leading-none font-black uppercase condensed sm:text-[1.7rem]">{venue.name}</span>
+                  <span className="mt-2 max-w-[16rem] text-sm leading-snug font-medium opacity-90">{venue.role}</span>
+                  <span className="mt-3 text-sm font-black underline decoration-2 underline-offset-4">Find it in 3D</span>
                 </a>
-              </div>
-            </div>
-          ))}
-        </div>
+              </motion.li>
+            );
+          })}
+        </ul>
       </div>
+      <span className="edge-fringe -bottom-[25px]" aria-hidden="true" />
     </section>
   );
 }

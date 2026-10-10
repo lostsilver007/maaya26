@@ -1,132 +1,119 @@
 import React from "react";
 import { FESTIVAL_INFO } from "../data/festivalData";
-import { MapPin, Phone, Mail, Sparkles, ArrowUp } from "lucide-react";
 import { playClick } from "../utils/audioEffects";
+import Overprint from "./fx/Overprint";
 
+// Back cover of the zine: riso blue, paper scraps taped on.
 export default function Footer({ onOpenRulebook, onOpenRegister }) {
   const scrollToTop = () => {
     playClick();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   };
 
   return (
-    <footer className="bg-[#080A0E] border-t border-white/10 pt-16 pb-12 px-4 sm:px-6 lg:px-8 text-[#F8F6F0]">
-      <div className="max-w-7xl mx-auto space-y-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#E63988]"></span>
-              <span className="font-outfit font-black text-2xl text-[#F8F6F0]">MAAYA '26</span>
-            </div>
-            <p className="text-xs text-[#8E96A4] leading-relaxed">
-              {FESTIVAL_INFO.tagline}
-            </p>
-            <div className="pt-2">
-              <span className="text-[11px] font-outfit font-bold px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[#22E4F0]">
-                {FESTIVAL_INFO.dates.toUpperCase()}
-              </span>
-            </div>
-          </div>
+    <footer className="grain relative overflow-hidden bg-riso-blue px-4 pt-20 pb-10 text-white sm:px-6 lg:px-8">
+      <div aria-hidden="true" className="halftone absolute inset-0 opacity-60" />
+      <div className="relative z-[2] mx-auto max-w-6xl">
+        <Overprint
+          as="p"
+          text="See you at Maaya"
+          keyInk="#fff"
+          blend="normal"
+          plates={[
+            { ink: "var(--color-riso-pink)", dx: 1, dy: 0.7 },
+            { ink: "var(--color-riso-yellow)", dx: -0.75, dy: -0.6 },
+          ]}
+          className="text-[3.2rem] leading-[0.9] font-black tracking-tight expanded sm:text-8xl lg:text-[7.5rem]"
+        />
+        <p className="mt-4 inline-block -rotate-1 bg-black px-3 py-1 font-script text-xl sm:text-2xl">{FESTIVAL_INFO.dates}</p>
 
-          {/* Venue Location */}
-          <div className="space-y-2 font-outfit">
-            <h4 className="text-xs font-bold tracking-widest text-[#22E4F0] uppercase">
-              VENUE & CAMPUS
-            </h4>
-            <div className="text-xs text-[#8E96A4] space-y-1 leading-relaxed">
-              <p className="font-bold text-[#F8F6F0]">PES University Electronic City Campus</p>
-              <p>Hosur Road, Konappana Agrahara</p>
-              <p>Electronic City, Bengaluru, 560100</p>
-            </div>
+        <div className="mt-14 grid gap-8 text-black md:grid-cols-3">
+          {/* Venue */}
+          <div className="scrap relative -rotate-1 p-5">
+            <span className="tape -top-3 left-8 -rotate-3" aria-hidden="true" />
+            <h2 className="text-xl font-black">Getting here</h2>
+            <p className="mt-2 text-base leading-relaxed">
+              PES University Electronic City Campus
+              <br />
+              Hosur Road, Konappana Agrahara
+              <br />
+              Electronic City, Bengaluru 560100
+            </p>
             <a
               href="https://maps.google.com/?q=PES+University+Electronic+City+Campus"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-[#22E4F0] font-bold hover:underline pt-1"
+              className="mt-3 inline-flex min-h-11 items-center bg-black px-4 text-base font-black text-riso-yellow"
             >
-              <MapPin size={13} />
-              <span>Get Directions →</span>
+              Get directions
             </a>
           </div>
 
-          {/* Contacts */}
-          <div className="space-y-2 font-outfit">
-            <h4 className="text-xs font-bold tracking-widest text-[#22E4F0] uppercase">
-              ORGANIZERS
-            </h4>
-            <div className="space-y-2 text-xs">
-              {FESTIVAL_INFO.contacts.map((c, i) => (
-                <div key={i} className="leading-tight">
-                  <span className="font-bold text-[#F8F6F0] block">{c.name} ({c.role})</span>
-                  <a href={`tel:${c.phone}`} className="text-[#8E96A4] hover:text-[#22E4F0]">
+          {/* Organisers */}
+          <div className="scrap relative rotate-1 p-5">
+            <span className="tape -top-3 right-8 rotate-6" aria-hidden="true" />
+            <h2 className="text-xl font-black">Who to call</h2>
+            <ul className="mt-2 space-y-3">
+              {FESTIVAL_INFO.contacts.map((c) => (
+                <li key={c.phone} className="text-base leading-tight">
+                  <span className="block font-bold">{c.name}</span>
+                  <span className="block text-sm text-black/70">{c.role}</span>
+                  <a href={`tel:${c.phone.replace(/\s/g, "")}`} className="font-semibold underline decoration-riso-blue decoration-2 underline-offset-2">
                     {c.phone}
                   </a>
-                </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          {/* Links & Socials */}
-          <div className="space-y-2 font-outfit">
-            <h4 className="text-xs font-bold tracking-widest text-[#22E4F0] uppercase">
-              CONNECT & EXPLORE
-            </h4>
-            <div className="flex items-center gap-2 pt-1">
-              <a
-                href={FESTIVAL_INFO.socials.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#E63988] hover:text-white transition-all flex items-center justify-center border border-white/10"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                </svg>
-              </a>
-
-              <a
-                href={FESTIVAL_INFO.socials.island}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="3D Campus Map"
-                className="w-9 h-9 rounded-full bg-white/5 hover:bg-[#22E4F0] hover:text-[#0C0E14] transition-all flex items-center justify-center border border-white/10"
-                title="3D Fest Island"
-              >
-                <Sparkles size={16} />
-              </a>
-            </div>
-
-            <div className="pt-2 space-y-1 text-xs text-[#8E96A4]">
-              <button
-                onClick={onOpenRulebook}
-                className="block text-[#8E96A4] hover:text-[#F8F6F0] hover:underline"
-              >
-                Fest Rulebook & Code of Conduct
-              </button>
-              <button
-                onClick={onOpenRegister}
-                className="block text-[#22E4F0] font-bold hover:underline"
-              >
-                Event Registration Portal →
-              </button>
-            </div>
+          {/* Links */}
+          <div className="scrap relative -rotate-[0.6deg] p-5">
+            <span className="tape -top-3 left-1/3 -rotate-2" aria-hidden="true" />
+            <h2 className="text-xl font-black">Elsewhere</h2>
+            <ul className="mt-2 space-y-1 text-base">
+              <li>
+                <a href={FESTIVAL_INFO.socials.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
+                  Instagram, @maayapesu
+                </a>
+              </li>
+              <li>
+                <a href={FESTIVAL_INFO.socials.island} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
+                  Fest Island, the 3D campus
+                </a>
+              </li>
+              <li>
+                <button type="button" onClick={onOpenRulebook} className="inline-flex min-h-11 items-center text-left font-bold underline underline-offset-4">
+                  Rulebook and code of conduct
+                </button>
+              </li>
+            </ul>
+            <button
+              type="button"
+              onClick={onOpenRegister}
+              className="sticker mt-3 inline-flex min-h-11 rotate-2 items-center bg-riso-pink px-4 text-base font-black text-black"
+            >
+              Register for an event
+            </button>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-outfit text-[#8E96A4]">
-          <p>© 2026 MAAYA · PES University Electronic City Campus. All rights reserved.</p>
-
-          <button
-            onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-[#F8F6F0] transition-colors"
-          >
-            <span>BACK TO TOP</span>
-            <ArrowUp size={13} />
-          </button>
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
+          <p className="text-sm font-semibold text-white">© 2026 MAAYA, PES University Electronic City Campus</p>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                playClick();
+                window.dispatchEvent(new Event("maaya:reprint"));
+              }}
+              className="inline-flex min-h-11 items-center border-[3px] border-black bg-paper px-4 text-base font-black text-black shadow-[4px_4px_0_#000]"
+            >
+              Print another copy
+            </button>
+            <button type="button" onClick={scrollToTop} className="inline-flex min-h-11 items-center bg-riso-yellow px-4 text-base font-black text-black shadow-[4px_4px_0_#000]">
+              Back to the cover
+            </button>
+          </div>
         </div>
       </div>
     </footer>
