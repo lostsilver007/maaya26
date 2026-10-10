@@ -690,8 +690,9 @@ export const CODE_OF_CONDUCT = [
 
 // The Maaya '26 core team, from the team's sheet: Head, Co-Head, then the
 // domain heads in the sheet's order. `photo` is the Google Drive file ID of
-// each portrait (null where the sheet links a folder rather than a file).
-// Only what the page shows is kept here: no SRNs or phone numbers.
+// each portrait; null means the photo ships with the site instead (see
+// LOCAL_PHOTOS in CorePage). Only what the page shows is kept here: no SRNs
+// or phone numbers.
 export const CORE_TEAM = [
   { name: "Vakalapudi Kushal", post: "Head", instagram: "kushal.vakalapudi", linkedin: "https://www.linkedin.com/in/vakalapudi-kushal-ba574b359", photo: null },
   { name: "J Akhil", post: "Co-Head", instagram: "akhil_01_aj", linkedin: "https://www.linkedin.com/in/j-akhil-987700325/", photo: "1XXTNAJjU20Dti2W37bAYhtjcGpf9aO56" },
@@ -705,7 +706,6 @@ export const CORE_TEAM = [
   { name: "Malepati Viswajith", post: "Head of Stage, Infrastructure & Creatives", instagram: "_viswajith_m", linkedin: "https://www.linkedin.com/in/malepati-viswajith-202705405", photo: null },
   { name: "Aaryan Dubey", post: "Head of Tech", instagram: "aaryandubey19", linkedin: "https://www.linkedin.com/in/aaryan-dubey-72203b352", photo: "1IPqyq7-kfvQJWj7zUxZWcz58f1eq3DD8" },
   { name: "Tarun G K", post: "Head of Marketing & Sponsorship", instagram: "nxt_tarun_gk", linkedin: "https://www.linkedin.com/in/tarun-g-k-387709323", photo: "1EBMievHXILDcSmgWY8ZZvnwszxVxxyUi" },
-  { name: "Amrita Pradeep", post: "Student Body Head", instagram: "aami_potter", linkedin: "https://www.linkedin.com/in/amrita-pradeep12", photo: null },
 ];
 
 export const FAQ_DATA = [
