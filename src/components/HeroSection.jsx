@@ -5,15 +5,20 @@ import { FESTIVAL_INFO, EVENTS } from "../data/festivalData";
 import { playClick, playWorldSwitch } from "../utils/audioEffects";
 import confetti from "canvas-confetti";
 import { WORLDS } from "./worlds";
+import Overprint from "./fx/Overprint";
+import SplitFlap from "./fx/SplitFlap";
+import { finePointer } from "./fx/env";
+import { usePrinted } from "./fx/printState";
 
 // MAAYA, cut out ransom-note style: one letter from each of Eclectria's five
-// worlds. This is the page's one big moment; the letters slap on in turn.
+// worlds. The letters slap on in turn, and (with a mouse) they peel off: grab
+// one and it lifts, hums its world's note, and springs back when let go.
 const LETTERS = [
-  { ch: "M", world: "Denim & Street", chip: "tex-denim stitched", ink: "font-marker text-white", tilt: -7 },
-  { ch: "A", world: "Cinema & Retro", chip: "bg-ticket", ink: "font-marquee text-ticket-red", tilt: 5 },
-  { ch: "A", world: "Sports & Athleisure", chip: "tex-court", ink: "font-varsity varsity-outline", tilt: -3 },
-  { ch: "Y", world: "Indian Tradition", chip: "tex-cotton-faint", ink: "font-deva text-kumkum", tilt: 6 },
-  { ch: "A", world: "Cosmic Glamour", chip: "tex-space", ink: "font-cosmic chrome", tilt: -5 },
+  { ch: "M", world: "Denim & Street", chip: "tex-denim stitched", ink: "font-marker text-white", tilt: -7, note: 330 },
+  { ch: "A", world: "Cinema & Retro", chip: "bg-ticket", ink: "font-marquee text-ticket-red", tilt: 5, note: 392 },
+  { ch: "A", world: "Sports & Athleisure", chip: "tex-court", ink: "font-varsity varsity-outline", tilt: -3, note: 440 },
+  { ch: "Y", world: "Indian Tradition", chip: "tex-cotton-faint", ink: "font-deva text-kumkum", tilt: 6, note: 523 },
+  { ch: "A", world: "Cosmic Glamour", chip: "tex-space", ink: "font-cosmic chrome", tilt: -5, note: 659 },
 ];
 
 const TARGET = new Date(FESTIVAL_INFO.isoDate).getTime();
@@ -42,16 +47,31 @@ const CONTENTS_NOTE = {
 
 const pad = (n) => String(n).padStart(2, "0");
 
+// Grab-and-peel for any collage piece (mouse only, so touch can still scroll).
+const peel = (tilt = 0) =>
+  finePointer
+    ? {
+        drag: true,
+        dragSnapToOrigin: true,
+        dragElastic: 0.55,
+        dragTransition: { bounceStiffness: 380, bounceDamping: 14 },
+        whileDrag: { scale: 1.12, rotate: tilt * -0.6, zIndex: 40, boxShadow: "14px 18px 0 rgba(0,0,0,0.55)" },
+      }
+    : {};
+
 export default function HeroSection({ onSelectEvent }) {
   const reduce = useReducedMotion();
   const t = useCountdown();
+  // Everything waits under the riso intro until the sheet has been printed.
+  const go = usePrinted();
+  const gate = (from, to) => (go ? to : from);
 
   const handleRandomEvent = () => {
     playWorldSwitch(560);
     const randomEvent = EVENTS[Math.floor(Math.random() * EVENTS.length)];
     if (!reduce) {
       try {
-        confetti({ particleCount: 70, spread: 70, origin: { y: 0.6 }, colors: ["#ff48b0", "#0078bf", "#ffe800", "#000000"] });
+        confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 }, colors: ["#ff48b0", "#0078bf", "#ffe800", "#000000"], shapes: ["square"] });
       } catch {
         // Confetti is decoration only.
       }
@@ -59,58 +79,90 @@ export default function HeroSection({ onSelectEvent }) {
     onSelectEvent(randomEvent);
   };
 
-  // The one orchestrated entrance: the letters first, then the rest settles in.
+  // The entrance: the letters slap on, then every scrap flies in from off the
+  // page and lands at its own angle.
   const slap = (i) =>
     reduce
       ? { style: { rotate: `${LETTERS[i].tilt}deg` } }
       : {
-          initial: { opacity: 0, scale: 1.7, rotate: LETTERS[i].tilt * -3, y: -30 },
-          animate: { opacity: 1, scale: 1, rotate: LETTERS[i].tilt, y: 0 },
-          transition: { type: "spring", stiffness: 520, damping: 22, delay: 0.15 + i * 0.13 },
+          initial: { opacity: 0, scale: 1.8, rotate: LETTERS[i].tilt * -4, y: -40 },
+          animate: gate({ opacity: 0, scale: 1.8, rotate: LETTERS[i].tilt * -4, y: -40 }, { opacity: 1, scale: 1, rotate: LETTERS[i].tilt, y: 0 }),
+          transition: { type: "spring", stiffness: 520, damping: 20, delay: 0.15 + i * 0.12 },
         };
-  const after = (d) =>
-    reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.45, delay: 0.95 + d, ease: [0.2, 0.9, 0.3, 1] } };
+  const land = (d, from = { x: 0, y: 60, r: 0 }, rest = 0) =>
+    reduce
+      ? { style: { rotate: `${rest}deg` } }
+      : {
+          initial: { opacity: 0, x: from.x, y: from.y, rotate: from.r },
+          animate: gate({ opacity: 0, x: from.x, y: from.y, rotate: from.r }, { opacity: 1, x: 0, y: 0, rotate: rest }),
+          transition: { type: "spring", stiffness: 260, damping: 20, delay: 0.9 + d },
+        };
 
   return (
-    <section id="top" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
+    <section id="top" data-cursor="scissors" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
       <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
         {/* ── Left: the masthead ── */}
         <div className="lg:col-span-7">
-          <motion.p {...after(-0.8)} className="scrap inline-block -rotate-1 px-3 py-1.5 text-sm font-semibold sm:text-base">
+          <motion.p {...land(-0.8, { x: -80, y: 0, r: -12 }, -1)} className="scrap inline-block px-3 py-1.5 text-sm font-semibold sm:text-base">
             PES University Electronic City Campus presents
           </motion.p>
 
-          <h1 aria-label="Maaya" className="relative mt-6 flex w-fit items-end gap-x-1 sm:mt-8 sm:gap-x-2">
-            {LETTERS.map((l, i) => (
+          <div className="relative w-fit">
+            <h1 aria-label="Maaya" className="relative mt-6 flex w-fit items-end gap-x-1 sm:mt-8 sm:gap-x-2">
+              {LETTERS.map((l, i) => (
+                <motion.span
+                  key={i}
+                  aria-hidden="true"
+                  title={l.world}
+                  {...slap(i)}
+                  {...peel(l.tilt)}
+                  onDragStart={() => playWorldSwitch(l.note)}
+                  whileHover={finePointer && !reduce ? { y: -8, rotate: l.tilt * 0.4, transition: { type: "spring", stiffness: 400, damping: 12 } } : undefined}
+                  className={`${l.chip} ${finePointer ? "grab" : ""} relative grid h-[5.2rem] w-[3.9rem] touch-auto place-items-center overflow-hidden shadow-[5px_6px_0_rgb(0_0_0/0.85)] select-none sm:h-[8.5rem] sm:w-[6.4rem] lg:h-[9.5rem] lg:w-[7.1rem]`}
+                >
+                  <span className={`${l.ink} pointer-events-none block text-[3.6rem] leading-none sm:text-[6rem] lg:text-[6.8rem]`}>{l.ch}</span>
+                </motion.span>
+              ))}
               <motion.span
-                key={i}
                 aria-hidden="true"
-                title={l.world}
-                {...slap(i)}
-                className={`${l.chip} grid h-[5.2rem] w-[3.9rem] place-items-center overflow-hidden shadow-[5px_6px_0_rgb(0_0_0/0.85)] sm:h-[8.5rem] sm:w-[6.4rem] lg:h-[9.5rem] lg:w-[7.1rem]`}
+                {...(reduce
+                  ? { style: { rotate: "12deg" } }
+                  : { initial: { opacity: 0, scale: 2.2, rotate: -30 }, animate: gate({ opacity: 0, scale: 2.2, rotate: -30 }, { opacity: 1, scale: 1, rotate: 12 }), transition: { type: "spring", stiffness: 480, damping: 16, delay: 0.85 } })}
+                {...peel(12)}
+                className={`${finePointer ? "grab" : ""} sticker absolute -right-3 -bottom-5 z-10 bg-riso-yellow px-2 py-1 text-2xl font-black select-none sm:-right-9 sm:-bottom-4 sm:text-4xl`}
               >
-                <span className={`${l.ink} block text-[3.6rem] leading-none sm:text-[6rem] lg:text-[6.8rem]`}>{l.ch}</span>
+                '26
               </motion.span>
-            ))}
-            <motion.span
-              aria-hidden="true"
-              {...(reduce
-                ? { style: { rotate: "12deg" } }
-                : { initial: { opacity: 0, scale: 2, rotate: 0 }, animate: { opacity: 1, scale: 1, rotate: 12 }, transition: { type: "spring", stiffness: 480, damping: 18, delay: 0.85 } })}
-              className="sticker absolute -right-3 -bottom-5 z-10 bg-riso-yellow px-2 py-1 text-2xl font-black sm:-right-9 sm:-bottom-4 sm:text-4xl"
-            >
-              '26
-            </motion.span>
-          </h1>
+            </h1>
 
-          <motion.p {...after(0)} className="misprint mt-9 text-[2.6rem] leading-[0.95] font-black tracking-tight expanded sm:mt-8 sm:text-7xl lg:text-[5.4rem]">
-            ECLECTRIA
-          </motion.p>
-          <motion.p {...after(0.1)} className="mt-3 inline-block -rotate-2 bg-black px-3 py-1 font-script text-xl text-white sm:text-3xl">
+            {/* Mouse users get a scribbled hint that the letters come off. */}
+            {finePointer && (
+              <motion.p
+                aria-hidden="true"
+                {...(reduce ? {} : { initial: { opacity: 0, scale: 0.6 }, animate: gate({ opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1 }), transition: { delay: 2.2, type: "spring", stiffness: 300, damping: 15 } })}
+                className="pointer-events-none absolute -top-16 right-2 hidden rotate-3 items-end gap-1 font-marker text-lg leading-tight text-black xl:flex"
+              >
+                <svg width="56" height="44" viewBox="0 0 56 44" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="-scale-x-100">
+                  <path d="M4 6 C 20 2, 38 10, 44 34" />
+                  <path d="M36 30 L44 36 L49 26" />
+                </svg>
+                <span>
+                  psst! the letters
+                  <br />
+                  peel off
+                </span>
+              </motion.p>
+            )}
+          </div>
+
+          <motion.div {...land(0, { x: 0, y: 90, r: 4 })} className="mt-9 sm:mt-10">
+            <Overprint text="ECLECTRIA" className="text-[2.6rem] leading-[0.95] font-black tracking-tight expanded sm:text-7xl lg:text-[5.4rem]" />
+          </motion.div>
+          <motion.p {...land(0.1, { x: -60, y: 20, r: -14 }, -2)} className="mt-3 inline-block bg-black px-3 py-1 font-script text-xl text-white sm:text-3xl">
             Different by design
           </motion.p>
 
-          <motion.div {...after(0.2)} className="scrap relative mt-8 max-w-xl rotate-[0.6deg] p-4 sm:p-5">
+          <motion.div {...land(0.2, { x: 0, y: 120, r: 6 }, 0.6)} className="scrap relative mt-8 max-w-xl p-4 sm:p-5">
             <span className="tape -top-3 left-6 -rotate-6" aria-hidden="true" />
             <p className="text-lg leading-snug font-extrabold sm:text-xl">Five days. Five identities. One world.</p>
             <p className="mt-1.5 text-base leading-relaxed text-black/80">
@@ -118,25 +170,25 @@ export default function HeroSection({ onSelectEvent }) {
             </p>
           </motion.div>
 
-          <motion.div {...after(0.3)} className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+          <motion.div {...land(0.3, { x: 0, y: 80, r: 0 })} className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
             <a
               href="#programme"
               onClick={playClick}
-              className="inline-flex min-h-12 items-center bg-black px-6 text-base font-black text-riso-yellow shadow-[5px_5px_0_var(--color-riso-blue)] transition-transform hover:-translate-y-0.5 sm:text-lg"
+              className="inline-flex min-h-12 items-center bg-black px-6 text-base font-black text-riso-yellow shadow-[5px_5px_0_var(--color-riso-blue)] transition-all hover:-translate-y-1 hover:shadow-[8px_9px_0_var(--color-riso-blue)] active:translate-y-0.5 active:shadow-[2px_2px_0_var(--color-riso-blue)] sm:text-lg"
             >
               Explore events
             </a>
             <a
               href="#venues"
               onClick={playClick}
-              className="inline-flex min-h-12 items-center border-[3px] border-black bg-paper px-5 text-base font-black shadow-[5px_5px_0_#000] transition-transform hover:-translate-y-0.5 sm:text-lg"
+              className="inline-flex min-h-12 items-center border-[3px] border-black bg-paper px-5 text-base font-black shadow-[5px_5px_0_#000] transition-all hover:-translate-y-1 hover:shadow-[8px_9px_0_#000] active:translate-y-0.5 active:shadow-[2px_2px_0_#000] sm:text-lg"
             >
               Open the 3D campus
             </a>
             <button
               type="button"
               onClick={handleRandomEvent}
-              className="sticker inline-flex min-h-12 items-center gap-2 rounded-full bg-riso-yellow px-5 text-base font-black transition-transform hover:rotate-6"
+              className="sticker inline-flex min-h-12 items-center gap-2 rounded-full bg-riso-yellow px-5 text-base font-black transition-transform hover:rotate-6 active:scale-95"
             >
               <Dices size={18} aria-hidden="true" />
               Pick a random event
@@ -144,56 +196,62 @@ export default function HeroSection({ onSelectEvent }) {
           </motion.div>
         </div>
 
-        {/* ── Right: date, countdown, contents ── */}
+        {/* ── Right: date, countdown board, contents ── */}
         <div className="relative lg:col-span-5 lg:pt-6">
           <div className="flex flex-wrap items-start gap-4 sm:gap-6">
             <motion.div
               {...(reduce
                 ? { style: { rotate: "8deg" } }
-                : { initial: { opacity: 0, scale: 0.4, rotate: -40 }, animate: { opacity: 1, scale: 1, rotate: 8 }, transition: { type: "spring", stiffness: 300, damping: 14, delay: 1.1 } })}
-              className="starburst grid size-40 shrink-0 place-items-center bg-riso-yellow text-center sm:size-48"
+                : { initial: { opacity: 0, scale: 0.3, rotate: -60 }, animate: gate({ opacity: 0, scale: 0.3, rotate: -60 }, { opacity: 1, scale: 1, rotate: 8 }), transition: { type: "spring", stiffness: 300, damping: 12, delay: 1.1 } })}
+              {...peel(8)}
+              className={`${finePointer ? "grab" : ""} starburst grid size-40 shrink-0 place-items-center bg-riso-yellow text-center select-none sm:size-48`}
             >
-              <span className="block leading-none">
+              <span className="pointer-events-none block leading-none">
                 <span className="block text-[2.6rem] font-black tracking-tight condensed sm:text-5xl">23–24</span>
                 <span className="block text-base font-extrabold sm:text-lg">October 2026</span>
               </span>
             </motion.div>
 
-            {/* Countdown, on a ticket stub */}
-            <motion.div {...after(0.35)} className="scrap relative -rotate-2 border-l-[6px] border-dashed border-riso-pink-deep p-4 pr-5">
-              <p className="text-sm font-semibold">{t.done ? "Maaya is here" : "Doors open in"}</p>
-              <p className="mt-1 flex items-baseline gap-2 font-black tabular-nums condensed">
-                <span className="text-4xl sm:text-5xl">{t.days}</span>
-                <span className="text-sm">days</span>
-                <span className="text-3xl sm:text-4xl">{pad(t.hours)}</span>
-                <span className="text-sm">hrs</span>
+            {/* Countdown: an airport departure board */}
+            <motion.div {...land(0.35, { x: 120, y: -20, r: 10 }, -2)} className="relative bg-[#0c0c0c] p-3.5 text-white shadow-[6px_6px_0_rgb(0_0_0/0.4)] sm:p-4">
+              <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-2" aria-hidden="true" />
+              <p className="flex items-center gap-2 text-sm font-bold text-riso-yellow">
+                <span aria-hidden="true" className="size-2 animate-pulse rounded-full bg-riso-yellow" />
+                {t.done ? "Now boarding: Maaya" : "Doors open in"}
               </p>
-              <p className="flex items-baseline gap-2 font-black tabular-nums condensed">
-                <span className="text-3xl text-riso-blue sm:text-4xl">{pad(t.minutes)}</span>
-                <span className="text-sm">min</span>
-                <span className="text-3xl text-riso-pink-deep sm:text-4xl">{pad(t.seconds)}</span>
-                <span className="text-sm">sec</span>
-              </p>
-              <p className="mt-2 text-xs font-semibold text-black/70">{FESTIVAL_INFO.preFestDates}</p>
+              <div className="mt-2 flex items-start gap-2.5 text-[1.9rem] leading-none font-black tabular-nums condensed sm:text-[2.3rem]">
+                {[
+                  [t.days, "days"],
+                  [pad(t.hours), "hrs"],
+                  [pad(t.minutes), "min"],
+                  [pad(t.seconds), "sec"],
+                ].map(([v, unit]) => (
+                  <span key={unit} className="flex flex-col items-center">
+                    <SplitFlap value={pad(v)} label={`${v} ${unit}`} />
+                    <span className="mt-1.5 text-[0.7rem] font-bold tracking-wide text-white/70 uppercase not-italic [font-stretch:100%]">{unit}</span>
+                  </span>
+                ))}
+              </div>
+              <p className="mt-2.5 text-xs font-semibold text-white/75">{FESTIVAL_INFO.preFestDates}</p>
             </motion.div>
           </div>
 
           {/* In this issue: the site's sections, in page order */}
-          <motion.nav {...after(0.45)} aria-label="In this issue" className="scrap relative mt-8 rotate-1 p-5 sm:p-6">
+          <motion.nav {...land(0.45, { x: 140, y: 60, r: 14 }, 1)} aria-label="In this issue" className="scrap relative mt-8 p-5 sm:p-6">
             <span className="tape -top-3 right-8 rotate-3" aria-hidden="true" />
             <p className="font-script text-2xl">In this issue</p>
             <ol className="mt-3 divide-y-2 divide-dashed divide-black/25">
               {WORLDS.map((w, i) => (
                 <li key={w.id}>
                   <a href={w.href} onClick={playClick} className="group flex items-center gap-3 py-2.5">
-                    <span aria-hidden="true" className={`${w.swatch} size-10 shrink-0 border-2 border-black transition-transform group-hover:-rotate-6`} />
+                    <span aria-hidden="true" className={`${w.swatch} size-10 shrink-0 border-2 border-black transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110`} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-lg leading-tight font-black group-hover:underline">{w.part}</span>
                       <span className="block text-sm text-black/70">
                         {w.title}. {CONTENTS_NOTE[w.id]}
                       </span>
                     </span>
-                    <span className="text-sm font-black tabular-nums">p.{pad(i + 2)}</span>
+                    <span className="text-sm font-black tabular-nums transition-transform group-hover:translate-x-1">p.{pad(i + 2)}</span>
                   </a>
                 </li>
               ))}

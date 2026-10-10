@@ -3,6 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import { Volume2 } from "lucide-react";
 import { CONCERT_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playBassDrop, isSoundEnabled, setSoundEnabled } from "../utils/audioEffects";
+import ChromeBlob from "./fx/ChromeBlob";
 
 // World 3 — Cosmic Glamour. Deep space, liquid chrome, and a holographic
 // trading card for the headliner (still to be announced).
@@ -47,19 +48,31 @@ function HoloCard() {
 }
 
 export default function ConcertSection() {
+  const reduce = useReducedMotion();
   const soundCheck = () => {
     if (!isSoundEnabled()) setSoundEnabled(true);
     playBassDrop();
+    window.dispatchEvent(new Event("maaya:bass"));
   };
+  // The chrome headline's highlight slides with the pointer.
+  const onMove = (e) => {
+    if (reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--shine", `${((e.clientY - r.top) / r.height) * 100}%`);
+  };
+  const ring = "Concert pro-night ✦ 24 October ✦ MRD main stage ✦ Headliner TBA ✦";
 
   return (
-    <section id="concert" className="tex-space grain-dark relative overflow-hidden px-4 pt-28 pb-28 text-white sm:px-6 lg:px-8">
+    <section id="concert" data-cursor="star" onPointerMove={onMove} className="tex-space grain-dark relative overflow-hidden px-4 pt-28 pb-28 text-white sm:px-6 lg:px-8">
       <span className="edge-scallop top-0" aria-hidden="true" />
       <div className="relative z-[2] mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <p className="tex-holo inline-block -rotate-2 rounded-full px-4 py-1.5 text-sm font-black text-space">World 3: Cosmic Glamour</p>
           <p className="mt-6 text-lg font-bold text-holo-pink">Concert pro-night</p>
-          <h2 className="mt-2 font-cosmic text-[2.75rem] leading-[0.92] font-black tracking-tight chrome sm:text-7xl lg:text-[5.6rem]">
+          <h2
+            className="mt-2 font-cosmic text-[2.75rem] leading-[0.92] font-black tracking-tight chrome transition-[background-position] duration-500 ease-out sm:text-7xl lg:text-[5.6rem]"
+            style={{ backgroundSize: "100% 260%", backgroundPosition: "50% var(--shine, 40%)" }}
+          >
             {CONCERT_DATA.headline}
           </h2>
           <dl className="mt-8 flex flex-wrap gap-3">
@@ -84,8 +97,24 @@ export default function ConcertSection() {
             Play a sound check
           </button>
         </div>
-        <div className="lg:col-span-5">
-          <HoloCard />
+        <div className="relative lg:col-span-5">
+          {/* Liquid chrome, ringed by the night's details */}
+          <div className="relative mx-auto aspect-square w-full max-w-[30rem]">
+            <ChromeBlob className="absolute inset-0 h-full w-full" />
+            <svg viewBox="0 0 200 200" aria-hidden="true" className={`pointer-events-none absolute inset-0 h-full w-full ${reduce ? "" : "animate-[spin_40s_linear_infinite]"}`}>
+              <defs>
+                <path id="orbit" d="M100 100 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0" />
+              </defs>
+              <text className="fill-white/80 font-cosmic text-[9.5px] font-black tracking-[0.18em] uppercase">
+                <textPath href="#orbit" textLength="548" lengthAdjust="spacing">
+                  {ring}
+                </textPath>
+              </text>
+            </svg>
+          </div>
+          <div className="relative z-10 -mt-24 sm:-mt-32">
+            <HoloCard />
+          </div>
         </div>
       </div>
       {/* Athletic stripes: the way into the next world */}
