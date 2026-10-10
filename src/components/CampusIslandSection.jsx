@@ -4,7 +4,6 @@ import { Maximize2, Minimize2, ExternalLink } from "lucide-react";
 import { VENUES_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
 import Stitches from "./fx/Stitches";
-import Zipper from "./fx/Zipper";
 
 // World 1 — Denim & Street. The 3D island sits in a stitched denim pocket
 // with copper rivets; the venues are embroidered patches sewn on below.
@@ -131,14 +130,13 @@ export default function CampusIslandSection() {
               </a>
             </div>
           </div>
-          <Zipper forceOpen={isFullscreen} className={isFullscreen ? "flex-1" : "h-[440px] sm:h-[560px] md:h-[640px]"}>
-            <iframe
-              src={islandUrl}
-              title="Fest Island: PES University's EC campus in 3D"
-              className="absolute inset-0 h-full w-full border-0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
-          </Zipper>
+          <iframe
+            src={islandUrl}
+            title="Fest Island: PES University's EC campus in 3D"
+            className={`w-full rounded-lg border-2 border-black bg-[#120b2b] ${isFullscreen ? "flex-1" : "h-[440px] sm:h-[560px] md:h-[640px]"}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            loading="lazy"
+          />
         </div>
 
         {/* Venues as embroidered patches */}
