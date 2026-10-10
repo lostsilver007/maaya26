@@ -688,6 +688,26 @@ export const CODE_OF_CONDUCT = [
   "Participation certificates and event accolades will be distributed at the Grand Valedictory.",
 ];
 
+// The Maaya '26 core team, from the team's sheet: Head, Co-Head, then the
+// domain heads in the sheet's order. `photo` is the Google Drive file ID of
+// each portrait (null where the sheet links a folder rather than a file).
+// Only what the page shows is kept here: no SRNs or phone numbers.
+export const CORE_TEAM = [
+  { name: "Vakalapudi Kushal", post: "Head", instagram: "kushal.vakalapudi", linkedin: "https://www.linkedin.com/in/vakalapudi-kushal-ba574b359", photo: null },
+  { name: "J Akhil", post: "Co-Head", instagram: "akhil_01_aj", linkedin: "https://www.linkedin.com/in/j-akhil-987700325/", photo: "1XXTNAJjU20Dti2W37bAYhtjcGpf9aO56" },
+  { name: "Arham Mayur Burad", post: "Head of DisCo", instagram: "arham_burad", linkedin: "https://www.linkedin.com/in/arham-burad-68a016366", photo: "1VEmnBLPIeUotuvvvQBeEqeHe8vPrDSAZ" },
+  { name: "Pragya Chowdary S", post: "Head of Hospitality", instagram: "pragyachowdarys", linkedin: "https://www.linkedin.com/in/pragya-chowdary-s-6963a8377/", photo: "1ln_VyQD-7t20Zrp4EyB-0JaSgdoTjlhI" },
+  { name: "Marapareddy Deekshitha", post: "Head of Operations and Logistics", instagram: "deekshitha.marapareddy", linkedin: "https://www.linkedin.com/in/deekshitha-marapareddy-9180b5354", photo: "1pdOVzWsG6jQKS674CJuAbDNWKDbkr7JC" },
+  { name: "Anirudh Nagarajan", post: "Head of Design", instagram: "_ani_nag_0825_", linkedin: "https://www.linkedin.com/in/anirudh-nagarajan-4301573bb/", photo: "1Lfj5decGXBXCDjyhs9S-QwrugHiqY0iA" },
+  { name: "Sreenidhi K", post: "Head of Content Writing", instagram: "ihaveennui", linkedin: "https://www.linkedin.com/in/nidhi-k-422696334", photo: "1yPtZ6ZluSeAPXaH7W4q-YDW4pcPS5lHA" },
+  { name: "Thejus A Reddy", post: "Head of Finance", instagram: "thejus_a_reddy", linkedin: "https://www.linkedin.com/in/thejus-a-reddy/", photo: "1huwTxcCOfn0szqN7wxw3_efSUA-VpUd5" },
+  { name: "Deepthi N Reddy", post: "Head of Social Media", instagram: null, linkedin: "https://www.linkedin.com/in/deepthi-reddy-b25305375/", photo: "1nXvhKxUjW0fen541zgaWxqxsSdKWSWfy" },
+  { name: "Malepati Viswajith", post: "Head of Stage, Infrastructure & Creatives", instagram: "_viswajith_m", linkedin: "https://www.linkedin.com/in/malepati-viswajith-202705405", photo: null },
+  { name: "Aaryan Dubey", post: "Head of Tech", instagram: "aaryandubey19", linkedin: "https://www.linkedin.com/in/aaryan-dubey-72203b352", photo: "1IPqyq7-kfvQJWj7zUxZWcz58f1eq3DD8" },
+  { name: "Tarun G K", post: "Head of Marketing & Sponsorship", instagram: "nxt_tarun_gk", linkedin: "https://www.linkedin.com/in/tarun-g-k-387709323", photo: "1EBMievHXILDcSmgWY8ZZvnwszxVxxyUi" },
+  { name: "Amrita Pradeep", post: "Student Body Head", instagram: "aami_potter", linkedin: "https://www.linkedin.com/in/amrita-pradeep12", photo: null },
+];
+
 export const FAQ_DATA = [
   {
     q: "What are the dates for MAAYA 2026?",
