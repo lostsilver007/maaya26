@@ -22,11 +22,11 @@ const FALLBACK_URL = "https://fest-island.vercel.app/#programme";
 
 const DAY_TABS = [
   { label: "All", value: "all" },
-  { label: "Pre-fest week", value: "week" },
-  { label: "Day 1, 23 Oct", value: "day 1" },
-  { label: "Day 2, 24 Oct", value: "day 2" },
+  { label: "23 Oct", value: "23" },
+  { label: "24 Oct", value: "24" },
 ];
-const countFor = (value) => (value === "all" ? EVENTS.length : EVENTS.filter((e) => e.day.toLowerCase().includes(value)).length);
+const countFor = (value) =>
+  value === "all" ? EVENTS.length : EVENTS.filter((e) => e.day.includes(value) || e.date.includes(value)).length;
 
 // One ticket. With a mouse it tilts towards the pointer like card stock in
 // the hand, the stub starts to tear along the perforation, and registering
@@ -53,8 +53,8 @@ function Ticket({ e, punched, onPunch, onRules }) {
           {punched && <span className="punch top-2 right-3 sm:top-3 sm:right-auto sm:left-[6.6rem]" aria-hidden="true" />}
           <p className="text-xs font-bold tracking-wide uppercase opacity-90">{punched ? "Admitted" : "Admit one"}</p>
           <p className="text-right sm:text-left">
-            <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{dayName(e.day)}</span>
-            <span className="block text-sm font-bold">{shortDate(e.date)}</span>
+            <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{e.day}</span>
+            <span className="block text-sm font-bold">{e.date === "2026-10-23" ? "Friday" : "Saturday"}</span>
           </p>
           <p className="text-right sm:mt-2 sm:text-left">
             <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
@@ -138,7 +138,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
   const filteredEvents = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return EVENTS.filter((ev) => {
-      const matchDay = currentDayTab === "all" || ev.day.toLowerCase().includes(currentDayTab);
+      const matchDay = currentDayTab === "all" || ev.day.includes(currentDayTab) || ev.date.includes(currentDayTab);
       const matchCat = categoryFilter === "all" || ev.category === categoryFilter;
       const matchSearch = !q || [ev.name, ev.club, ev.blurb, ev.venue, ev.room ?? "", ev.category].some((s) => s.toLowerCase().includes(q));
       return matchDay && matchCat && matchSearch;
@@ -175,7 +175,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
               Now sho<span className="neon-flicker">w</span>ing
             </h2>
             <p className="mt-4 text-base font-semibold text-ticket/90 sm:text-lg">
-              {EVENTS.length} club events, from pre-fest week to the last night
+              {EVENTS.length} club events across October 23 & 24
             </p>
           </div>
         </div>
@@ -288,7 +288,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
             <div className="flex items-start justify-between gap-4 bg-ticket-red px-5 py-4 text-ticket sm:px-7">
               <div>
                 <p className="text-sm font-bold">
-                  {dayName(ev.day)}, {shortDate(ev.date)}. Hosted by {ev.club}
+                  {ev.day}. Hosted by {ev.club}
                 </p>
                 <h2 id="rules-title" className="mt-1 text-2xl leading-tight font-black sm:text-3xl">
                   {ev.name}
@@ -316,6 +316,11 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                   <dd className="font-black">{ev.teamSize || "Open"}</dd>
                 </div>
               </dl>
+              {ev.contact && (
+                <p className="mt-3 text-xs font-semibold text-black/75">
+                  <span className="font-bold text-black">Club contact:</span> {ev.contact}
+                </p>
+              )}
               <h3 className="mt-5 font-script text-2xl text-ticket-red">The fine print</h3>
               <ol className="mt-2 list-decimal space-y-2 pl-5 text-base leading-relaxed marker:font-black marker:text-ticket-red">
                 {(ev.rules?.length ? ev.rules : standardGuidelines).map((r, i) => (
