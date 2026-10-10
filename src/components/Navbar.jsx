@@ -4,8 +4,9 @@ import { playClick, setSoundEnabled, isSoundEnabled, onSoundChange } from "../ut
 import { WORLDS } from "./worlds";
 import { PAGES, usePage } from "./pages/route";
 
-// The two pages that aren't sections of the home page.
+// The pages that aren't sections of the home page.
 const PAGE_TABS = [
+  { href: "#/core", path: "/core", label: "Core" },
   { href: "#/rules", path: "/rules", label: "Rules" },
   { href: "#/legal", path: "/legal", label: "Legal" },
 ];
@@ -56,19 +57,19 @@ export default function Navbar({ onOpenRegister }) {
                 key={w.id}
                 href={w.href}
                 onClick={playClick}
-                className="embossed shrink-0 rounded-sm px-3 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15"
+                className="embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-3"
               >
                 {w.part}
               </a>
             ))}
-            <span aria-hidden="true" className="mx-1.5 h-5 w-px shrink-0 bg-white/30" />
+            <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-white/30 xl:mx-1.5" />
             {PAGE_TABS.map((t) => (
               <a
                 key={t.path}
                 href={t.href}
                 onClick={playClick}
                 aria-current={page === t.path ? "page" : undefined}
-                className={`embossed shrink-0 rounded-sm px-3 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors ${
+                className={`embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors xl:px-3 ${
                   page === t.path ? "bg-riso-yellow text-black [text-shadow:none]" : "hover:bg-white/15"
                 }`}
               >
@@ -139,10 +140,10 @@ export default function Navbar({ onOpenRegister }) {
               </li>
             ))}
           </ul>
-          <p className="relative z-[2] mt-6 text-sm font-semibold">The small print</p>
+          <p className="relative z-[2] mt-6 text-sm font-semibold">More</p>
           <ul className="relative z-[2] mt-3 grid grid-cols-2 gap-3">
-            {PAGE_TABS.map((t) => (
-              <li key={t.path}>
+            {PAGE_TABS.map((t, i) => (
+              <li key={t.path} className={i === 0 ? "col-span-2" : ""}>
                 <a
                   href={t.href}
                   onClick={() => {

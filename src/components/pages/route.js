@@ -1,9 +1,10 @@
 import { useSyncExternalStore } from "react";
 
-// Two extra pages live behind hash routes (#/rules, #/legal), so the site
+// The extra pages live behind hash routes (#/core, #/rules, #/legal), so the site
 // stays a single static page with no router dependency and no server
 // rewrites. Plain anchors (#programme, #faq...) still scroll the home page.
 export const PAGES = {
+  "/core": "Core team",
   "/rules": "Rules and regulations",
   "/legal": "Legal and privacy",
 };
