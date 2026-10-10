@@ -126,7 +126,7 @@ export default function HeroSection() {
         };
 
   return (
-    <section id="top" data-cursor="scissors" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
+    <section id="top" data-cursor="riso" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
       <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
         {/* ── Left: the masthead ── */}
         <div className="lg:col-span-7">
@@ -270,7 +270,7 @@ export default function HeroSection() {
                         {w.title}. {CONTENTS_NOTE[w.id]}
                       </span>
                     </span>
-                    <span className="text-sm font-black tabular-nums transition-transform group-hover:translate-x-1">p.{pad(i + 2)}</span>
+                    <span className="text-sm font-black tabular-nums transition-transform group-hover:translate-x-1">{pad(i + 2)}</span>
                   </a>
                 </li>
               ))}

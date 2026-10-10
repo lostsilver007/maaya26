@@ -494,8 +494,8 @@
 }
 /* World cursors (fine pointers only). Controls keep the pointer / text cursors. */
 @media (pointer: fine) {
-  [data-cursor="scissors"] {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M7 1 L19 25' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M7 1 L19 25' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='27' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='27' cy='20' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23000'/%3E%3C/svg%3E") 4 4, auto;
+  [data-cursor="riso"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M3 2 L3 24 L9 18.5 L13 28 L17.2 26.2 L13.2 17 L21 17 Z' transform='translate(2.6 2.2)' fill='%230078bf'/%3E%3Cpath d='M3 2 L3 24 L9 18.5 L13 28 L17.2 26.2 L13.2 17 L21 17 Z' fill='%23ffe800' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'/%3E%3C/svg%3E") 3 2, auto;
   }
   [data-cursor="needle"] {
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M22 22 C31 15 31 31 20 30 S9 26 14 31' stroke='%23f2a541' stroke-width='2.2' fill='none'/%3E%3Cpath d='M2 2 L24 24' stroke='%23000' stroke-width='4.6' stroke-linecap='round'/%3E%3Cpath d='M2 2 L24 24' stroke='%23eef1f5' stroke-width='2.4' stroke-linecap='round'/%3E%3Cellipse cx='21.5' cy='21.5' rx='0.9' ry='2.2' transform='rotate(-45 21.5 21.5)' fill='%23000'/%3E%3C/svg%3E") 2 2, auto;
