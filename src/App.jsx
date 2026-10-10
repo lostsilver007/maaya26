@@ -15,6 +15,7 @@ import PrintIntro from "./components/fx/PrintIntro";
 import CursorTrails from "./components/fx/CursorTrails";
 import WorldSpine from "./components/WorldSpine";
 import { usePage } from "./components/pages/route";
+import CorePage from "./components/pages/CorePage";
 import RulesPage from "./components/pages/RulesPage";
 import LegalPage from "./components/pages/LegalPage";
 
@@ -26,7 +27,7 @@ export default function App() {
   const [registerEvent, setRegisterEvent] = useState(null);
   const [selectedEventForModal, setSelectedEventForModal] = useState(null);
 
-  // #/rules and #/legal swap the home page for a page of their own. Opening
+  // #/core, #/rules and #/legal swap the home page for a page of their own. Opening
   // one starts at its top; coming back lands on the section the link named.
   const page = usePage();
   const lastPage = useRef(page);
@@ -54,7 +55,9 @@ export default function App() {
       <Navbar onOpenRegister={() => handleOpenRegister(null)} />
       {!page && <WorldSpine />}
 
-      {page === "/rules" ? (
+      {page === "/core" ? (
+        <CorePage />
+      ) : page === "/rules" ? (
         <RulesPage />
       ) : page === "/legal" ? (
         <LegalPage />

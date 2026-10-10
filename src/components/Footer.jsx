@@ -82,6 +82,11 @@ export default function Footer({ onOpenRegister }) {
                 </a>
               </li>
               <li>
+                <a href="#/core" onClick={playClick} className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
+                  Core team
+                </a>
+              </li>
+              <li>
                 <a href="#/rules" onClick={playClick} className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
                   Rules and regulations
                 </a>
@@ -106,6 +111,9 @@ export default function Footer({ onOpenRegister }) {
           <div className="text-sm font-semibold text-white">
             <p>© 2026 MAAYA, PES University Electronic City Campus</p>
             <p className="mt-1 flex flex-wrap gap-x-4">
+              <a href="#/core" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                Core team
+              </a>
               <a href="#/rules" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
                 Rules and regulations
               </a>
