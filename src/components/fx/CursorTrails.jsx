@@ -6,12 +6,11 @@ import { finePointer, prefersReducedMotion } from "./env";
 //                        and swings behind it (a verlet rope)
 //   star     (cosmic)    stardust falls off the star
 //   marigold (tradition) petals drift down behind it
-//   scissors (cover)     a click snips paper triangles in the riso inks
+//   stamp    (cover)     a click stamps a MAAYA '26 ink seal that fades away
 //   popcorn  (cinema)    a click pops popcorn that arcs up and drops
 // Mouse only, nothing under reduced motion, and it sleeps when idle.
 const SPARK = ["#ffffff", "#ff7ad9", "#7af7ff", "#b48cff", "#c8ff7a"];
 const PETAL = ["#ffb000", "#f28c28", "#ffc94d"];
-const RISO = ["#ff48b0", "#0078bf", "#ffe800", "#000000"];
 const ROPE_N = 20;
 const ROPE_SEG = 7;
 const EYE = 19.5; // needle eye, from the cursor hotspot (see the needle cursor in index.css)
@@ -76,11 +75,9 @@ export default function CursorTrails() {
     const onDown = (e) => {
       if (e.button !== 0 || e.target.closest("a, button, input, select, textarea, label, [role=slider], .grab")) return;
       const m = modeAt(e.clientX, e.clientY);
-      if (m === "scissors") {
-        for (let i = 0; i < 16; i++) {
-          const a = Math.random() * Math.PI * 2, v = 2 + Math.random() * 5;
-          parts.push({ k: "snip", x: e.clientX, y: e.clientY, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, life: 1, decay: 0.012 + Math.random() * 0.01, s: 5 + Math.random() * 7, c: RISO[(Math.random() * RISO.length) | 0], r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4 });
-        }
+      if (m === "stamp") {
+        parts.push({ k: "stamp", x: e.clientX, y: e.clientY, vx: 0, vy: 0, life: 1, decay: 0.0075, r: (Math.random() - 0.5) * 0.6, vr: 0 });
+        if (parts.filter((p) => p.k === "stamp").length > 10) parts.splice(parts.findIndex((p) => p.k === "stamp"), 1);
       } else if (m === "popcorn") {
         for (let i = 0; i < 7; i++)
           parts.push({ k: "corn", x: e.clientX, y: e.clientY, vx: (Math.random() - 0.5) * 6, vy: -5 - Math.random() * 5, life: 1, decay: 0.01 + Math.random() * 0.006, s: 6 + Math.random() * 4, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.3 });
@@ -121,18 +118,38 @@ export default function CursorTrails() {
       ctx.fill();
       ctx.restore();
     };
-    const drawSnip = (p) => {
+    const STAMP_RING = "MAAYA '26 \u2022 ECLECTRIA \u2022 ";
+    const drawStamp = (p) => {
+      const age = 1 - p.life;
+      const pop = age < 0.05 ? 1.3 - (age / 0.05) * 0.3 : 1;
       ctx.save();
       ctx.translate(p.x, p.y);
       ctx.rotate(p.r);
-      ctx.globalAlpha = Math.min(1, p.life * 1.4);
-      ctx.fillStyle = p.c;
+      ctx.scale(pop, pop);
+      ctx.globalAlpha = Math.min(1, p.life * 1.8) * 0.92;
+      ctx.globalCompositeOperation = "multiply";
+      ctx.strokeStyle = ctx.fillStyle = "#0078bf";
+      ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(-p.s / 2, -p.s / 3);
-      ctx.lineTo(p.s / 2, -p.s / 2);
-      ctx.lineTo(p.s / 6, p.s / 2);
-      ctx.closePath();
-      ctx.fill();
+      ctx.arc(0, 0, 38, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(0, 0, 29.5, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.font = "800 9px Archivo, system-ui, sans-serif";
+      for (let i = 0; i < STAMP_RING.length; i++) {
+        ctx.save();
+        ctx.rotate((i / STAMP_RING.length) * Math.PI * 2);
+        ctx.fillText(STAMP_RING[i], 0, -33.8);
+        ctx.restore();
+      }
+      ctx.font = "900 15px Archivo, system-ui, sans-serif";
+      ctx.fillText("23\u201324", 0, -4);
+      ctx.font = "800 9px Archivo, system-ui, sans-serif";
+      ctx.fillText("OCT 2026", 0, 10);
       ctx.restore();
     };
     const drawCorn = (p) => {
@@ -248,14 +265,15 @@ export default function CursorTrails() {
           p.vy = Math.min(1.6, p.vy + 0.01 * dt);
           p.r += p.vr * dt;
           drawPetal(p);
+        } else if (p.k === "stamp") {
+          drawStamp(p);
         } else {
           p.x += p.vx * dt;
           p.y += p.vy * dt;
           p.vy += (p.k === "corn" ? 0.32 : 0.22) * dt;
           p.vx *= 0.99;
           p.r += p.vr * dt;
-          if (p.k === "snip") drawSnip(p);
-          else drawCorn(p);
+          drawCorn(p);
         }
       }
       // Sleep when nothing is left to draw and the rope has settled.

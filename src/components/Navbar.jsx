@@ -2,11 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Volume2, VolumeX, Menu, X } from "lucide-react";
 import { playClick, setSoundEnabled, isSoundEnabled, onSoundChange } from "../utils/audioEffects";
 import { WORLDS } from "./worlds";
+import { PAGES, usePage } from "./pages/route";
+
+// The two pages that aren't sections of the home page.
+const PAGE_TABS = [
+  { href: "#/rules", path: "/rules", label: "Rules" },
+  { href: "#/legal", path: "/legal", label: "Legal" },
+];
 
 // The nav is a strip of label-maker tape stuck across the top of the zine.
 export default function Navbar({ onOpenRegister }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [soundOn, setSoundOn] = useState(isSoundEnabled);
+  const page = usePage();
 
   useEffect(() => onSoundChange(setSoundOn), []);
 
@@ -51,6 +59,20 @@ export default function Navbar({ onOpenRegister }) {
                 className="embossed shrink-0 rounded-sm px-3 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15"
               >
                 {w.part}
+              </a>
+            ))}
+            <span aria-hidden="true" className="mx-1.5 h-5 w-px shrink-0 bg-white/30" />
+            {PAGE_TABS.map((t) => (
+              <a
+                key={t.path}
+                href={t.href}
+                onClick={playClick}
+                aria-current={page === t.path ? "page" : undefined}
+                className={`embossed shrink-0 rounded-sm px-3 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors ${
+                  page === t.path ? "bg-riso-yellow text-black [text-shadow:none]" : "hover:bg-white/15"
+                }`}
+              >
+                {t.label}
               </a>
             ))}
           </nav>
@@ -113,6 +135,24 @@ export default function Navbar({ onOpenRegister }) {
                     <span className="block text-2xl leading-none font-black condensed uppercase">{w.part}</span>
                     <span className="mt-1 block text-sm text-black/70">{w.title}</span>
                   </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="relative z-[2] mt-6 text-sm font-semibold">The small print</p>
+          <ul className="relative z-[2] mt-3 grid grid-cols-2 gap-3">
+            {PAGE_TABS.map((t) => (
+              <li key={t.path}>
+                <a
+                  href={t.href}
+                  onClick={() => {
+                    playClick();
+                    setMobileMenuOpen(false);
+                  }}
+                  aria-current={page === t.path ? "page" : undefined}
+                  className="flex min-h-14 items-center justify-center border-[3px] border-black bg-white px-3 text-center text-base leading-tight font-black shadow-[4px_4px_0_#000]"
+                >
+                  {PAGES[t.path]}
                 </a>
               </li>
             ))}

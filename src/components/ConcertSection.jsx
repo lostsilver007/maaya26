@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Volume2 } from "lucide-react";
-import { CONCERT_DATA, FESTIVAL_INFO } from "../data/festivalData";
+import { Ticket, Volume2 } from "lucide-react";
+import { CONCERT_DATA, CONCERT_PASSES, FESTIVAL_INFO } from "../data/festivalData";
 import { playBassDrop, isSoundEnabled, setSoundEnabled } from "../utils/audioEffects";
 import ChromeBlob from "./fx/ChromeBlob";
+import PassGuide from "./PassGuide";
 import posterJpg from "../assets/concert/seher-band-poster-720.jpg";
 import poster720 from "../assets/concert/seher-band-poster-720.webp";
 import poster1080 from "../assets/concert/seher-band-poster-1080.webp";
@@ -14,6 +15,7 @@ import poster1080 from "../assets/concert/seher-band-poster-1080.webp";
 function PosterCard() {
   const card = useRef(null);
   const reduce = useReducedMotion();
+  const [guide, setGuide] = useState(false);
   const onMove = (e) => {
     if (reduce || !card.current) return;
     const r = card.current.getBoundingClientRect();
@@ -28,6 +30,7 @@ function PosterCard() {
     card.current.style.removeProperty("--holo-angle");
   };
   return (
+    <>
     <div
       ref={card}
       onPointerMove={onMove}
@@ -48,18 +51,31 @@ function PosterCard() {
           />
         </picture>
         <div className="px-4 pt-3.5 pb-4 text-center sm:px-5 sm:pb-5">
-          <p className="text-sm leading-relaxed text-white/85">Student passes and updates drop on the official Instagram page.</p>
+          <p className="text-xs font-bold tracking-wide text-holo-cyan uppercase">{CONCERT_PASSES.tier} passes</p>
+          <p className="mt-1 font-cosmic text-3xl leading-none font-black chrome tabular-nums">{CONCERT_PASSES.price}</p>
+          <p className="mt-2 text-sm leading-relaxed text-white/85">Live now on {CONCERT_PASSES.portal}. Grab yours before prices go up.</p>
+          <button
+            type="button"
+            onClick={() => setGuide(true)}
+            className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:text-base"
+          >
+            <Ticket size={16} aria-hidden="true" />
+            Get your pass
+          </button>
           <a
             href={FESTIVAL_INFO.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:text-base"
+            className="mt-2 inline-flex min-h-11 items-center px-2 text-sm font-bold text-white/85 underline decoration-holo-pink decoration-2 underline-offset-4 hover:text-white"
           >
-            Follow @maayapesu
+            Updates on @maayapesu
           </a>
         </div>
       </div>
     </div>
+    {/* Outside the card, so moving over the dialog doesn't tilt it */}
+    <PassGuide open={guide} onClose={() => setGuide(false)} />
+    </>
   );
 }
 

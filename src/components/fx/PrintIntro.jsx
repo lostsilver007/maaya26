@@ -3,10 +3,11 @@ import { finePointer, prefersReducedMotion } from "./env";
 import { setPrinted, willPlay } from "./printState";
 
 // The cover comes off a riso duplicator. Four drum passes sweep down the
-// sheet — yellow, pink, blue, then black — each ink a hair out of register,
-// and the printed sheet slides away to reveal the site. Once per visit, any
-// click or key skips it, and it never plays under reduced motion or when the
-// visitor arrives on a deep link.
+// sheet — yellow, pink, blue, then black — each ink laid over the last a hair
+// out of register, so every pass shows its own colour with the earlier inks
+// peeking out at the edges. Then the printed sheet slides away to reveal the
+// site. Once per visit, any click or key skips it, and it never plays under
+// reduced motion or when the visitor arrives on a deep link.
 
 const PASSES = [
   { ink: "var(--color-riso-yellow)", name: "Yellow", dx: "-0.05em", dy: "0.035em" },
@@ -108,7 +109,7 @@ export default function PrintIntro() {
               <div
                 key={p.name}
                 className={`print-pass col-start-1 row-start-1 ${i === pass && run < 4 ? "print-wipe" : ""}`}
-                style={{ color: p.ink, transform: `translate(${p.dx}, ${p.dy})`, mixBlendMode: i < 3 ? "multiply" : "normal" }}
+                style={{ color: p.ink, transform: `translate(${p.dx}, ${p.dy})` }}
               >
                 <p className="text-[min(19vw,15rem)] leading-[0.82] font-black tracking-tight expanded">MAAYA</p>
                 <p className="mt-[0.4em] text-[min(5.2vw,3.75rem)] font-black tracking-tight expanded">ECLECTRIA · 23–24 OCT</p>

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Dices } from "lucide-react";
 import { FESTIVAL_INFO, EVENTS } from "../data/festivalData";
 import { playClick, playTrumpet, playWorldSwitch } from "../utils/audioEffects";
-import confetti from "canvas-confetti";
 import { WORLDS } from "./worlds";
 import Overprint from "./fx/Overprint";
 import SplitFlap from "./fx/SplitFlap";
@@ -49,7 +47,7 @@ const CONTENTS_NOTE = {
 
 const pad = (n) => String(n).padStart(2, "0");
 
-// Jago, the Maaya mascot, as a die-cut sticker. He bobs gently; tap him and he
+// Jago, the PES mascot, as a die-cut sticker. He bobs gently; tap him and he
 // shakes his head and trumpets (when sound is on).
 function Jago({ reduce }) {
   const [shakes, setShakes] = useState(0);
@@ -61,7 +59,7 @@ function Jago({ reduce }) {
         playTrumpet();
         setShakes((n) => n + 1);
       }}
-      aria-label="Say hi to Jago, the Maaya mascot"
+      aria-label="Say hi to Jago, the PES mascot"
       className="group relative block shrink-0 rounded-2xl"
     >
       <motion.span
@@ -83,7 +81,7 @@ function Jago({ reduce }) {
         aria-hidden="true"
         className="absolute -top-7 -right-2 rotate-6 rounded-2xl border-[3px] border-black bg-white px-2.5 py-1 font-marker text-sm leading-none whitespace-nowrap text-black shadow-[2px_3px_0_#000] after:absolute after:-bottom-[9px] after:left-4 after:size-3.5 after:rotate-45 after:border-r-[3px] after:border-b-[3px] after:border-black after:bg-white sm:text-base"
       >
-        Hi, I&apos;m Jago!
+        Jago, the PES Mascot
       </span>
     </button>
   );
@@ -101,25 +99,12 @@ const peel = (tilt = 0) =>
       }
     : {};
 
-export default function HeroSection({ onSelectEvent }) {
+export default function HeroSection() {
   const reduce = useReducedMotion();
   const t = useCountdown();
   // Everything waits under the riso intro until the sheet has been printed.
   const go = usePrinted();
   const gate = (from, to) => (go ? to : from);
-
-  const handleRandomEvent = () => {
-    playWorldSwitch(560);
-    const randomEvent = EVENTS[Math.floor(Math.random() * EVENTS.length)];
-    if (!reduce) {
-      try {
-        confetti({ particleCount: 90, spread: 80, origin: { y: 0.6 }, colors: ["#ff48b0", "#0078bf", "#ffe800", "#000000"], shapes: ["square"] });
-      } catch {
-        // Confetti is decoration only.
-      }
-    }
-    onSelectEvent(randomEvent);
-  };
 
   // The entrance: the letters slap on, then every scrap flies in from off the
   // page and lands at its own angle.
@@ -141,7 +126,7 @@ export default function HeroSection({ onSelectEvent }) {
         };
 
   return (
-    <section id="top" data-cursor="scissors" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
+    <section id="top" data-cursor="stamp" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
       <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
         {/* ── Left: the masthead ── */}
         <div className="lg:col-span-7">
@@ -185,25 +170,6 @@ export default function HeroSection({ onSelectEvent }) {
                 '26
               </motion.span>
             </h1>
-
-            {/* Mouse users get a scribbled hint that the letters come off. */}
-            {finePointer && (
-              <motion.p
-                aria-hidden="true"
-                {...(reduce ? {} : { initial: { opacity: 0, scale: 0.6 }, animate: gate({ opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1 }), transition: { delay: 2.2, type: "spring", stiffness: 300, damping: 15 } })}
-                className="pointer-events-none absolute -top-16 right-2 hidden rotate-3 items-end gap-1 font-marker text-lg leading-tight text-black xl:flex"
-              >
-                <svg width="56" height="44" viewBox="0 0 56 44" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="-scale-x-100">
-                  <path d="M4 6 C 20 2, 38 10, 44 34" />
-                  <path d="M36 30 L44 36 L49 26" />
-                </svg>
-                <span>
-                  psst! the letters
-                  <br />
-                  peel off
-                </span>
-              </motion.p>
-            )}
           </div>
 
           <motion.div {...land(0, { x: 0, y: 90, r: 4 })} className="mt-9 sm:mt-10">
@@ -236,14 +202,6 @@ export default function HeroSection({ onSelectEvent }) {
             >
               Open the 3D campus
             </a>
-            <button
-              type="button"
-              onClick={handleRandomEvent}
-              className="sticker inline-flex min-h-12 items-center gap-2 rounded-full bg-riso-yellow px-5 text-base font-black transition-transform hover:rotate-6 active:scale-95"
-            >
-              <Dices size={18} aria-hidden="true" />
-              Pick a random event
-            </button>
           </motion.div>
         </div>
 
@@ -297,12 +255,11 @@ export default function HeroSection({ onSelectEvent }) {
             </motion.div>
           </div>
 
-          {/* In this issue: the site's sections, in page order */}
-          <motion.nav {...land(0.45, { x: 140, y: 60, r: 14 }, 1)} aria-label="In this issue" className="scrap relative mt-8 p-5 sm:p-6">
+          {/* The site's sections, in page order */}
+          <motion.nav {...land(0.45, { x: 140, y: 60, r: 14 }, 1)} aria-label="Sections" className="scrap relative mt-8 px-5 py-3 sm:px-6 sm:py-4">
             <span className="tape -top-3 right-8 rotate-3" aria-hidden="true" />
-            <p className="font-script text-2xl">In this issue</p>
-            <ol className="mt-3 divide-y-2 divide-dashed divide-black/25">
-              {WORLDS.map((w, i) => (
+            <ol className="divide-y-2 divide-dashed divide-black/25">
+              {WORLDS.map((w) => (
                 <li key={w.id}>
                   <a href={w.href} onClick={playClick} className="group flex items-center gap-3 py-2.5">
                     <span aria-hidden="true" className={`${w.swatch} size-10 shrink-0 border-2 border-black transition-transform duration-300 group-hover:-rotate-12 group-hover:scale-110`} />
@@ -312,7 +269,6 @@ export default function HeroSection({ onSelectEvent }) {
                         {w.title}. {CONTENTS_NOTE[w.id]}
                       </span>
                     </span>
-                    <span className="text-sm font-black tabular-nums transition-transform group-hover:translate-x-1">p.{pad(i + 2)}</span>
                   </a>
                 </li>
               ))}
