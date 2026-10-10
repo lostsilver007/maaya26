@@ -4,6 +4,7 @@ import { Maximize2, Minimize2, ExternalLink } from "lucide-react";
 import { VENUES_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
 import Stitches from "./fx/Stitches";
+import PesuSeal from "./PesuSeal";
 
 // World 1 — Denim & Street. The 3D island sits in a stitched denim pocket
 // with copper rivets; the venues are embroidered patches sewn on below.
@@ -76,12 +77,15 @@ export default function CampusIslandSection() {
   return (
     <section id="venues" data-cursor="needle" className="tex-denim grain-dark relative z-[5] overflow-x-clip px-4 pt-20 pb-24 text-white sm:px-6 sm:pt-24 lg:px-8">
       <div className="relative z-[2] mx-auto max-w-6xl">
-        {/* World label: a leather jeans patch */}
+        {/* World label: a leather jeans patch & official PESU seal */}
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="inline-block -rotate-2 rounded-sm bg-leather px-3 py-1.5 text-sm font-bold text-[#f6dcc0] shadow-[inset_0_0_0_2px_rgb(0_0_0/0.25),0_3px_0_rgb(0_0_0/0.4)] [text-shadow:0_1px_0_rgb(0_0_0/0.5)]">
-              World 1: Denim &amp; Street
-            </p>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="inline-block -rotate-2 rounded-sm bg-leather px-3 py-1.5 text-sm font-bold text-[#f6dcc0] shadow-[inset_0_0_0_2px_rgb(0_0_0/0.25),0_3px_0_rgb(0_0_0/0.4)] [text-shadow:0_1px_0_rgb(0_0_0/0.5)]">
+                World 1: Denim &amp; Street
+              </p>
+              <PesuSeal world="denim" size="sm" />
+            </div>
             <SprayHeading>Six venues, one floating island</SprayHeading>
             <p className="mt-10 max-w-2xl text-base leading-relaxed text-white sm:mt-12 sm:text-lg lg:mt-14">
               PES University's EC campus, rebuilt as a low-poly 3D island. Drag it around, zoom in, and find the building your event is in.

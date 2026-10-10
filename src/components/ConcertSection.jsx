@@ -5,6 +5,7 @@ import { CONCERT_DATA, CONCERT_PASSES, FESTIVAL_INFO } from "../data/festivalDat
 import { playBassDrop, isSoundEnabled, setSoundEnabled } from "../utils/audioEffects";
 import ChromeBlob from "./fx/ChromeBlob";
 import PassGuide from "./PassGuide";
+import PesuSeal from "./PesuSeal";
 import posterJpg from "../assets/concert/seher-band-poster-720.jpg";
 import poster720 from "../assets/concert/seher-band-poster-720.webp";
 import poster1080 from "../assets/concert/seher-band-poster-1080.webp";
@@ -99,7 +100,10 @@ export default function ConcertSection() {
       <span className="edge-scallop top-0" aria-hidden="true" />
       <div className="relative z-[2] mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-12">
         <div className="lg:col-span-7">
-          <p className="tex-holo inline-block -rotate-2 rounded-full px-4 py-1.5 text-sm font-black text-space">World 3: Cosmic Glamour</p>
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="tex-holo inline-block -rotate-2 rounded-full px-4 py-1.5 text-sm font-black text-space">World 3: Cosmic Glamour</p>
+            <PesuSeal world="cosmic" size="sm" />
+          </div>
           <p className="mt-6 text-lg font-bold text-holo-pink">Concert pro-night</p>
           <h2
             className="mt-2 font-cosmic text-[2.75rem] leading-[0.92] font-black tracking-tight chrome transition-[background-position] duration-500 ease-out sm:text-7xl lg:text-[5.6rem]"

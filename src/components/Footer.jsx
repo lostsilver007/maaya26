@@ -2,6 +2,7 @@ import React from "react";
 import { FESTIVAL_INFO } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
 import Overprint from "./fx/Overprint";
+import PesuSeal from "./PesuSeal";
 
 // Back cover of the zine: riso blue, paper scraps taped on.
 export default function Footer({ onOpenRegister }) {
@@ -112,23 +113,26 @@ export default function Footer({ onOpenRegister }) {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
-          <div className="text-sm font-semibold text-white">
-            <p>© 2026 MAAYA, PES University Electronic City Campus</p>
-            <p className="mt-1 flex flex-wrap gap-x-4">
-              <a href="#/core" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
-                Core team
-              </a>
-              <a href="#/credits" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
-                Credits
-              </a>
-              <a href="#/rules" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
-                Rules and regulations
-              </a>
-              <a href="#/legal" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
-                Legal and privacy
-              </a>
-            </p>
+        <div className="mt-14 flex flex-col items-start justify-between gap-6 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+            <PesuSeal world="paper" size="sm" />
+            <div className="text-sm font-semibold text-white">
+              <p>© 2026 MAAYA, PES University Electronic City Campus</p>
+              <p className="mt-1 flex flex-wrap gap-x-4">
+                <a href="#/core" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                  Core team
+                </a>
+                <a href="#/credits" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                  Credits
+                </a>
+                <a href="#/rules" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                  Rules and regulations
+                </a>
+                <a href="#/legal" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                  Legal and privacy
+                </a>
+              </p>
+            </div>
           </div>
           <div className="flex flex-wrap gap-3">
             <button

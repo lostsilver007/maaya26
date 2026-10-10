@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowLeft } from "lucide-react";
+import PesuSeal from "../PesuSeal";
 
 // A page of the zine that isn't on the cover: riso-blue backing with a typed
 // paper sheet taped on top.
@@ -8,10 +9,13 @@ export default function PageShell({ kicker, title, intro, wide = false, children
     <main id="main" className="grain relative min-h-dvh overflow-hidden bg-riso-blue px-4 pt-28 pb-24 sm:px-6 lg:px-8">
       <div aria-hidden="true" className="halftone absolute inset-0 opacity-50" />
       <div className={`relative z-[2] mx-auto ${wide ? "max-w-6xl" : "max-w-3xl"}`}>
-        <a href="#top" className="inline-flex min-h-11 items-center gap-2 bg-black px-4 text-sm font-black text-riso-yellow shadow-[3px_3px_0_#000]">
-          <ArrowLeft size={16} aria-hidden="true" />
-          Back to the site
-        </a>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <a href="#top" className="inline-flex min-h-11 items-center gap-2 bg-black px-4 text-sm font-black text-riso-yellow shadow-[3px_3px_0_#000]">
+            <ArrowLeft size={16} aria-hidden="true" />
+            Back to the site
+          </a>
+          <PesuSeal world="paper" size="sm" />
+        </div>
         <article className="grain relative mt-8 bg-paper px-5 pt-9 pb-8 text-black shadow-[8px_8px_0_#000] sm:px-10 sm:pt-12 sm:pb-10">
           <span className="tape -top-3 left-10 -rotate-6" aria-hidden="true" />
           <span className="tape -top-3 right-10 rotate-6" aria-hidden="true" />

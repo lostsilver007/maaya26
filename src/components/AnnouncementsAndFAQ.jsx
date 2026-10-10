@@ -3,6 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import { FAQ_DATA } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
 import Rangoli from "./fx/Rangoli";
+import PesuSeal from "./PesuSeal";
 
 // World 5 — Indian Tradition. A marigold toran across the doorway, hand
 // block-printed cotton, and the questions people ask most.
@@ -96,7 +97,10 @@ export default function AnnouncementsAndFAQ() {
       <Toran />
       <div className="relative z-[2] mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.25fr)] lg:gap-16">
         <div className="text-center lg:sticky lg:top-28 lg:text-left">
-          <p className="inline-block -rotate-1 bg-saffron px-4 py-1.5 text-sm font-black text-black">World 5: Indian Tradition</p>
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+            <p className="inline-block -rotate-1 bg-saffron px-4 py-1.5 text-sm font-black text-black">World 5: Indian Tradition</p>
+            <PesuSeal world="tradition" size="sm" />
+          </div>
           <h2 className="mt-5 font-deva text-[2.75rem] leading-[1.05] text-kumkum sm:text-6xl">Questions, answered</h2>
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-black/75 sm:text-lg lg:mx-0">
             Everything you need to know about dates, the theme, the 3D map and registering.
