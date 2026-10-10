@@ -126,7 +126,7 @@ export default function HeroSection() {
         };
 
   return (
-    <section id="top" data-cursor="riso" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
+    <section id="top" data-cursor="stamp" className="tex-riso grain relative overflow-hidden px-4 pt-24 pb-24 sm:px-6 sm:pt-28 lg:px-8">
       <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
         {/* ── Left: the masthead ── */}
         <div className="lg:col-span-7">
