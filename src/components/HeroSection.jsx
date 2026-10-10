@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Dices } from "lucide-react";
 import { FESTIVAL_INFO, EVENTS } from "../data/festivalData";
-import { playClick, playWorldSwitch } from "../utils/audioEffects";
+import { playClick, playTrumpet, playWorldSwitch } from "../utils/audioEffects";
 import confetti from "canvas-confetti";
 import { WORLDS } from "./worlds";
 import Overprint from "./fx/Overprint";
 import SplitFlap from "./fx/SplitFlap";
 import { finePointer } from "./fx/env";
 import { usePrinted } from "./fx/printState";
+import pesLogo from "../assets/brand/pes-university-logo.png";
+import jagoSticker from "../assets/brand/jago-sticker.webp";
 
 // MAAYA, cut out ransom-note style: one letter from each of Eclectria's five
 // worlds. The letters slap on in turn, and (with a mouse) they peel off: grab
@@ -40,12 +42,52 @@ function useCountdown() {
 const CONTENTS_NOTE = {
   denim: "6 venues on a 3D island",
   cinema: `${EVENTS.length} club events`,
-  cosmic: "24 October, MRD main stage",
+  cosmic: "Seher Band live, 24 October",
   sports: "Retronomia to Eclectria",
   heritage: "Dates, theme, registration",
 };
 
 const pad = (n) => String(n).padStart(2, "0");
+
+// Jago, the Maaya mascot, as a die-cut sticker. He bobs gently; tap him and he
+// shakes his head and trumpets (when sound is on).
+function Jago({ reduce }) {
+  const [shakes, setShakes] = useState(0);
+  const shake = shakes % 2 ? [0, -10, 8, -5, 3, 0] : [0, 10, -8, 5, -3, 0];
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        playTrumpet();
+        setShakes((n) => n + 1);
+      }}
+      aria-label="Say hi to Jago, the Maaya mascot"
+      className="group relative block shrink-0 rounded-2xl"
+    >
+      <motion.span
+        className="block"
+        {...(reduce ? {} : { animate: { y: [0, -6, 0] }, transition: { duration: 3.2, repeat: Infinity, ease: "easeInOut" } })}
+      >
+        <motion.img
+          src={jagoSticker}
+          alt=""
+          width="371"
+          height="420"
+          draggable="false"
+          animate={reduce || !shakes ? undefined : { rotate: shake }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          className="h-[9.5rem] w-auto origin-top drop-shadow-[3px_6px_0_rgb(0_0_0/0.35)] transition-transform duration-300 select-none group-hover:-rotate-3 sm:h-48"
+        />
+      </motion.span>
+      <span
+        aria-hidden="true"
+        className="absolute -top-7 -right-2 rotate-6 rounded-2xl border-[3px] border-black bg-white px-2.5 py-1 font-marker text-sm leading-none whitespace-nowrap text-black shadow-[2px_3px_0_#000] after:absolute after:-bottom-[9px] after:left-4 after:size-3.5 after:rotate-45 after:border-r-[3px] after:border-b-[3px] after:border-black after:bg-white sm:text-base"
+      >
+        Hi, I&apos;m Jago!
+      </span>
+    </button>
+  );
+}
 
 // Grab-and-peel for any collage piece (mouse only, so touch can still scroll).
 const peel = (tilt = 0) =>
@@ -103,9 +145,18 @@ export default function HeroSection({ onSelectEvent }) {
       <div className="relative z-[2] mx-auto grid max-w-6xl gap-10 lg:grid-cols-12 lg:gap-8">
         {/* ── Left: the masthead ── */}
         <div className="lg:col-span-7">
-          <motion.p {...land(-0.8, { x: -80, y: 0, r: -12 }, -1)} className="scrap inline-block px-3 py-1.5 text-sm font-semibold sm:text-base">
-            PES University Electronic City Campus presents
-          </motion.p>
+          {/* The official PES University logo on a white tag */}
+          <motion.div
+            {...land(-0.8, { x: -80, y: 0, r: -12 }, -1)}
+            className="inline-flex items-center gap-3 bg-white py-2 pr-4 pl-2.5 shadow-[3px_4px_0_rgb(0_0_0/0.85)] sm:gap-4 sm:py-2.5"
+          >
+            <img src={pesLogo} alt="PES University" width="326" height="148" className="h-10 w-auto sm:h-12" />
+            <span className="border-l-2 border-black/15 pl-3 text-sm leading-tight font-semibold sm:pl-4 sm:text-base">
+              Electronic City Campus
+              <br />
+              presents
+            </span>
+          </motion.div>
 
           <div className="relative w-fit">
             <h1 aria-label="Maaya" className="relative mt-6 flex w-fit items-end gap-x-1 sm:mt-8 sm:gap-x-2">
@@ -210,6 +261,16 @@ export default function HeroSection({ onSelectEvent }) {
                 <span className="block text-[2.6rem] font-black tracking-tight condensed sm:text-5xl">23–24</span>
                 <span className="block text-base font-extrabold sm:text-lg">October 2026</span>
               </span>
+            </motion.div>
+
+            <motion.div
+              {...(reduce
+                ? {}
+                : { initial: { opacity: 0, scale: 0.4, rotate: 25 }, animate: gate({ opacity: 0, scale: 0.4, rotate: 25 }, { opacity: 1, scale: 1, rotate: -4 }), transition: { type: "spring", stiffness: 260, damping: 13, delay: 1.25 } })}
+              style={reduce ? { rotate: "-4deg" } : undefined}
+              className="pt-3"
+            >
+              <Jago reduce={reduce} />
             </motion.div>
 
             {/* Countdown: an airport departure board */}
