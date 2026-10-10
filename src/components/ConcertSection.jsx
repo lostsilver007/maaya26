@@ -4,10 +4,14 @@ import { Volume2 } from "lucide-react";
 import { CONCERT_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playBassDrop, isSoundEnabled, setSoundEnabled } from "../utils/audioEffects";
 import ChromeBlob from "./fx/ChromeBlob";
+import posterJpg from "../assets/concert/seher-band-poster-720.jpg";
+import poster720 from "../assets/concert/seher-band-poster-720.webp";
+import poster1080 from "../assets/concert/seher-band-poster-1080.webp";
 
-// World 3 — Cosmic Glamour. Deep space, liquid chrome, and a holographic
-// trading card for the headliner (still to be announced).
-function HoloCard() {
+// World 3 — Cosmic Glamour. Deep space, liquid chrome, and the headliner's
+// official poster (Seher Band) in a holographic frame that tilts with the
+// pointer.
+function PosterCard() {
   const card = useRef(null);
   const reduce = useReducedMotion();
   const onMove = (e) => {
@@ -28,20 +32,32 @@ function HoloCard() {
       ref={card}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      className="tex-holo relative mx-auto w-full max-w-[17.5rem] rotate-2 rounded-3xl p-2 shadow-[0_30px_60px_-20px_rgb(255_122_217/0.55)] transition-transform duration-150 ease-out sm:max-w-sm sm:p-2.5"
+      className="tex-holo relative mx-auto w-full max-w-[17.5rem] rotate-2 rounded-3xl p-2 shadow-[0_30px_60px_-20px_rgb(255_122_217/0.55)] transition-transform duration-150 ease-out sm:max-w-[21rem] sm:p-2.5"
     >
-      <div className="rounded-[1.1rem] bg-space/90 p-5 text-center sm:p-7">
-        <p className="text-sm font-bold text-holo-cyan">Headliner</p>
-        <p className="mt-2 font-cosmic text-3xl leading-none font-black chrome sm:mt-3 sm:text-5xl">TBA</p>
-        <p className="mt-3 text-sm leading-relaxed text-white/85 sm:mt-4 sm:text-base">Lineup reveals and student passes drop on the official Instagram page.</p>
-        <a
-          href={FESTIVAL_INFO.socials.instagram}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:mt-6 sm:min-h-12 sm:px-6 sm:text-base"
-        >
-          Follow @maayapesu
-        </a>
+      <div className="overflow-hidden rounded-[1.1rem] bg-space">
+        <picture>
+          <source type="image/webp" srcSet={`${poster720} 720w, ${poster1080} 1080w`} sizes="(min-width: 640px) 21rem, 17.5rem" />
+          <img
+            src={posterJpg}
+            alt={`Maaya '26 Concert poster: ${CONCERT_DATA.headliner}`}
+            width="720"
+            height="900"
+            loading="lazy"
+            decoding="async"
+            className="block h-auto w-full"
+          />
+        </picture>
+        <div className="px-4 pt-3.5 pb-4 text-center sm:px-5 sm:pb-5">
+          <p className="text-sm leading-relaxed text-white/85">Student passes and updates drop on the official Instagram page.</p>
+          <a
+            href={FESTIVAL_INFO.socials.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:text-base"
+          >
+            Follow @maayapesu
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -60,7 +76,7 @@ export default function ConcertSection() {
     const r = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--shine", `${((e.clientY - r.top) / r.height) * 100}%`);
   };
-  const ring = "Concert pro-night ✦ 24 October ✦ MRD main stage ✦ Headliner TBA ✦";
+  const ring = `Concert pro-night ✦ 24 October ✦ MRD main stage ✦ ${CONCERT_DATA.headliner} live ✦`;
 
   return (
     <section id="concert" data-cursor="star" onPointerMove={onMove} className="tex-space grain-dark relative overflow-hidden px-4 pt-28 pb-28 text-white sm:px-6 lg:px-8">
@@ -83,6 +99,10 @@ export default function ConcertSection() {
             <div className="rounded-full border-2 border-holo-cyan/70 px-5 py-2.5">
               <dt className="sr-only">Where</dt>
               <dd className="text-base font-bold">MRD Student Center, main stage</dd>
+            </div>
+            <div className="tex-holo rounded-full px-5 py-2.5 text-space">
+              <dt className="sr-only">Headliner</dt>
+              <dd className="text-base font-black">{CONCERT_DATA.headliner} live</dd>
             </div>
           </dl>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
@@ -113,7 +133,7 @@ export default function ConcertSection() {
             </svg>
           </div>
           <div className="relative z-10 -mt-6 sm:-mt-32">
-            <HoloCard />
+            <PosterCard />
           </div>
         </div>
       </div>

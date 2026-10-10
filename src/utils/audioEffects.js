@@ -83,6 +83,45 @@ export function playWorldSwitch(freq = 440) {
   }
 }
 
+// Jago's trumpet: a brassy sawtooth that swoops up with a wobble.
+export function playTrumpet() {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudioContext();
+    if (!ctx) return;
+    const t = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    const filter = ctx.createBiquadFilter();
+    const gain = ctx.createGain();
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(220, t);
+    osc.frequency.exponentialRampToValueAtTime(520, t + 0.18);
+    osc.frequency.exponentialRampToValueAtTime(440, t + 0.55);
+    lfo.frequency.value = 9;
+    lfoGain.gain.value = 14;
+    lfo.connect(lfoGain);
+    lfoGain.connect(osc.frequency);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(900, t);
+    filter.frequency.linearRampToValueAtTime(2400, t + 0.2);
+    gain.gain.setValueAtTime(0.0001, t);
+    gain.gain.exponentialRampToValueAtTime(0.14, t + 0.05);
+    gain.gain.setValueAtTime(0.14, t + 0.4);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(t);
+    lfo.start(t);
+    osc.stop(t + 0.72);
+    lfo.stop(t + 0.72);
+  } catch {
+    // Ignore
+  }
+}
+
 export function playChime() {
   if (!soundEnabled) return;
   try {

@@ -558,7 +558,8 @@ export const CONCERT_DATA = {
   sub: "The premier live concert pro-night at PES University Electronic City Campus.",
   date: "24th October 2026",
   venue: "MRD Main Stage Arena",
-  status: "Artist Lineup Announcing Soon",
+  headliner: "Seher Band",
+  status: "Headliner: Seher Band",
 };
 
 export const FAQ_DATA = [
