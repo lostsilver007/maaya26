@@ -82,15 +82,8 @@ function Ticket({ e, punched, onPunch, onRules }) {
             className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
             style={{ background: "radial-gradient(40% 70% at var(--glare-x, 50%) 0%, rgb(255 255 255 / 0.45), transparent 70%)" }}
           />
-          {e.headline && (
-            <span className="absolute top-3 right-3 grid size-[4.6rem] rotate-12 place-items-center rounded-full border-[3px] border-double border-ticket-red text-center text-[0.68rem] leading-tight font-black text-ticket-red uppercase transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[24deg] sm:top-4 sm:right-5">
-              Headline
-              <br />
-              event
-            </span>
-          )}
-          <p className="relative pr-20 text-sm font-bold text-ticket-red">Hosted by {e.club}</p>
-          <h3 className="relative mt-1 pr-20 text-2xl leading-tight font-black sm:text-[1.75rem]">{e.name}</h3>
+          <p className="relative text-sm font-bold text-ticket-red">Hosted by {e.club}</p>
+          <h3 className="relative mt-1 text-2xl leading-tight font-black sm:text-[1.75rem]">{e.name}</h3>
           <p className="relative mt-2 line-clamp-3 max-w-prose text-base leading-relaxed text-black/75 sm:line-clamp-none">{e.blurb}</p>
           <dl className="relative mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
             <div className="flex gap-1.5">

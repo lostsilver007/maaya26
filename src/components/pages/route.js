@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 // rewrites. Plain anchors (#programme, #faq...) still scroll the home page.
 export const PAGES = {
   "/core": "Core team",
+  "/credits": "Credits",
   "/rules": "Rules and regulations",
   "/legal": "Legal and privacy",
 };

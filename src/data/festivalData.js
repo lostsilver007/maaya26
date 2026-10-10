@@ -193,7 +193,7 @@ export const EVENTS = [
     blurb: "A campus-wide treasure hunt where teams solve coding challenges, uncover hidden clues, and race to unlock the next challenge.",
     headline: true,
     paymentUrl: "https://forms.gle/Gq14yKXfoCxCA98e7",
-    teamSize: "Teams of 2 to 3",
+    teamSize: "Teams of 2 to 4",
     contact: "Aniket Barun (9431515754)",
     rules: [
       "Bring at least one fully charged laptop with preferred programming environments installed.",
@@ -558,7 +558,7 @@ export const EVENTS = [
     ],
   },
 
-// --- SPORTS (15th, 22nd, 24th Oct) ---
+  // --- SPORTS (15th, 22nd, 24th Oct) ---
   {
     id: "badminton-singles",
     name: "Badminton Singles",

@@ -16,6 +16,7 @@ import CursorTrails from "./components/fx/CursorTrails";
 import WorldSpine from "./components/WorldSpine";
 import { usePage } from "./components/pages/route";
 import CorePage from "./components/pages/CorePage";
+import CreditsPage from "./components/pages/CreditsPage";
 import RulesPage from "./components/pages/RulesPage";
 import LegalPage from "./components/pages/LegalPage";
 
@@ -57,6 +58,8 @@ export default function App() {
 
       {page === "/core" ? (
         <CorePage />
+      ) : page === "/credits" ? (
+        <CreditsPage />
       ) : page === "/rules" ? (
         <RulesPage />
       ) : page === "/legal" ? (

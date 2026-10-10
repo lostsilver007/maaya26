@@ -7,6 +7,7 @@ import { PAGES, usePage } from "./pages/route";
 // The pages that aren't sections of the home page.
 const PAGE_TABS = [
   { href: "#/core", path: "/core", label: "Core" },
+  { href: "#/credits", path: "/credits", label: "Credits" },
   { href: "#/rules", path: "/rules", label: "Rules" },
   { href: "#/legal", path: "/legal", label: "Legal" },
 ];
