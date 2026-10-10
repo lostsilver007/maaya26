@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { CORE_TEAM } from "../../data/festivalData";
 import PageShell from "./PageShell";
+import kushalPhoto from "../../assets/core/vakalapudi-kushal.webp";
+import viswajithPhoto from "../../assets/core/malepati-viswajith.webp";
+
+// Portraits sent directly (their sheet entries link a Drive folder, not a
+// photo), cropped to the card and bundled with the site.
+const LOCAL_PHOTOS = {
+  "Vakalapudi Kushal": kushalPhoto,
+  "Malepati Viswajith": viswajithPhoto,
+};
 
 // The core team as polaroids taped into the zine: the Head and Co-Head up top,
 // then the domain heads, in the order of the team's sheet.
@@ -20,7 +29,8 @@ const initials = (name) =>
     .toUpperCase();
 
 function Portrait({ person, index, big }) {
-  const sources = driveSources(person.photo);
+  const local = LOCAL_PHOTOS[person.name];
+  const sources = local ? [local] : driveSources(person.photo);
   const [tryNo, setTryNo] = useState(0);
   const src = sources[tryNo];
   return (
