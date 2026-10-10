@@ -20,13 +20,26 @@ const shortDate = (iso) => (iso ? `${Number(iso.slice(8, 10))} ${MONTHS[Number(i
 const dayName = (day) => (day.toLowerCase().includes("week") ? "Pre-fest" : day);
 const FALLBACK_URL = "https://fest-island.vercel.app/#programme";
 
+const isPreFestEvent = (e) =>
+  e.isPreFest ||
+  e.day.toLowerCase().includes("pre") ||
+  e.day.includes("15") ||
+  e.day.includes("17") ||
+  e.day.includes("19") ||
+  e.day.includes("21") ||
+  e.day.includes("22");
+
 const DAY_TABS = [
   { label: "All", value: "all" },
+  { label: "Pre-fest", value: "pre" },
   { label: "23 Oct", value: "23" },
   { label: "24 Oct", value: "24" },
 ];
-const countFor = (value) =>
-  value === "all" ? EVENTS.length : EVENTS.filter((e) => e.day.includes(value) || e.date.includes(value)).length;
+const countFor = (value) => {
+  if (value === "all") return EVENTS.length;
+  if (value === "pre") return EVENTS.filter(isPreFestEvent).length;
+  return EVENTS.filter((e) => e.day.includes(value) || e.date.includes(value)).length;
+};
 
 // One ticket. With a mouse it tilts towards the pointer like card stock in
 // the hand, the stub starts to tear along the perforation, and registering
@@ -54,7 +67,7 @@ function Ticket({ e, punched, onPunch, onRules }) {
           <p className="text-xs font-bold tracking-wide uppercase opacity-90">{punched ? "Admitted" : "Admit one"}</p>
           <p className="text-right sm:text-left">
             <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{e.day}</span>
-            <span className="block text-sm font-bold">{e.date === "2026-10-23" ? "Friday" : "Saturday"}</span>
+            <span className="block text-sm font-bold">{e.dayLabel || (e.date === "2026-10-23" ? "Friday" : e.date === "2026-10-24" ? "Saturday" : "Tournament")}</span>
           </p>
           <p className="text-right sm:mt-2 sm:text-left">
             <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
@@ -92,6 +105,18 @@ function Ticket({ e, punched, onPunch, onRules }) {
               <div className="flex gap-1.5">
                 <dt className="font-semibold text-black/60">Team</dt>
                 <dd className="font-bold">{e.teamSize}</dd>
+              </div>
+            )}
+            {e.fee && (
+              <div className="flex gap-1.5">
+                <dt className="font-semibold text-black/60">Fee</dt>
+                <dd className="font-bold text-ticket-red">{e.fee}</dd>
+              </div>
+            )}
+            {e.mode && (
+              <div className="flex gap-1.5">
+                <dt className="font-semibold text-black/60">Mode</dt>
+                <dd className="font-bold uppercase">{e.mode}</dd>
               </div>
             )}
           </dl>
@@ -144,9 +169,20 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
   const filteredEvents = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
     return EVENTS.filter((ev) => {
-      const matchDay = currentDayTab === "all" || ev.day.includes(currentDayTab) || ev.date.includes(currentDayTab);
+      let matchDay = true;
+      if (currentDayTab === "all") {
+        matchDay = true;
+      } else if (currentDayTab === "pre") {
+        matchDay = isPreFestEvent(ev);
+      } else {
+        matchDay = ev.day.includes(currentDayTab) || ev.date.includes(currentDayTab);
+      }
       const matchCat = categoryFilter === "all" || ev.category === categoryFilter;
-      const matchSearch = !q || [ev.name, ev.club, ev.blurb, ev.venue, ev.room ?? "", ev.category].some((s) => s.toLowerCase().includes(q));
+      const matchSearch =
+        !q ||
+        [ev.name, ev.club, ev.blurb, ev.venue, ev.room ?? "", ev.category, ev.contact ?? "", ev.fee ?? ""].some((s) =>
+          s.toLowerCase().includes(q)
+        );
       return matchDay && matchCat && matchSearch;
     });
   }, [currentDayTab, categoryFilter, searchQuery]);
@@ -321,10 +357,35 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                   <dt className="font-semibold text-black/60">Team</dt>
                   <dd className="font-black">{ev.teamSize || "Open"}</dd>
                 </div>
+                {ev.fee && (
+                  <div>
+                    <dt className="font-semibold text-black/60">Entry fee</dt>
+                    <dd className="font-black text-ticket-red">{ev.fee}</dd>
+                  </div>
+                )}
+                {ev.mode && (
+                  <div>
+                    <dt className="font-semibold text-black/60">Mode</dt>
+                    <dd className="font-black uppercase">{ev.mode}</dd>
+                  </div>
+                )}
               </dl>
               {ev.contact && (
                 <p className="mt-3 text-xs font-semibold text-black/75">
-                  <span className="font-bold text-black">Club contact:</span> {ev.contact}
+                  <span className="font-bold text-black">Point of contact:</span> {ev.contact}
+                </p>
+              )}
+              {ev.rulesUrl && (
+                <p className="mt-2 text-xs font-semibold">
+                  <a
+                    href={ev.rulesUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 font-bold text-ticket-red underline underline-offset-2 hover:text-black"
+                  >
+                    View official rules & regulations document
+                    <ExternalLink size={12} aria-hidden="true" />
+                  </a>
                 </p>
               )}
               <h3 className="mt-5 font-script text-2xl text-ticket-red">The fine print</h3>

@@ -66,13 +66,25 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                   <dd className="font-black">{ev.teamSize}</dd>
                 </div>
               )}
+              {ev.fee && (
+                <div>
+                  <dt className="font-semibold text-black/60">Fee</dt>
+                  <dd className="font-black text-ticket-red">{ev.fee}</dd>
+                </div>
+              )}
               <div>
                 <dt className="font-semibold text-black/60">Genre</dt>
                 <dd className="font-black">{ev.category}</dd>
               </div>
+              {ev.mode && (
+                <div>
+                  <dt className="font-semibold text-black/60">Mode</dt>
+                  <dd className="font-black uppercase">{ev.mode}</dd>
+                </div>
+              )}
               {ev.contact && (
                 <div className="col-span-2">
-                  <dt className="font-semibold text-black/60">Club contact</dt>
+                  <dt className="font-semibold text-black/60">Point of contact</dt>
                   <dd className="font-bold text-black/90">{ev.contact}</dd>
                 </div>
               )}
