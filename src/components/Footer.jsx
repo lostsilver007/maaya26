@@ -4,7 +4,7 @@ import { playClick } from "../utils/audioEffects";
 import Overprint from "./fx/Overprint";
 
 // Back cover of the zine: riso blue, paper scraps taped on.
-export default function Footer({ onOpenRulebook, onOpenRegister }) {
+export default function Footer({ onOpenRegister }) {
   const scrollToTop = () => {
     playClick();
     window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
@@ -82,9 +82,14 @@ export default function Footer({ onOpenRulebook, onOpenRegister }) {
                 </a>
               </li>
               <li>
-                <button type="button" onClick={onOpenRulebook} className="inline-flex min-h-11 items-center text-left font-bold underline underline-offset-4">
-                  Rulebook and code of conduct
-                </button>
+                <a href="#/rules" onClick={playClick} className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
+                  Rules and regulations
+                </a>
+              </li>
+              <li>
+                <a href="#/legal" onClick={playClick} className="inline-flex min-h-11 items-center font-bold underline underline-offset-4">
+                  Legal and privacy
+                </a>
               </li>
             </ul>
             <button
@@ -98,7 +103,17 @@ export default function Footer({ onOpenRulebook, onOpenRegister }) {
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
-          <p className="text-sm font-semibold text-white">© 2026 MAAYA, PES University Electronic City Campus</p>
+          <div className="text-sm font-semibold text-white">
+            <p>© 2026 MAAYA, PES University Electronic City Campus</p>
+            <p className="mt-1 flex flex-wrap gap-x-4">
+              <a href="#/rules" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                Rules and regulations
+              </a>
+              <a href="#/legal" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
+                Legal and privacy
+              </a>
+            </p>
+          </div>
           <div className="flex flex-wrap gap-3">
             <button
               type="button"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MotionConfig } from "framer-motion";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
@@ -10,11 +10,13 @@ import PastEditionsSection from "./components/PastEditionsSection";
 import AnnouncementsAndFAQ from "./components/AnnouncementsAndFAQ";
 import Footer from "./components/Footer";
 import RegistrationModal from "./components/RegistrationModal";
-import RulebookModal from "./components/RulebookModal";
 import { EVENTS } from "./data/festivalData";
 import PrintIntro from "./components/fx/PrintIntro";
 import CursorTrails from "./components/fx/CursorTrails";
 import WorldSpine from "./components/WorldSpine";
+import { usePage } from "./components/pages/route";
+import RulesPage from "./components/pages/RulesPage";
+import LegalPage from "./components/pages/LegalPage";
 
 // MAAYA '26 · ECLECTRIA, laid out as a collage zine: a riso-printed cover,
 // then one section per world (denim, cinema, cosmic, sports, tradition), then
@@ -22,8 +24,20 @@ import WorldSpine from "./components/WorldSpine";
 export default function App() {
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [registerEvent, setRegisterEvent] = useState(null);
-  const [isRulebookOpen, setIsRulebookOpen] = useState(false);
   const [selectedEventForModal, setSelectedEventForModal] = useState(null);
+
+  // #/rules and #/legal swap the home page for a page of their own. Opening
+  // one starts at its top; coming back lands on the section the link named.
+  const page = usePage();
+  const lastPage = useRef(page);
+  useEffect(() => {
+    if (page) window.scrollTo(0, 0);
+    else if (lastPage.current) {
+      const id = window.location.hash.slice(1);
+      requestAnimationFrame(() => (id ? document.getElementById(id)?.scrollIntoView() : window.scrollTo(0, 0)));
+    }
+    lastPage.current = page;
+  }, [page]);
 
   const handleOpenRegister = (event = null) => {
     setRegisterEvent(event || EVENTS[0]);
@@ -38,23 +52,28 @@ export default function App() {
       <PrintIntro />
       <CursorTrails />
       <Navbar onOpenRegister={() => handleOpenRegister(null)} />
-      <WorldSpine />
+      {!page && <WorldSpine />}
 
-      <main id="main">
-        <HeroSection />
-        <WorldTicker />
-        <CampusIslandSection />
-        <ProgrammeExplorer selectedEventForModal={selectedEventForModal} setSelectedEventForModal={setSelectedEventForModal} />
-        <ConcertSection />
-        <PastEditionsSection />
-        <AnnouncementsAndFAQ />
-      </main>
+      {page === "/rules" ? (
+        <RulesPage />
+      ) : page === "/legal" ? (
+        <LegalPage />
+      ) : (
+        <main id="main">
+          <HeroSection />
+          <WorldTicker />
+          <CampusIslandSection />
+          <ProgrammeExplorer selectedEventForModal={selectedEventForModal} setSelectedEventForModal={setSelectedEventForModal} />
+          <ConcertSection />
+          <PastEditionsSection />
+          <AnnouncementsAndFAQ />
+        </main>
+      )}
 
-      <Footer onOpenRulebook={() => setIsRulebookOpen(true)} onOpenRegister={() => handleOpenRegister(null)} />
+      <Footer onOpenRegister={() => handleOpenRegister(null)} />
 
       {/* Keyed by event so opening it for a different event starts on that event. */}
       <RegistrationModal key={registerEvent?.id ?? "none"} isOpen={isRegisterOpen} onClose={() => setIsRegisterOpen(false)} initialEvent={registerEvent} />
-      <RulebookModal isOpen={isRulebookOpen} onClose={() => setIsRulebookOpen(false)} />
     </MotionConfig>
   );
 }

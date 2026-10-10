@@ -13,9 +13,9 @@ export const FESTIVAL_INFO = {
   address: "VM67+HVP, Hosur Rd, Konappana Agrahara, Electronic City, Bengaluru, Karnataka 560100",
   festIslandUrl: "https://fest-island.vercel.app/#venues",
   contacts: [
-    { name: "Vakalapudi Kushal", role: "Convenor", phone: "+91 80197 70591", email: "kushal.maaya@pes.edu" },
-    { name: "J Akhil", role: "Head of Events", phone: "+91 63634 57241", email: "akhil.maaya@pes.edu" },
-    { name: "Thejus A Reddy", role: "Public Relations", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
+    { name: "Vakalapudi Kushal", role: "Head", phone: "+91 80197 70591", email: "kushal.maaya@pes.edu" },
+    { name: "J Akhil", role: "Co-head", phone: "+91 63634 57241", email: "akhil.maaya@pes.edu" },
+    { name: "Thejus A Reddy", role: "Head of PR", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
   ],
   socials: {
     instagram: "https://www.instagram.com/maayapesu/",
@@ -561,6 +561,91 @@ export const CONCERT_DATA = {
   headliner: "Seher Band",
   status: "Headliner: Seher Band",
 };
+
+// Concert passes, as announced by the fest team: early bird passes are sold
+// through the PESU Academy portal (Online Payments → Misc Fees).
+export const CONCERT_PASSES = {
+  tier: "Early bird",
+  price: "₹450",
+  portal: "PESU Academy",
+  url: "https://www.pesuacademy.com/Academy/",
+  steps: [
+    "Log in to PESU Academy.",
+    "Open Online Payments.",
+    "Choose Misc Fees.",
+    "In the Category drop-down, search for “Maaya 2026 Concert”.",
+    "For Sub category, pick “Maaya 2026”.",
+    "Tick the terms and conditions, then tap Pay now.",
+  ],
+};
+
+// MAAYA 2026 General Rules and Regulations, from the official document
+// (also served as a PDF at /docs/maaya-2026-rules-and-regulations.pdf).
+export const GENERAL_RULES = [
+  {
+    title: "No refund policy",
+    text: "All payments made towards Maaya 2026 registrations are strictly non-refundable under any circumstances, including cancellation, non-attendance, withdrawal, or failure to participate.",
+  },
+  {
+    title: "Exact payment amount",
+    text: "Participants must pay only the exact amount specified for the respective registration or event. Any payment made in an amount other than the prescribed amount will render the registration null and void and amount paid will be forfeited by PES University.",
+  },
+  {
+    title: "Registration confirmation and payment verification",
+    text: "Registration shall be considered confirmed only after the payment has been successfully verified and approved by the Accounts Section of PES University. Submission of the registration form, payment screenshot, or Transaction ID alone does not constitute confirmation of registration. All registrations shall remain provisional until the payment is verified by the Accounts Section of PES University.",
+  },
+  {
+    title: "Submission of payment proof",
+    text: "Participants must provide a valid Transaction ID/UTR number and upload a clear screenshot of the successful payment in the designated registration form. Incorrect, incomplete, altered, or unverifiable payment details may result in rejection or cancellation of the registration.",
+  },
+  {
+    title: "Official payment method",
+    text: "Payments must be made only through the official payment QR code or payment method provided by the respective Maaya 2026 organising team or club. Payments made through unauthorised sources may not be accepted.",
+  },
+  {
+    title: "Responsibility for correct details",
+    text: "Participants are solely responsible for entering accurate registration details and submitting the correct payment information. Any errors or discrepancies in the submitted information may delay verification or result in the registration being declared invalid.",
+  },
+  {
+    title: "Duplicate payments",
+    text: "Participants must verify the payment status before initiating another transaction. Duplicate payments are non-refundable, and participants are advised to contact the organising team if a duplicate transaction occurs.",
+  },
+  {
+    title: "Payment verification",
+    text: "All payments are subject to verification and approval by the Accounts Section of PES University. The organising team shall not be responsible for treating a registration as confirmed before the verification process is completed.",
+  },
+  {
+    title: "False or misleading information",
+    text: "Submission of false payment details, fabricated transaction screenshots, incorrect Transaction IDs, or misleading information may result in immediate cancellation of the registration without a refund.",
+  },
+  {
+    title: "Registration form submission",
+    text: "Submission of the registration form alone does not guarantee a confirmed registration or entry to the event. Registration is subject to payment of the prescribed amount, successful payment verification by the Accounts Section of PES University, and compliance with all applicable event rules.",
+  },
+  {
+    title: "Compliance with rules",
+    text: "By submitting the registration form and making the payment, participants acknowledge that they have read, understood, and agreed to these rules and regulations uploaded on the website of Maaya 2026.",
+  },
+  {
+    title: "Final decision",
+    text: "The Maaya 2026 organising team reserves the right to verify registration details, coordinate with the Accounts Section regarding payment discrepancies, and take appropriate action in accordance with the applicable event policies.",
+  },
+];
+
+export const RULES_NOTICE =
+  "Participants must carefully verify the registration amount before making the payment. Any payment made in an incorrect amount will render the registration null and void. All payments are non-refundable, and registration will be confirmed only after successful verification and approval by the Accounts Section of PES University.";
+
+export const RULES_PDF = "/docs/maaya-2026-rules-and-regulations.pdf";
+
+// Fest-day code of conduct (from the original rulebook).
+export const CODE_OF_CONDUCT = [
+  "All delegates must carry a valid College Identity Card and Government ID throughout the fest days.",
+  "Decisions of appointed judges and organizers are final and binding in all competitive events.",
+  "Any form of obscenity, hate speech, or defaming content leads to immediate disqualification.",
+  "Participants must report to the designated room / venue at least 30 minutes prior to scheduled start times.",
+  "Possession or consumption of alcohol, tobacco or banned substances is strictly prohibited with zero tolerance.",
+  "Participation certificates and event accolades will be distributed at the Grand Valedictory.",
+];
 
 export const FAQ_DATA = [
   {
