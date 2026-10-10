@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import { Search, X, ExternalLink } from "lucide-react";
 import { EVENTS } from "../data/festivalData";
 import { playClick, playChime } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
+import Curtains from "./fx/Curtains";
+import { finePointer, prefersReducedMotion } from "./fx/env";
 
 // World 2 — Cinema & Retro. A marquee over the box office; every event is a
 // ticket stub (admit one), and its rules are the fine print.
@@ -26,7 +28,107 @@ const DAY_TABS = [
 ];
 const countFor = (value) => (value === "all" ? EVENTS.length : EVENTS.filter((e) => e.day.toLowerCase().includes(value)).length);
 
+// One ticket. With a mouse it tilts towards the pointer like card stock in
+// the hand, the stub starts to tear along the perforation, and registering
+// punches a hole in it.
+function Ticket({ e, punched, onPunch, onRules }) {
+  const ref = useRef(null);
+  const tilt = finePointer && !prefersReducedMotion();
+  const onMove = (ev) => {
+    if (!tilt || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    const x = (ev.clientX - r.left) / r.width - 0.5;
+    const y = (ev.clientY - r.top) / r.height - 0.5;
+    ref.current.style.transform = `perspective(1100px) rotateY(${x * 7}deg) rotateX(${-y * 6}deg) translateY(-4px)`;
+    ref.current.style.setProperty("--glare-x", `${(x + 0.5) * 100}%`);
+  };
+  const onLeave = () => {
+    if (ref.current) ref.current.style.transform = "";
+  };
+  return (
+    <li ref={ref} onPointerMove={onMove} onPointerLeave={onLeave} className="group drop-shadow-[0_8px_0_rgb(0_0_0/0.45)] transition-transform duration-200 ease-out">
+      <article className="ticket relative grid h-full text-black sm:grid-cols-[9.5rem_1fr]">
+        {/* Stub */}
+        <div className="relative flex min-h-[4.75rem] origin-right items-center justify-between gap-3 bg-ticket-red px-5 py-2 text-ticket transition-transform duration-300 sm:flex-col sm:items-start sm:justify-center sm:py-5 sm:group-hover:-translate-x-1 sm:group-hover:-rotate-2">
+          {punched && <span className="punch top-2 right-3 sm:top-3 sm:right-auto sm:left-[6.6rem]" aria-hidden="true" />}
+          <p className="text-xs font-bold tracking-wide uppercase opacity-90">{punched ? "Admitted" : "Admit one"}</p>
+          <p className="text-right sm:text-left">
+            <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{dayName(e.day)}</span>
+            <span className="block text-sm font-bold">{shortDate(e.date)}</span>
+          </p>
+          <p className="text-right sm:mt-2 sm:text-left">
+            <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
+            <span className="block text-sm font-semibold opacity-90">to {e.end}</span>
+          </p>
+        </div>
+        {/* Body */}
+        <div className="relative border-dashed border-black/30 p-5 sm:border-l-[3px] sm:p-6">
+          {/* Light catching the card stock */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{ background: "radial-gradient(40% 70% at var(--glare-x, 50%) 0%, rgb(255 255 255 / 0.45), transparent 70%)" }}
+          />
+          {e.headline && (
+            <span className="absolute top-3 right-3 grid size-[4.6rem] rotate-12 place-items-center rounded-full border-[3px] border-double border-ticket-red text-center text-[0.68rem] leading-tight font-black text-ticket-red uppercase transition-transform duration-300 group-hover:scale-110 group-hover:rotate-[24deg] sm:top-4 sm:right-5">
+              Headline
+              <br />
+              event
+            </span>
+          )}
+          <p className="relative pr-20 text-sm font-bold text-ticket-red">Hosted by {e.club}</p>
+          <h3 className="relative mt-1 pr-20 text-2xl leading-tight font-black sm:text-[1.75rem]">{e.name}</h3>
+          <p className="relative mt-2 line-clamp-3 max-w-prose text-base leading-relaxed text-black/75 sm:line-clamp-none">{e.blurb}</p>
+          <dl className="relative mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+            <div className="flex gap-1.5">
+              <dt className="font-semibold text-black/60">Where</dt>
+              <dd className="font-bold">{e.room ? `${e.room}, ${e.venue}` : e.venue}</dd>
+            </div>
+            <div className="flex gap-1.5">
+              <dt className="font-semibold text-black/60">Genre</dt>
+              <dd className="font-bold">{e.category}</dd>
+            </div>
+            {e.teamSize && (
+              <div className="flex gap-1.5">
+                <dt className="font-semibold text-black/60">Team</dt>
+                <dd className="font-bold">{e.teamSize}</dd>
+              </div>
+            )}
+          </dl>
+          <div className="relative mt-5 flex flex-wrap items-center gap-3">
+            <a
+              href={e.paymentUrl || FALLBACK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => {
+                playChime();
+                onPunch(e.id);
+              }}
+              className="inline-flex min-h-11 items-center gap-2 bg-ticket-red px-5 text-base font-black text-ticket shadow-[3px_3px_0_#000] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#000] active:translate-y-0.5 active:shadow-none"
+            >
+              Register
+              <ExternalLink size={15} aria-hidden="true" />
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                playClick();
+                onRules(e);
+              }}
+              className="min-h-11 px-2 text-base font-bold underline decoration-2 underline-offset-4 hover:text-ticket-red"
+            >
+              Read the rules<span className="sr-only">: {e.name}</span>
+            </button>
+          </div>
+        </div>
+      </article>
+    </li>
+  );
+}
+
 export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEventForModal }) {
+  const [punched, setPunched] = useState(() => new Set());
+  const punch = (id) => setPunched((prev) => new Set(prev).add(id));
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [currentDayTab, setCurrentDayTab] = useState("all");
@@ -51,21 +153,33 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
 
   const ev = selectedEventForModal;
 
+  // A follow-spot: the velvet falls into shadow except where the pointer is.
+  const spot = finePointer && !prefersReducedMotion();
+  const onSpot = (e) => {
+    if (!spot) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--sx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--sy", `${e.clientY - r.top}px`);
+  };
+
   return (
-    <section id="programme" className="tex-velvet grain-dark relative px-4 pt-24 pb-24 text-ticket sm:px-6 lg:px-8">
+    <section id="programme" data-cursor="popcorn" onPointerMove={onSpot} className="tex-velvet grain-dark film-grain relative px-4 pt-6 pb-24 text-ticket sm:px-6 lg:px-8">
+      {spot && <div aria-hidden="true" className="spotlight pointer-events-none absolute inset-0 z-[1]" />}
       <div className="relative z-[2] mx-auto max-w-6xl">
-        {/* Marquee */}
+        {/* Marquee, behind curtains that part as you scroll */}
+        <Curtains className="-mx-4 px-4 pt-20 pb-6 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="marquee-frame mx-auto max-w-3xl text-center">
           <div className="relative rounded-md bg-[#140204] px-4 py-6 sm:px-8 sm:py-8">
             <p className="text-sm font-bold text-bulb/80">World 2: Cinema &amp; Retro</p>
             <h2 className="mt-2 font-marquee text-[2.7rem] leading-none text-bulb [text-shadow:0_0_14px_rgb(255_211_107/0.75),0_0_42px_rgb(255_120_40/0.45)] sm:text-7xl">
-              Now showing
+              Now sho<span className="neon-flicker">w</span>ing
             </h2>
             <p className="mt-4 text-base font-semibold text-ticket/90 sm:text-lg">
               {EVENTS.length} club events, from pre-fest week to the last night
             </p>
           </div>
         </div>
+        </Curtains>
 
         {/* Box office: search and filters */}
         <div className="mx-auto mt-12 max-w-4xl rounded-t-[2.5rem] border-[3px] border-[#1a0306] bg-[#3a0911] p-4 shadow-[inset_0_0_0_2px_rgb(255_211_107/0.25)] sm:p-6">
@@ -161,73 +275,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
         ) : (
           <ul className="mx-auto mt-4 grid max-w-6xl gap-6 lg:grid-cols-2">
             {filteredEvents.map((e) => (
-              <li key={e.id} className="drop-shadow-[0_8px_0_rgb(0_0_0/0.45)] transition-transform duration-200 hover:-rotate-[0.6deg]">
-                <article className="ticket relative grid h-full text-black sm:grid-cols-[9.5rem_1fr]">
-                  {/* Stub */}
-                  <div className="flex min-h-[4.75rem] items-center justify-between gap-3 bg-ticket-red px-5 py-2 text-ticket sm:flex-col sm:items-start sm:justify-center sm:py-5">
-                    <p className="text-xs font-bold tracking-wide uppercase opacity-90">Admit one</p>
-                    <p className="text-right sm:text-left">
-                      <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{dayName(e.day)}</span>
-                      <span className="block text-sm font-bold">{shortDate(e.date)}</span>
-                    </p>
-                    <p className="text-right sm:mt-2 sm:text-left">
-                      <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
-                      <span className="block text-sm font-semibold opacity-90">to {e.end}</span>
-                    </p>
-                  </div>
-                  {/* Body */}
-                  <div className="relative border-dashed border-black/30 p-5 sm:border-l-[3px] sm:p-6">
-                    {e.headline && (
-                      <span className="absolute top-3 right-3 grid size-[4.6rem] rotate-12 place-items-center rounded-full border-[3px] border-double border-ticket-red text-center text-[0.68rem] leading-tight font-black text-ticket-red uppercase sm:top-4 sm:right-5">
-                        Headline
-                        <br />
-                        event
-                      </span>
-                    )}
-                    <p className="pr-20 text-sm font-bold text-ticket-red">Hosted by {e.club}</p>
-                    <h3 className="mt-1 pr-20 text-2xl leading-tight font-black sm:text-[1.75rem]">{e.name}</h3>
-                    <p className="mt-2 line-clamp-3 max-w-prose text-base leading-relaxed text-black/75 sm:line-clamp-none">{e.blurb}</p>
-                    <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 text-sm">
-                      <div className="flex gap-1.5">
-                        <dt className="font-semibold text-black/60">Where</dt>
-                        <dd className="font-bold">{e.room ? `${e.room}, ${e.venue}` : e.venue}</dd>
-                      </div>
-                      <div className="flex gap-1.5">
-                        <dt className="font-semibold text-black/60">Genre</dt>
-                        <dd className="font-bold">{e.category}</dd>
-                      </div>
-                      {e.teamSize && (
-                        <div className="flex gap-1.5">
-                          <dt className="font-semibold text-black/60">Team</dt>
-                          <dd className="font-bold">{e.teamSize}</dd>
-                        </div>
-                      )}
-                    </dl>
-                    <div className="mt-5 flex flex-wrap items-center gap-3">
-                      <a
-                        href={e.paymentUrl || FALLBACK_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={playChime}
-                        className="inline-flex min-h-11 items-center gap-2 bg-ticket-red px-5 text-base font-black text-ticket transition-transform hover:-translate-y-0.5"
-                      >
-                        Register
-                        <ExternalLink size={15} aria-hidden="true" />
-                      </a>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          playClick();
-                          setSelectedEventForModal(e);
-                        }}
-                        className="min-h-11 px-2 text-base font-bold underline decoration-2 underline-offset-4 hover:text-ticket-red"
-                      >
-                        Read the rules<span className="sr-only">: {e.name}</span>
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </li>
+              <Ticket key={e.id} e={e} punched={punched.has(e.id)} onPunch={punch} onRules={setSelectedEventForModal} />
             ))}
           </ul>
         )}

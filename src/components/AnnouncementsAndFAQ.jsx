@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 import { FAQ_DATA } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
+import Rangoli from "./fx/Rangoli";
 
 // World 5 — Indian Tradition. A marigold toran across the doorway, hand
 // block-printed cotton, and the questions people ask most.
@@ -40,32 +42,74 @@ function Toran() {
   );
 }
 
+// Marigold petals thrown from the "+" when an answer opens. Seeded, so each
+// burst differs but rendering stays pure.
+const seeded = (seed) => () => {
+  seed = (seed * 1664525 + 1013904223) % 4294967296;
+  return seed / 4294967296;
+};
+function PetalBurst({ seed }) {
+  const petals = useMemo(() => {
+    const rand = seeded(seed * 7919 + 13);
+    return Array.from({ length: 14 }, (_, i) => {
+      const a = (i / 14) * Math.PI * 2 + rand() * 0.4;
+      const d = 40 + rand() * 60;
+      return { dx: Math.cos(a) * d, dy: Math.sin(a) * d - 20, r: rand() * 540 - 270, c: i % 3 ? "var(--color-marigold)" : "var(--color-saffron)", delay: rand() * 0.08 };
+    });
+  }, [seed]);
+  return (
+    <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-1/2">
+      {petals.map((p, i) => (
+        <span key={i} className="petal" style={{ "--dx": `${p.dx}px`, "--dy": `${p.dy}px`, "--r": `${p.r}deg`, background: p.c, animationDelay: `${p.delay}s` }} />
+      ))}
+    </span>
+  );
+}
+
+// Clay diyas along the hem, each with its own flicker.
+function Diyas() {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-8 z-[3] flex justify-around px-4">
+      {Array.from({ length: 9 }, (_, i) => (
+        <span key={i} className={`diya ${i > 4 ? "hidden sm:block" : ""}`} style={{ "--flick": `${1.1 + (i % 4) * 0.23}s` }}>
+          <span className="flame" />
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export default function AnnouncementsAndFAQ() {
+  const reduce = useReducedMotion();
   const [openIdx, setOpenIdx] = useState(0);
+  const [burst, setBurst] = useState({ idx: null, n: 0 });
 
   const toggle = (idx) => {
     playClick();
-    setOpenIdx(openIdx === idx ? null : idx);
+    const opening = openIdx !== idx;
+    setOpenIdx(opening ? idx : null);
+    if (opening) setBurst((b) => ({ idx, n: b.n + 1 }));
   };
 
   return (
-    <section id="faq" className="tex-cotton-faint grain relative px-4 pt-32 pb-28 text-black sm:px-6 lg:px-8">
+    <section id="faq" data-cursor="marigold" className="tex-cotton-faint grain relative px-4 pt-32 pb-36 text-black sm:px-6 lg:px-8">
       <Toran />
-      <div className="relative z-[2] mx-auto max-w-3xl">
-        <div className="text-center">
+      <div className="relative z-[2] mx-auto grid max-w-6xl items-start gap-12 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.25fr)] lg:gap-16">
+        <div className="text-center lg:sticky lg:top-28 lg:text-left">
           <p className="inline-block -rotate-1 bg-saffron px-4 py-1.5 text-sm font-black text-black">World 5: Indian Tradition</p>
           <h2 className="mt-5 font-deva text-[2.75rem] leading-[1.05] text-kumkum sm:text-6xl">Questions, answered</h2>
-          <p className="mx-auto mt-3 max-w-xl text-base leading-relaxed text-black/75 sm:text-lg">
+          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-black/75 sm:text-lg lg:mx-0">
             Everything you need to know about dates, the theme, the 3D map and registering.
           </p>
+          <Rangoli className="mx-auto mt-8 w-56 drop-shadow-[0_6px_0_rgb(158_42_43/0.25)] sm:w-72 lg:mx-0 lg:w-[22rem]" />
         </div>
 
-        <ul className="mt-12 space-y-4">
+        <ul className="space-y-4 lg:pt-4">
           {FAQ_DATA.map((item, idx) => {
             const isOpen = openIdx === idx;
             const id = `faq-${idx}`;
             return (
-              <li key={idx} className="flex overflow-hidden border-[3px] border-madder bg-white/80 shadow-[5px_5px_0_var(--color-madder)]">
+              <li key={idx} className="flex overflow-visible border-[3px] border-madder bg-white/85 shadow-[5px_5px_0_var(--color-madder)]">
                 {/* Block-printed border strip */}
                 <span aria-hidden="true" className="tex-cotton w-6 shrink-0 border-r-[3px] border-madder sm:w-9" />
                 <div className="min-w-0 flex-1">
@@ -80,9 +124,9 @@ export default function AnnouncementsAndFAQ() {
                       <span>{item.q}</span>
                       <span
                         aria-hidden="true"
-                        className={`grid size-8 shrink-0 place-items-center rounded-full bg-marigold text-xl leading-none font-black transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}
+                        className={`relative grid size-8 shrink-0 place-items-center rounded-full bg-marigold text-xl leading-none font-black transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}
                       >
-                        +
+                        +{!reduce && burst.idx === idx && <PetalBurst key={burst.n} seed={burst.n} />}
                       </span>
                     </button>
                   </h3>
@@ -95,6 +139,7 @@ export default function AnnouncementsAndFAQ() {
           })}
         </ul>
       </div>
+      <Diyas />
       {/* Block-printed hem */}
       <div aria-hidden="true" className="tex-cotton absolute inset-x-0 bottom-0 z-[2] h-8 border-t-[3px] border-madder" />
     </section>

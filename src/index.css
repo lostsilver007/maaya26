@@ -101,6 +101,11 @@
     outline-offset: 2px;
     box-shadow: 0 0 0 6px #000;
   }
+  /* Sections that only take focus from script (e.g. after a replay) */
+  [tabindex="-1"]:focus {
+    outline: none;
+    box-shadow: none;
+  }
   section[id] {
     scroll-margin-top: 4.5rem;
   }
@@ -486,4 +491,460 @@
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+/* World cursors (fine pointers only). Controls keep the pointer / text cursors. */
+@media (pointer: fine) {
+  [data-cursor="scissors"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M7 1 L19 25' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23000' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M7 1 L19 25' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M1 7 L25 19' stroke='%23dfe3ea' stroke-width='2.6' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='27' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='27' cy='20' r='3.8' fill='%23ff48b0' stroke='%23000' stroke-width='2'/%3E%3Ccircle cx='13' cy='13' r='1.6' fill='%23000'/%3E%3C/svg%3E") 4 4, auto;
+  }
+  [data-cursor="needle"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M22 22 C31 15 31 31 20 30 S9 26 14 31' stroke='%23f2a541' stroke-width='2.2' fill='none'/%3E%3Cpath d='M2 2 L24 24' stroke='%23000' stroke-width='4.6' stroke-linecap='round'/%3E%3Cpath d='M2 2 L24 24' stroke='%23eef1f5' stroke-width='2.4' stroke-linecap='round'/%3E%3Cellipse cx='21.5' cy='21.5' rx='0.9' ry='2.2' transform='rotate(-45 21.5 21.5)' fill='%23000'/%3E%3C/svg%3E") 2 2, auto;
+  }
+  [data-cursor="popcorn"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M7 13 L25 13 L22 31 L10 31 Z' fill='%23fff' stroke='%23000' stroke-width='1.8' stroke-linejoin='round'/%3E%3Cpath d='M11.5 13 L12.8 31 M16 13 L16 31 M20.5 13 L19.2 31' stroke='%23c8102e' stroke-width='2.4'/%3E%3Cg fill='%23fff3c4' stroke='%23000' stroke-width='1.4'%3E%3Ccircle cx='9' cy='11' r='4'/%3E%3Ccircle cx='23.5' cy='11' r='3.8'/%3E%3Ccircle cx='19' cy='8.5' r='4.2'/%3E%3Ccircle cx='13.5' cy='8' r='4.4'/%3E%3Ccircle cx='16' cy='4' r='3.2'/%3E%3C/g%3E%3C/svg%3E") 16 3, auto;
+  }
+  [data-cursor="star"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M16 1 C17.5 11 21 14.5 31 16 C21 17.5 17.5 21 16 31 C14.5 21 11 17.5 1 16 C11 14.5 14.5 11 16 1 Z' fill='%23fff' stroke='%23ff7ad9' stroke-width='1.8'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%237af7ff'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor="ball"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23f28c28' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M3 16 H29 M16 3 V29 M7 6.5 C12.5 12 12.5 20 7 25.5 M25 6.5 C19.5 12 19.5 20 25 25.5' stroke='%23000' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor="marigold"] {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cg fill='%23ffb000' stroke='%23b86200' stroke-width='1'%3E%3Ccircle cx='25.20' cy='16.00' r='4.6'/%3E%3Ccircle cx='23.44' cy='21.41' r='4.6'/%3E%3Ccircle cx='18.84' cy='24.75' r='4.6'/%3E%3Ccircle cx='13.16' cy='24.75' r='4.6'/%3E%3Ccircle cx='8.56' cy='21.41' r='4.6'/%3E%3Ccircle cx='6.80' cy='16.00' r='4.6'/%3E%3Ccircle cx='8.56' cy='10.59' r='4.6'/%3E%3Ccircle cx='13.16' cy='7.25' r='4.6'/%3E%3Ccircle cx='18.84' cy='7.25' r='4.6'/%3E%3Ccircle cx='23.44' cy='10.59' r='4.6'/%3E%3C/g%3E%3Ccircle cx='16' cy='16' r='6.4' fill='%23f28c28' stroke='%23b86200'/%3E%3Ccircle cx='16' cy='16' r='2.6' fill='%23b3122e'/%3E%3C/svg%3E") 16 16, auto;
+  }
+  [data-cursor] :is(a, button, label, select, summary) {
+    cursor: pointer;
+  }
+  [data-cursor] :is(input[type="search"], input[type="text"], textarea) {
+    cursor: text;
+  }
+  [data-cursor] .grab {
+    cursor: grab;
+  }
+  [data-cursor] .grab:active {
+    cursor: grabbing;
+  }
+}
+
+/* ── Level two: the moving parts ──────────────────────────────────────── */
+@layer components {
+  /* Riso overprint: three plates of the same words; --ox/--oy (−0.5…0.5)
+     come from the pointer and scroll, so the inks drift out of register. */
+  .overprint {
+    --ox: 0;
+    --oy: 0;
+    display: grid;
+  }
+  .overprint > span {
+    grid-area: 1 / 1;
+  }
+  .overprint-plate {
+    mix-blend-mode: multiply;
+    transform: translate(calc((0.05em + var(--ox) * 0.16em) * var(--dx)), calc((0.035em + var(--oy) * 0.12em) * var(--dy)));
+    will-change: transform;
+  }
+
+  /* Split-flap tiles (airport departure board). */
+  .flap {
+    position: relative;
+    display: inline-block;
+    width: 0.66em;
+    height: 1.12em;
+    perspective: 220px;
+    border-radius: 0.08em;
+    background: #161616;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06), 0 2px 0 #000;
+  }
+  .flap::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% - 1px);
+    height: 2px;
+    background: #000;
+    z-index: 5;
+  }
+  .flap-half {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 50%;
+    overflow: hidden;
+    text-align: center;
+    color: #f4f4f4;
+    backface-visibility: hidden;
+  }
+  .flap-half > span {
+    display: block;
+    height: 1.12em;
+    line-height: 1.12em;
+  }
+  .flap-top {
+    top: 0;
+    border-radius: 0.08em 0.08em 0 0;
+    background: linear-gradient(#262626, #1b1b1b);
+    transform-origin: 50% 100%;
+  }
+  .flap-bottom {
+    bottom: 0;
+    border-radius: 0 0 0.08em 0.08em;
+    background: linear-gradient(#141414, #1c1c1c);
+    transform-origin: 50% 0;
+  }
+  .flap-bottom > span {
+    margin-top: -0.56em;
+  }
+  .flap-fold {
+    z-index: 3;
+    animation: flap-fold 0.22s ease-in both;
+  }
+  .flap-unfold {
+    z-index: 4;
+    animation: flap-unfold 0.22s 0.22s ease-out both;
+  }
+  @keyframes flap-fold {
+    to {
+      transform: rotateX(-90deg);
+    }
+  }
+  @keyframes flap-unfold {
+    from {
+      transform: rotateX(90deg);
+    }
+    to {
+      transform: rotateX(0);
+    }
+  }
+
+  /* Theatre curtains and the valance over them. */
+  .curtain {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 52%;
+    z-index: 6;
+    background-color: #6a1120;
+    background-image:
+      linear-gradient(transparent 92%, rgb(255 211 107 / 0.95) 92% 94%, transparent 94%),
+      repeating-linear-gradient(90deg, rgb(0 0 0 / 0.5) 0, rgb(255 255 255 / 0.08) 22px, rgb(0 0 0 / 0.45) 46px, rgb(0 0 0 / 0.55) 52px);
+    box-shadow: inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .curtain::after {
+    /* Gold fringe along the hem. */
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -14px;
+    height: 16px;
+    background: repeating-linear-gradient(90deg, var(--color-bulb) 0 2px, transparent 2px 5px);
+    -webkit-mask: linear-gradient(#000, transparent);
+    mask: linear-gradient(#000, transparent);
+  }
+  .curtain-left {
+    left: 0;
+    box-shadow:
+      inset -30px 0 40px -10px rgb(0 0 0 / 0.7),
+      inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .curtain-right {
+    right: 0;
+    box-shadow:
+      inset 30px 0 40px -10px rgb(0 0 0 / 0.7),
+      inset 0 -40px 50px -20px rgb(0 0 0 / 0.6);
+  }
+  .valance {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 64px;
+    z-index: 7;
+    background:
+      radial-gradient(circle at 50% 100%, transparent 0 22px, var(--color-bulb) 22px 25px, transparent 25.5px) 0 36px / 56px 28px repeat-x,
+      linear-gradient(#3a0710, #5b0f1a 70%, transparent 70%);
+    filter: drop-shadow(0 8px 10px rgb(0 0 0 / 0.55));
+  }
+
+  /* Broken-neon flicker on a single letter. */
+  .neon-flicker {
+    animation: neon-flicker 5.5s infinite;
+  }
+  @keyframes neon-flicker {
+    0%, 17%, 19%, 21%, 60%, 62%, 100% {
+      opacity: 1;
+    }
+    18%, 20%, 61% {
+      opacity: 0.25;
+    }
+  }
+
+  /* Film grain that keeps crawling (cinema). */
+  .film-grain::after {
+    animation: grain-crawl 0.9s steps(6) infinite;
+  }
+  @keyframes grain-crawl {
+    0% { background-position: 0 0; }
+    20% { background-position: -40px 30px; }
+    40% { background-position: 60px -20px; }
+    60% { background-position: -20px -60px; }
+    80% { background-position: 30px 50px; }
+    100% { background-position: 0 0; }
+  }
+
+  /* Jerseys on hangers swing when touched. */
+  .hanger-swing {
+    transform-origin: 50% 0;
+  }
+  .hanger-swing:hover {
+    animation: swing 1.6s ease-in-out;
+  }
+  @keyframes swing {
+    15% { transform: rotate(7deg); }
+    35% { transform: rotate(-5deg); }
+    55% { transform: rotate(3deg); }
+    75% { transform: rotate(-1.5deg); }
+    100% { transform: rotate(0); }
+  }
+
+  /* Spray-paint drips under the denim heading. */
+  .drip {
+    position: absolute;
+    width: 0.12em;
+    border-radius: 0 0 9999px 9999px;
+    background: currentColor;
+    transform-origin: top;
+  }
+
+  /* Diya flame. */
+  .flame {
+    animation: flame 1.4s ease-in-out infinite alternate;
+    transform-origin: 50% 100%;
+  }
+  @keyframes flame {
+    0% { transform: scale(1, 1) rotate(-3deg); }
+    50% { transform: scale(0.92, 1.08) rotate(2deg); }
+    100% { transform: scale(1.05, 0.95) rotate(-1deg); }
+  }
+
+  /* Ticket punch hole. */
+  .punch {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 9999px;
+    background: var(--color-velvet-deep);
+    box-shadow: inset 0 2px 3px rgb(0 0 0 / 0.6);
+  }
+
+  /* Iron-on shine that sweeps across a patch on hover. */
+  .shine {
+    overflow: hidden;
+  }
+  .shine::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 0.55) 50%, transparent 62%);
+    transform: translateX(-120%);
+    transition: transform 0.75s ease;
+  }
+  .shine:hover::before,
+  .shine:focus-visible::before {
+    transform: translateX(120%);
+  }
+}
+
+/* ── Level three: the print run, the zipper, the court ───────────────── */
+@layer components {
+  /* Riso print intro */
+  .print-drum {
+    background: linear-gradient(#444, #0b0b0b 55%, #2b2b2b);
+    box-shadow: 0 5px 0 #000, inset 0 -3px 0 rgb(255 255 255 / 0.18);
+  }
+  .print-wipe {
+    animation: print-wipe 0.42s linear both;
+  }
+  @keyframes print-wipe {
+    0%,
+    26% {
+      clip-path: inset(0 0 100% 0);
+    }
+    74%,
+    100% {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  .print-head {
+    top: 3.5rem;
+    box-shadow: 0 0 22px 6px currentColor;
+    opacity: 0.85;
+    animation: print-head 0.42s linear both;
+  }
+  @keyframes print-head {
+    to {
+      top: 100%;
+    }
+  }
+  .print-eject {
+    animation: print-eject 0.65s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes print-eject {
+    to {
+      transform: translateY(104%) rotate(2.5deg);
+      box-shadow: 0 -30px 60px rgb(0 0 0 / 0.4);
+    }
+  }
+}
+
+@layer components {
+  /* Zip pull: a metal slider with a tab hanging from it. */
+  .zip-pull {
+    display: flex;
+    width: 34px;
+    flex-direction: column;
+    align-items: center;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.55));
+  }
+  .zip-slider {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px 7px 12px 12px;
+    background: linear-gradient(135deg, #fbfbfd 0%, #b5bac4 38%, #eef0f4 55%, #7d8390 100%);
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.35);
+  }
+  .zip-tab {
+    margin-top: -5px;
+    width: 18px;
+    height: 46px;
+    border-radius: 6px 6px 9px 9px;
+    background:
+      radial-gradient(circle at 50% 78%, #120b2b 0 4px, transparent 4.5px),
+      linear-gradient(90deg, #8b919e, #f4f5f8 45%, #a8aebb);
+    box-shadow: inset 0 0 0 2px rgb(0 0 0 / 0.35);
+    transform-origin: 50% 0;
+    transition: transform 0.3s ease;
+  }
+  .zip-pull:hover .zip-tab,
+  .zip-pull:focus-visible .zip-tab {
+    transform: rotate(-12deg);
+  }
+  .zip-pull:active .zip-tab {
+    transform: rotate(0deg) scaleY(1.06);
+  }
+  .zip-flap {
+    box-shadow: inset 0 0 40px rgb(0 0 0 / 0.35);
+  }
+}
+
+@layer components {
+  /* Follow-spot over the theatre velvet (cinema). */
+  .spotlight {
+    background:
+      radial-gradient(circle 240px at var(--sx, 50%) var(--sy, 340px), rgb(255 228 160 / 0.14), transparent 70%),
+      radial-gradient(circle 420px at var(--sx, 50%) var(--sy, 340px), transparent 35%, rgb(10 0 2 / 0.58) 100%);
+  }
+}
+
+@layer components {
+  /* Half-time court */
+  .court-floor {
+    background-color: #2a8457;
+    background-image:
+      linear-gradient(rgb(0 0 0 / 0.18), transparent 30%),
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.05) 0 1px, transparent 1px 48px),
+      radial-gradient(60% 80% at 50% 100%, rgb(255 255 255 / 0.14), transparent 70%);
+  }
+  .ball {
+    border-radius: 9999px;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cg fill='none' stroke='%23231208' stroke-width='2'%3E%3Cpath d='M1 24 H47 M24 1 V47'/%3E%3Cpath d='M9 6 C17 15 17 33 9 42 M39 6 C31 15 31 33 39 42'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100%,
+      radial-gradient(circle at 34% 30%, #ffb26b, #f07a1c 45%, #b8520b 85%);
+    box-shadow:
+      inset -4px -6px 10px rgb(0 0 0 / 0.35),
+      0 10px 14px -6px rgb(0 0 0 / 0.55);
+    will-change: transform;
+  }
+  .net {
+    transition: transform 0.2s;
+  }
+  .net-swish {
+    animation: net-swish 0.6s ease-out;
+  }
+  @keyframes net-swish {
+    30% {
+      transform: scaleY(1.45) scaleX(0.86);
+    }
+    60% {
+      transform: scaleY(0.9);
+    }
+  }
+  .call {
+    animation: call-pop 1.6s cubic-bezier(0.2, 0.9, 0.3, 1.3) forwards;
+  }
+  @keyframes call-pop {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.4) rotate(-12deg);
+    }
+    18%,
+    70% {
+      opacity: 1;
+      transform: translateX(-50%) scale(1) rotate(-3deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px) scale(0.95) rotate(-3deg);
+    }
+  }
+}
+
+@layer components {
+  /* Clay diya with a flickering flame (tradition). */
+  .diya {
+    position: relative;
+    width: 46px;
+    height: 18px;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    background: radial-gradient(120% 140% at 50% 0, #e58a4a, #a8441a 60%, #6f2a0e);
+    box-shadow:
+      0 -16px 34px -6px rgb(255 176 0 / 0.55),
+      0 3px 0 rgb(0 0 0 / 0.3);
+  }
+  .diya .flame {
+    position: absolute;
+    bottom: 80%;
+    left: 50%;
+    width: 11px;
+    height: 20px;
+    margin-left: -5.5px;
+    border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+    background: radial-gradient(ellipse at 50% 72%, #fffbe0 0 18%, #ffd34d 40%, #f28c28 66%, #e2412a 80%);
+    filter: drop-shadow(0 0 6px #ffb000) drop-shadow(0 0 14px rgb(255 140 40 / 0.7));
+    animation-duration: var(--flick, 1.4s);
+  }
+
+  /* Marigold petals thrown when an answer opens. */
+  .petal {
+    position: absolute;
+    left: -4px;
+    top: -6px;
+    width: 8px;
+    height: 12px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    animation: petal-fly 0.9s cubic-bezier(0.15, 0.7, 0.3, 1) both;
+  }
+  @keyframes petal-fly {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0) scale(0.4) rotate(0);
+    }
+    70% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx), calc(var(--dy) + 30px)) scale(1) rotate(var(--r));
+    }
+  }
 }

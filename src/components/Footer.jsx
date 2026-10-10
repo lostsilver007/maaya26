@@ -1,6 +1,7 @@
 import React from "react";
 import { FESTIVAL_INFO } from "../data/festivalData";
 import { playClick } from "../utils/audioEffects";
+import Overprint from "./fx/Overprint";
 
 // Back cover of the zine: riso blue, paper scraps taped on.
 export default function Footer({ onOpenRulebook, onOpenRegister }) {
@@ -13,9 +14,17 @@ export default function Footer({ onOpenRulebook, onOpenRegister }) {
     <footer className="grain relative overflow-hidden bg-riso-blue px-4 pt-20 pb-10 text-white sm:px-6 lg:px-8">
       <div aria-hidden="true" className="halftone absolute inset-0 opacity-60" />
       <div className="relative z-[2] mx-auto max-w-6xl">
-        <p className="text-[3.2rem] leading-[0.9] font-black tracking-tight expanded [text-shadow:0.05em_0.035em_0_var(--color-riso-pink),-0.035em_-0.02em_0_var(--color-riso-yellow)] sm:text-8xl lg:text-[7.5rem]">
-          See you at Maaya
-        </p>
+        <Overprint
+          as="p"
+          text="See you at Maaya"
+          keyInk="#fff"
+          blend="normal"
+          plates={[
+            { ink: "var(--color-riso-pink)", dx: 1, dy: 0.7 },
+            { ink: "var(--color-riso-yellow)", dx: -0.75, dy: -0.6 },
+          ]}
+          className="text-[3.2rem] leading-[0.9] font-black tracking-tight expanded sm:text-8xl lg:text-[7.5rem]"
+        />
         <p className="mt-4 inline-block -rotate-1 bg-black px-3 py-1 font-script text-xl sm:text-2xl">{FESTIVAL_INFO.dates}</p>
 
         <div className="mt-14 grid gap-8 text-black md:grid-cols-3">
@@ -90,9 +99,21 @@ export default function Footer({ onOpenRulebook, onOpenRegister }) {
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
           <p className="text-sm font-semibold text-white">© 2026 MAAYA, PES University Electronic City Campus</p>
-          <button type="button" onClick={scrollToTop} className="inline-flex min-h-11 items-center bg-riso-yellow px-4 text-base font-black text-black shadow-[4px_4px_0_#000]">
-            Back to the cover
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                playClick();
+                window.dispatchEvent(new Event("maaya:reprint"));
+              }}
+              className="inline-flex min-h-11 items-center border-[3px] border-black bg-paper px-4 text-base font-black text-black shadow-[4px_4px_0_#000]"
+            >
+              Print another copy
+            </button>
+            <button type="button" onClick={scrollToTop} className="inline-flex min-h-11 items-center bg-riso-yellow px-4 text-base font-black text-black shadow-[4px_4px_0_#000]">
+              Back to the cover
+            </button>
+          </div>
         </div>
       </div>
     </footer>

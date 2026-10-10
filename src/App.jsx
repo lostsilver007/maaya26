@@ -12,6 +12,9 @@ import Footer from "./components/Footer";
 import RegistrationModal from "./components/RegistrationModal";
 import RulebookModal from "./components/RulebookModal";
 import { EVENTS } from "./data/festivalData";
+import PrintIntro from "./components/fx/PrintIntro";
+import CursorTrails from "./components/fx/CursorTrails";
+import WorldSpine from "./components/WorldSpine";
 
 // MAAYA '26 · ECLECTRIA, laid out as a collage zine: a riso-printed cover,
 // then one section per world (denim, cinema, cosmic, sports, tradition), then
@@ -32,7 +35,10 @@ export default function App() {
       <a href="#programme" className="sr-only z-[80] bg-black px-4 py-3 font-bold text-riso-yellow focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
         Skip to the programme
       </a>
+      <PrintIntro />
+      <CursorTrails />
       <Navbar onOpenRegister={() => handleOpenRegister(null)} />
+      <WorldSpine />
 
       <main id="main">
         <HeroSection onSelectEvent={(ev) => setSelectedEventForModal(ev)} />
