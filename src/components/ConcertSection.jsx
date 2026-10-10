@@ -1,12 +1,16 @@
 import React, { useRef } from "react";
 import { useReducedMotion } from "framer-motion";
-import { Volume2 } from "lucide-react";
+import { ExternalLink, Volume2 } from "lucide-react";
 import { CONCERT_DATA, FESTIVAL_INFO } from "../data/festivalData";
 import { playBassDrop, isSoundEnabled, setSoundEnabled } from "../utils/audioEffects";
 import ChromeBlob from "./fx/ChromeBlob";
 import posterJpg from "../assets/concert/seher-band-poster-720.jpg";
 import poster720 from "../assets/concert/seher-band-poster-720.webp";
 import poster1080 from "../assets/concert/seher-band-poster-1080.webp";
+
+// Concert passes are sold through the PESU Academy portal (as announced by the
+// fest team), not on Instagram.
+const PASSES_URL = "https://www.pesuacademy.com/Academy/";
 
 // World 3 — Cosmic Glamour. Deep space, liquid chrome, and the headliner's
 // official poster (Seher Band) in a holographic frame that tilts with the
@@ -48,14 +52,24 @@ function PosterCard() {
           />
         </picture>
         <div className="px-4 pt-3.5 pb-4 text-center sm:px-5 sm:pb-5">
-          <p className="text-sm leading-relaxed text-white/85">Student passes and updates drop on the official Instagram page.</p>
+          <p className="text-sm leading-relaxed text-white/85">Passes are live on PESU Academy. Grab the early bird passes before prices go up.</p>
+          <a
+            href={PASSES_URL}
+            aria-label="Get your pass on PESU Academy (opens in a new tab)"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:text-base"
+          >
+            Get your pass
+            <ExternalLink size={15} aria-hidden="true" />
+          </a>
           <a
             href={FESTIVAL_INFO.socials.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-3 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-black text-space transition-transform hover:scale-105 sm:text-base"
+            className="mt-2 inline-flex min-h-11 items-center px-2 text-sm font-bold text-white/85 underline decoration-holo-pink decoration-2 underline-offset-4 hover:text-white"
           >
-            Follow @maayapesu
+            Updates on @maayapesu
           </a>
         </div>
       </div>

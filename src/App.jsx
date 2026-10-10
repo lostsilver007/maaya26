@@ -41,7 +41,7 @@ export default function App() {
       <WorldSpine />
 
       <main id="main">
-        <HeroSection onSelectEvent={(ev) => setSelectedEventForModal(ev)} />
+        <HeroSection />
         <WorldTicker />
         <CampusIslandSection />
         <ProgrammeExplorer selectedEventForModal={selectedEventForModal} setSelectedEventForModal={setSelectedEventForModal} />
