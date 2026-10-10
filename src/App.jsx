@@ -42,7 +42,7 @@ export default function App() {
   }, [page]);
 
   const handleOpenRegister = (event = null) => {
-    setRegisterEvent(event || EVENTS[0]);
+    setRegisterEvent(event);
     setIsRegisterOpen(true);
   };
 

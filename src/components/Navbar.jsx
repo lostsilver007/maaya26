@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Volume2, VolumeX, Menu, X } from "lucide-react";
+import { Volume2, VolumeX, Menu, X, Sparkles } from "lucide-react";
 import { playClick, setSoundEnabled, isSoundEnabled, onSoundChange } from "../utils/audioEffects";
 import { WORLDS } from "./worlds";
 import { PAGES, usePage } from "./pages/route";
@@ -64,19 +64,48 @@ export default function Navbar({ onOpenRegister }) {
               </a>
             ))}
             <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-white/30 xl:mx-1.5" />
-            {PAGE_TABS.map((t) => (
-              <a
-                key={t.path}
-                href={t.href}
-                onClick={playClick}
-                aria-current={page === t.path ? "page" : undefined}
-                className={`embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors xl:px-3 ${
-                  page === t.path ? "bg-riso-yellow text-black [text-shadow:none]" : "hover:bg-white/15"
-                }`}
-              >
-                {t.label}
-              </a>
-            ))}
+            {PAGE_TABS.map((t) => {
+              const isCredits = t.path === "/credits";
+              const isActive = page === t.path;
+              if (isCredits) {
+                return (
+                  <a
+                    key={t.path}
+                    href={t.href}
+                    onClick={playClick}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`group relative shrink-0 rounded-md px-2.5 py-1 text-[0.8rem] font-black uppercase condensed transition-all duration-200 xl:px-3 ${
+                      isActive
+                        ? "bg-riso-pink text-black shadow-[0_0_12px_rgba(255,80,140,0.7)] scale-105 [text-shadow:none]"
+                        : "border border-riso-pink/70 bg-gradient-to-r from-riso-pink/30 via-purple-500/20 to-riso-yellow/30 text-riso-yellow shadow-[0_0_10px_rgba(255,100,160,0.4)] hover:border-riso-yellow hover:bg-riso-pink/45 hover:shadow-[0_0_16px_rgba(255,100,160,0.7)] hover:scale-105"
+                    }`}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      <Sparkles size={11} className={`${isActive ? "text-black" : "text-riso-pink"} animate-pulse`} />
+                      <span className="tracking-wide">{t.label}</span>
+                      <span className="rounded bg-black/70 px-1 py-0.2 text-[0.6rem] font-black text-riso-yellow">
+                        ✦
+                      </span>
+                    </span>
+                  </a>
+                );
+              }
+              return (
+                <a
+                  key={t.path}
+                  href={t.href}
+                  onClick={playClick}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors xl:px-3 ${
+                    isActive
+                      ? "bg-riso-yellow text-black [text-shadow:none]"
+                      : "hover:bg-white/15"
+                  }`}
+                >
+                  {t.label}
+                </a>
+              );
+            })}
           </nav>
           <span className="flex-1 lg:hidden" />
 
@@ -143,21 +172,34 @@ export default function Navbar({ onOpenRegister }) {
           </ul>
           <p className="relative z-[2] mt-6 text-sm font-semibold">More</p>
           <ul className="relative z-[2] mt-3 grid grid-cols-2 gap-3">
-            {PAGE_TABS.map((t, i) => (
-              <li key={t.path} className={i === 0 ? "col-span-2" : ""}>
-                <a
-                  href={t.href}
-                  onClick={() => {
-                    playClick();
-                    setMobileMenuOpen(false);
-                  }}
-                  aria-current={page === t.path ? "page" : undefined}
-                  className="flex min-h-14 items-center justify-center border-[3px] border-black bg-white px-3 text-center text-base leading-tight font-black shadow-[4px_4px_0_#000]"
-                >
-                  {PAGES[t.path]}
-                </a>
-              </li>
-            ))}
+            {PAGE_TABS.map((t, i) => {
+              const isCredits = t.path === "/credits";
+              return (
+                <li key={t.path} className={i === 0 || isCredits ? "col-span-2" : ""}>
+                  <a
+                    href={t.href}
+                    onClick={() => {
+                      playClick();
+                      setMobileMenuOpen(false);
+                    }}
+                    aria-current={page === t.path ? "page" : undefined}
+                    className={`flex min-h-14 items-center justify-center gap-2 border-[3px] border-black px-3 text-center text-base leading-tight font-black shadow-[4px_4px_0_#000] transition-all active:scale-98 ${
+                      isCredits
+                        ? "bg-gradient-to-r from-riso-yellow via-white to-riso-pink text-black hover:brightness-105"
+                        : "bg-white"
+                    }`}
+                  >
+                    {isCredits && <Sparkles size={16} className="text-riso-pink animate-pulse" />}
+                    <span>{PAGES[t.path]}</span>
+                    {isCredits && (
+                      <span className="rounded bg-black px-2 py-0.5 text-xs font-black text-riso-yellow uppercase">
+                        Devs ✦
+                      </span>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
           <button
             type="button"
