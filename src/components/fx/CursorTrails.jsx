@@ -6,7 +6,7 @@ import { finePointer, prefersReducedMotion } from "./env";
 //                        and swings behind it (a verlet rope)
 //   star     (cosmic)    stardust falls off the star
 //   marigold (tradition) petals drift down behind it
-//   scissors (cover)     a click snips paper triangles in the riso inks
+//   riso     (cover)     a click splats dots of the four riso inks
 //   popcorn  (cinema)    a click pops popcorn that arcs up and drops
 // Mouse only, nothing under reduced motion, and it sleeps when idle.
 const SPARK = ["#ffffff", "#ff7ad9", "#7af7ff", "#b48cff", "#c8ff7a"];
@@ -76,10 +76,10 @@ export default function CursorTrails() {
     const onDown = (e) => {
       if (e.button !== 0 || e.target.closest("a, button, input, select, textarea, label, [role=slider], .grab")) return;
       const m = modeAt(e.clientX, e.clientY);
-      if (m === "scissors") {
-        for (let i = 0; i < 16; i++) {
-          const a = Math.random() * Math.PI * 2, v = 2 + Math.random() * 5;
-          parts.push({ k: "snip", x: e.clientX, y: e.clientY, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 2, life: 1, decay: 0.012 + Math.random() * 0.01, s: 5 + Math.random() * 7, c: RISO[(Math.random() * RISO.length) | 0], r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.4 });
+      if (m === "riso") {
+        for (let i = 0; i < 18; i++) {
+          const a = Math.random() * Math.PI * 2, v = 1.5 + Math.random() * 4.5;
+          parts.push({ k: "ink", x: e.clientX, y: e.clientY, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 1.5, life: 1, decay: 0.014 + Math.random() * 0.01, s: 2.5 + Math.random() * 5, c: RISO[(Math.random() * RISO.length) | 0], r: 0, vr: 0 });
         }
       } else if (m === "popcorn") {
         for (let i = 0; i < 7; i++)
@@ -121,17 +121,13 @@ export default function CursorTrails() {
       ctx.fill();
       ctx.restore();
     };
-    const drawSnip = (p) => {
+    const drawInk = (p) => {
       ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.r);
       ctx.globalAlpha = Math.min(1, p.life * 1.4);
+      ctx.globalCompositeOperation = "multiply";
       ctx.fillStyle = p.c;
       ctx.beginPath();
-      ctx.moveTo(-p.s / 2, -p.s / 3);
-      ctx.lineTo(p.s / 2, -p.s / 2);
-      ctx.lineTo(p.s / 6, p.s / 2);
-      ctx.closePath();
+      ctx.arc(p.x, p.y, p.s * (0.7 + p.life * 0.3), 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     };
@@ -254,7 +250,7 @@ export default function CursorTrails() {
           p.vy += (p.k === "corn" ? 0.32 : 0.22) * dt;
           p.vx *= 0.99;
           p.r += p.vr * dt;
-          if (p.k === "snip") drawSnip(p);
+          if (p.k === "ink") drawInk(p);
           else drawCorn(p);
         }
       }
