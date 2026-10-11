@@ -7,6 +7,7 @@ import CampusIslandSection from "./components/CampusIslandSection";
 import ProgrammeExplorer from "./components/ProgrammeExplorer";
 import ConcertSection from "./components/ConcertSection";
 import PastEditionsSection from "./components/PastEditionsSection";
+import AnnouncementsSection from "./components/AnnouncementsSection";
 import AnnouncementsAndFAQ from "./components/AnnouncementsAndFAQ";
 import Footer from "./components/Footer";
 import RegistrationModal from "./components/RegistrationModal";
@@ -72,6 +73,7 @@ export default function App() {
           <ProgrammeExplorer selectedEventForModal={selectedEventForModal} setSelectedEventForModal={setSelectedEventForModal} />
           <ConcertSection />
           <PastEditionsSection />
+          <AnnouncementsSection />
           <AnnouncementsAndFAQ />
         </main>
       )}

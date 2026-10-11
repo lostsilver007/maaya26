@@ -105,6 +105,15 @@ export default function AnnouncementsAndFAQ() {
           <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-black/75 sm:text-lg lg:mx-0">
             Everything you need to know about dates, the theme, the 3D map and registering.
           </p>
+          <div className="mt-4">
+            <a
+              href="#announcements"
+              onClick={playClick}
+              className="inline-flex items-center gap-1.5 border-[2px] border-madder bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-kumkum shadow-[2px_2px_0_var(--color-madder)] hover:bg-saffron hover:text-black transition-colors"
+            >
+              <span>↑ Live Announcements &amp; Speaker Desk</span>
+            </a>
+          </div>
           <Rangoli className="mx-auto mt-8 w-56 drop-shadow-[0_6px_0_rgb(158_42_43/0.25)] sm:w-72 lg:mx-0 lg:w-[22rem]" />
         </div>
 

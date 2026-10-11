@@ -63,6 +63,17 @@ export default function Navbar({ onOpenRegister }) {
                 {w.part}
               </a>
             ))}
+            <a
+              href="#announcements"
+              onClick={playClick}
+              className="embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-3 text-riso-yellow flex items-center gap-1.5"
+            >
+              <span className="relative flex size-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-riso-yellow opacity-75" />
+                <span className="relative inline-flex size-2 rounded-full bg-riso-yellow" />
+              </span>
+              Announcements
+            </a>
             <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-white/30 xl:mx-1.5" />
             {PAGE_TABS.map((t) => {
               const isActive = page === t.path;
@@ -146,6 +157,25 @@ export default function Navbar({ onOpenRegister }) {
               </li>
             ))}
           </ul>
+          <a
+            href="#announcements"
+            onClick={() => {
+              playClick();
+              setMobileMenuOpen(false);
+            }}
+            className="relative z-[2] mt-4 flex items-center justify-between border-[3px] border-black bg-white px-4 py-3 shadow-[4px_4px_0_#000] hover:bg-riso-yellow transition-colors"
+          >
+            <span className="flex items-center gap-2">
+              <span className="relative flex size-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-riso-pink opacity-75" />
+                <span className="relative inline-flex size-2.5 rounded-full bg-riso-pink" />
+              </span>
+              <span className="font-black uppercase text-base">Announcements</span>
+            </span>
+            <span className="border border-black bg-riso-yellow px-2 py-0.5 text-xs font-black">
+              LOUDSPEAKER
+            </span>
+          </a>
           <p className="relative z-[2] mt-6 text-sm font-semibold">More</p>
           <ul className="relative z-[2] mt-3 grid grid-cols-2 gap-3">
             {PAGE_TABS.map((t, i) => (
