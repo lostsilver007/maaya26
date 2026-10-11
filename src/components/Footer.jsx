@@ -118,6 +118,16 @@ export default function Footer({ onOpenRegister }) {
             <PesuSeal world="paper" size="sm" />
             <div className="text-sm font-semibold text-white">
               <p>© 2026 MAAYA, PES University Electronic City Campus</p>
+              <p className="mt-1 text-xs text-white/85">
+                Credits:{" "}
+                <a href="#/credits" onClick={playClick} className="font-bold text-white underline decoration-riso-yellow decoration-2 underline-offset-2 hover:text-riso-yellow">
+                  Sreevatshan S
+                </a>
+                {" & "}
+                <a href="#/credits" onClick={playClick} className="font-bold text-white underline decoration-riso-yellow decoration-2 underline-offset-2 hover:text-riso-yellow">
+                  Swarnendu Bhattacharyya
+                </a>
+              </p>
               <p className="mt-1 flex flex-wrap gap-x-4">
                 <a href="#/core" className="inline-flex min-h-11 items-center underline underline-offset-4 sm:min-h-0">
                   Core team

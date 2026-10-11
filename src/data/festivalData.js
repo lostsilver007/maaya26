@@ -14,7 +14,6 @@ export const FESTIVAL_INFO = {
   festIslandUrl: "https://fest-island.vercel.app/#venues",
   contacts: [
     { name: "Vakalapudi Kushal", role: "Head", phone: "+91 80197 70591", email: "kushal.maaya@pes.edu" },
-    { name: "Amrita Pradeep", role: "Head", phone: "+91 73977 87224", email: "amrita.maaya@pes.edu" },
     { name: "J Akhil", role: "Co-head", phone: "+91 63634 57241", email: "akhil.maaya@pes.edu" },
     { name: "Thejus A Reddy", role: "Head of Finance & PR", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
   ],
