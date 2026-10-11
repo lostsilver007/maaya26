@@ -779,7 +779,7 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "Synchronized footwork, cross-court angle placement, and rapid-fire rallies. Team up to dominate the doubles table tennis tournament.",
     headline: false,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLScEGghQyN1HY-cIsrDZkV49y__rAWz6QzUAX3yWC2238g7CVw/viewform?usp=dialog",
-    rulesUrl: "https://drive.google.com/file/d/1Mt_U-_uplaqj3Fo4N9lFjxwU5hyCnDXl/view?usp=sharing",
+    rulesUrl: "https://docs.google.com/spreadsheets/d/1GNjbpg96uTShDpglLk1gfd0aNfIMRaIRXHzNIbMTlbA/edit?usp=sharing",
     teamSize: "Doubles (2 Players)",
     fee: "₹200 per team",
     mode: "OFFLINE",
