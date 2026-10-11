@@ -1,13 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { playChime, playClick } from "../../utils/audioEffects";
-import { finePointer, prefersReducedMotion } from "./env";
+import { prefersReducedMotion } from "./env";
 import SplitFlap from "./SplitFlap";
 
-// Half-time: a basketball you can grab and throw at the hoop. Gravity,
-// bounces off the floor, walls and backboard, rim collisions, a swish when it
-// drops through the net, and a split-flap scoreboard. "Take a shot" does it
-// for keyboard and touch users. Under reduced motion the ball sits still and
-// the button scores without the flight.
+// Half-time: a basketball you can drag and push/throw at the hoop. Gravity,
+// bounces off the floor, ceiling, walls and backboard, rim collisions, a swish when it
+// drops through the net, and a split-flap scoreboard.
 const R = 24; // ball radius, px
 const G = 0.42; // gravity per frame
 
@@ -55,6 +53,11 @@ export default function Hoop() {
           s.vx *= 0.88;
           if (Math.abs(s.vy) < 1.1) s.vy = 0;
         }
+        // Ceiling (prevents ball from flying out of top frame)
+        if (s.y < R) {
+          s.y = R;
+          s.vy = Math.abs(s.vy) * 0.5;
+        }
         // Walls
         if (s.x < R) {
           s.x = R;
@@ -94,7 +97,7 @@ export default function Hoop() {
           net.current?.classList.add("net-swish");
         }
         if (s.vy === 0 && Math.abs(s.vx) < 0.05 && s.y >= s.h - R - 0.5) s.live = false;
-        s.vx *= 0.999;
+        s.vx *= 0.992;
       }
       draw();
       s.raf = (s.live || s.held) && s.visible ? requestAnimationFrame(step) : 0;
@@ -148,49 +151,12 @@ export default function Hoop() {
     const a = s.samples[0], b = s.samples[s.samples.length - 1];
     if (a && b && b.t > a.t) {
       const k = 16.7 / (b.t - a.t);
-      s.vx = Math.max(-28, Math.min(28, (b.x - a.x) * k));
-      s.vy = Math.max(-30, Math.min(30, (b.y - a.y) * k));
-      if (Math.hypot(s.vx, s.vy) > 3) setShots((n) => n + 1);
+      // Gentle, controlled flick speed so the ball stays in frame and doesn't rocket away
+      const speedScale = 0.55;
+      s.vx = Math.max(-16, Math.min(16, (b.x - a.x) * k * speedScale));
+      s.vy = Math.max(-18, Math.min(18, (b.y - a.y) * k * speedScale));
+      if (Math.hypot(s.vx, s.vy) > 2) setShots((n) => n + 1);
     }
-    s.wake();
-  };
-
-  // A shot for keyboard and touch users: aimed to drop through the hoop.
-  const shoot = () => {
-    const s = sim.current;
-    setShots((n) => n + 1);
-    if (still) {
-      setMade((m) => m + 1);
-      setCall((c) => ({ text: "Swish!", n: (c?.n ?? 0) + 1 }));
-      playChime();
-      return;
-    }
-    const { rim } = s;
-    const cx = (rim.x1 + rim.x2) / 2 + (Math.random() - 0.5) * 8;
-    s.x = Math.max(R + 8, cx - Math.min(380, s.w * 0.55));
-    s.y = s.h - R;
-    s.angle = 0;
-    s.touchedRim = false;
-    // Launch so the arc peaks well above the rim and drops in steeply, timing
-    // the flight frame by frame with the same integration the sim uses.
-    const apex = Math.max(R, rim.y - 110);
-    const vy0 = -Math.sqrt(2 * G * (s.y - apex));
-    let vy = vy0, y = s.y, n = 0;
-    while (n < 400) {
-      const py = y;
-      vy += G;
-      y += vy;
-      n++;
-      if (vy > 0 && py < rim.y && y >= rim.y) {
-        n += (rim.y - py) / (y - py) - 1;
-        break;
-      }
-    }
-    const drift = (1 - 0.999 ** n) / 0.001; // vx decays by 0.999 a frame
-    s.vx = (cx - s.x) / drift;
-    s.vy = vy0;
-    s.held = false;
-    s.live = true;
     s.wake();
   };
 
@@ -199,7 +165,7 @@ export default function Hoop() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h3 className="font-varsity text-3xl sm:text-4xl">Half-time</h3>
-          <p className="mt-1 text-base text-white">{finePointer ? "Grab the ball and throw it at the hoop." : "Take a shot at the hoop."}</p>
+          <p className="mt-1 text-base text-white">Drag and push the basketball into the hoop to score!</p>
         </div>
         {/* Scoreboard */}
         <div className="flex items-stretch gap-3 border-4 border-black bg-[#111] p-3 shadow-[5px_5px_0_rgb(0_0_0/0.4)]">
@@ -243,13 +209,6 @@ export default function Hoop() {
           </p>
         )}
       </div>
-      <button
-        type="button"
-        onClick={shoot}
-        className="mt-4 inline-flex min-h-11 items-center bg-varsity px-5 text-base font-black text-black shadow-[4px_4px_0_#000] transition-transform active:translate-y-0.5"
-      >
-        Take a shot
-      </button>
     </div>
   );
 }
