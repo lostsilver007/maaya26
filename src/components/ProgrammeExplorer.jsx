@@ -401,7 +401,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                     className="inline-flex items-center gap-2 border-[2px] border-black bg-riso-yellow px-4 py-2 text-sm font-black text-black shadow-[3px_3px_0_#000] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#000]"
                   >
                     <FileText size={16} aria-hidden="true" />
-                    Open Official Rules PDF (Google Drive)
+                    Open Official Rules PDF{ev.rulesUrl.includes("drive.google.com") ? " (Google Drive)" : ""}
                     <ExternalLink size={14} aria-hidden="true" />
                   </a>
                 </div>
