@@ -66,6 +66,11 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                 <p className="text-sm font-bold text-ticket-red">Hosted by {ev.club}</p>
                 <h3 className="mt-0.5 text-xl leading-tight font-black">{ev.name}</h3>
                 <p className="mt-2 text-base leading-relaxed text-black/75">{ev.blurb}</p>
+                {ev.description && (
+                  <div className="mt-3 whitespace-pre-line border-l-2 border-ticket-red/40 bg-black/5 p-3 text-sm leading-relaxed text-black/85">
+                    {ev.description}
+                  </div>
+                )}
                 <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
                   <div>
                     <dt className="font-semibold text-black/60">When</dt>

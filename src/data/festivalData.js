@@ -5,7 +5,7 @@ export const FESTIVAL_INFO = {
   edition: "Annual Techno-Cultural Fest",
   theme: "ECLECTRIA — Different by Design",
   concept: "Different Aesthetics × One World",
-  tagline: "Five days. Five identities. One world. ECLECTRIA is a world where different styles, eras, cultures and identities come together. Each day of Maaya explores a completely different aesthetic — from denim and cinema to sports, Indian tradition and cosmic glamour — creating one diverse, vibrant celebration.",
+  tagline: "Six days. Six identities. One world. ECLECTRIA is a world where different styles, eras, cultures and identities come together. Each day of Maaya explores a completely different aesthetic — from denim and cinema to sports, Indian tradition and cosmic glamour — creating one diverse, vibrant celebration.",
   dates: "23rd & 24th October 2026",
   preFestDates: "23rd & 24th October 2026",
   isoDate: "2026-10-23T08:30:00+05:30",
@@ -395,15 +395,25 @@ export const EVENTS = [
     end: "14:00",
     timeDisplay: "09:00 AM – 02:00 PM",
     blurb: "An immersive technical crisis simulation in which teams navigate an evolving disruption, formulate strategic responses, collaborate under pressure, and adapt to emerging developments.",
+    description: `Round 1: Teams present crisis assessments, priorities, and proposed responses to technological disruption.
+
+Round 2: Teams execute portfolio-based actions, adapting strategies to evolving consequences and developments.
+
+Round 3: Shortlisted teams defend their decisions during a press conference.
+
+Evaluation will be based on Strategic thinking, crisis management, diplomacy, negotiation, adaptability, decisions, and justification.`,
     headline: false,
     paymentUrl: "https://forms.gle/KhmYypGSZTP6RAQV7",
     teamSize: "Teams of 2",
     contact: "Yash Tadi (+91 70165 53540)",
     rules: [
+      "Round 1: Teams present crisis assessments, priorities, and proposed responses to technological disruption.",
+      "Round 2: Teams execute portfolio-based actions, adapting strategies to evolving consequences and developments.",
+      "Round 3: Shortlisted teams defend their decisions during a press conference.",
       "Delegates represent national portfolios dealing with a high-stakes geopolitical / tech crisis.",
       "Standard Rules of Procedure (RoP) apply with continuous crisis updates released by the Executive Board.",
       "Directives, communiques, and press releases must adhere to formatting guidelines.",
-      "Evaluated on diplomacy, strategic negotiations, crisis resolution, and portfolio accuracy.",
+      "Evaluation will be based on Strategic thinking, crisis management, diplomacy, negotiation, adaptability, decisions, and justification.",
     ],
   },
   {
@@ -557,6 +567,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Varun J C (9019871296 • varunjc.pesu@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Tournament follows standard BWF 21-point rally scoring system.",
       "Knockout elimination rounds conducted across October 15th, 22nd, and 24th.",
       "Players must report in proper sports attire with mandatory non-marking indoor court shoes.",
@@ -588,6 +599,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Varun J C (9019871296 • varunjc.pesu@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Official BWF doubles rules apply (best of 3 sets of 21 points for finals).",
       "Both players must be registered together; no on-the-spot partner changes permitted.",
       "Non-marking indoor shoes are strictly mandatory in the arena.",
@@ -619,6 +631,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Vikas N (6361699470 • vikivikasd@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "FIDE rapid chess rules apply with digital clocks.",
       "Strict touch-move rule enforced across all match tables.",
       "All electronic items, smartwatches, and phones must remain switched off.",
@@ -650,6 +663,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Mohammed Ayaan I (78998 43702 • Mohdayaan5662@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "All matches governed by All India Carrom Federation (AICF) standard rules.",
       "Points-based knockout boards (first to 21 points or 8 boards).",
       "Queen must be covered on the immediate succeeding stroke.",
@@ -681,6 +695,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Yashas K C (7760522073 • yashaskc23@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Standard WPA 8-Ball rules apply with alternate-break format.",
       "Open table after the break; solid or stripe decided by the first legally pocketed ball.",
       "Potting the 8-ball prematurely or scratching on the 8-ball results in loss of frame.",
@@ -712,6 +727,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Arav Ranjan (9148767140 • aravmysore@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "World Squash Federation (WSF) Point-a-Rally (PAR) scoring up to 11 points.",
       "Non-marking rubber-soled court shoes and protective eyewear are strictly mandatory.",
       "Knockout elimination format.",
@@ -743,6 +759,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Arrham Jain (7619526098 • arrhamjain@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Official ITTF 11-point scoring system (service alternates every 2 points; deuce requires 2-point lead).",
       "Prelims are Best of 3 sets; semifinals and finals are Best of 5 sets.",
       "Players must bring their own standard TT racquets; 3-star tournament balls provided.",
@@ -774,6 +791,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Arrham Jain (7619526098 • arrhamjain@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Standard ITTF doubles rules: players must hit alternately on all returns.",
       "Diagonal service from right court to opponent's right court strictly enforced.",
       "Knockout elimination format (Best of 3 prelims, Best of 5 finals).",
@@ -805,6 +823,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Karthik R (9886249144 • rkarthik6127@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Official USA Pickleball rules apply (11 points, win by 2).",
       "Underhand serve and two-bounce rule strictly enforced.",
       "No volleys permitted inside the non-volley zone (the Kitchen).",
@@ -838,6 +857,7 @@ export const EVENTS = [
     mode: "ONLINE",
     contact: "Vishwas Hosamath (7975770165 • vishwashosamath47@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Squad TPP mode on competitive maps (Erangel, Miramar, Sanhok).",
       "Official BGIS point distribution (Position points + 1 point per kill).",
       "Strictly handheld mobile phones only; emulators, tablets/iPads, triggers, and third-party tools are banned.",
@@ -869,6 +889,7 @@ export const EVENTS = [
     mode: "ONLINE",
     contact: "R Sai Pranav Reddy (8884775334 • saipranavreddyr@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Squad battle royale on Bermuda, Purgatory, and Kalahari maps.",
       "Mobile devices only; emulators, script hacks, and third-party overlays result in immediate team disqualification.",
       "Official FFIC point table applied across qualifier and final matches.",
@@ -900,6 +921,7 @@ export const EVENTS = [
     mode: "OFFLINE",
     contact: "Akhilesh S Kumar (8073599672 • akhilesh140906@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Tournament standard card levels (Level 11) applied in friendly battle mode.",
       "Format: 1v1 Best of 3 games (Single Elimination Knockout bracket).",
       "Tower Troops and Evolutions allowed as per active official season rules.",
@@ -931,6 +953,7 @@ export const EVENTS = [
     mode: "ONLINE",
     contact: "Rohit Rajan (9945575371 • rohitspes2@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Standard Tournament Mode 5v5 on Mumbai Server with Cheats Turned OFF.",
       "Current official competitive map pool; map veto process coordinated via Discord.",
       "Prelims and quarter-finals are BO1; semifinals and grand finals are BO3.",
@@ -962,6 +985,7 @@ export const EVENTS = [
     mode: "ONLINE",
     contact: "Adithya D H (8050277124 • adityadheggadal@gmail.com)",
     rules: [
+      "Students of the same college and same campus only can form teams.",
       "Free-for-All multiplayer kart battles hosted in private custom rooms.",
       "Players battle across timed elimination rounds; top fraggers advance.",
       "Playable seamlessly on desktop browser or mobile without additional downloads.",
@@ -1041,6 +1065,10 @@ export const GENERAL_RULES = [
   {
     title: "Registration confirmation and payment verification",
     text: "Registration shall be considered confirmed only after the payment has been successfully verified and approved by the Accounts Section of PES University. Submission of the registration form, payment screenshot, or Transaction ID alone does not constitute confirmation of registration. All registrations shall remain provisional until the payment is verified by the Accounts Section of PES University.",
+  },
+  {
+    title: "Eligibility",
+    text: "All competitions are open exclusively to students currently pursuing an undergraduate (UG) degree at colleges and universities across India.",
   },
   {
     title: "Submission of payment proof",

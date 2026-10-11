@@ -337,6 +337,11 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
             </div>
             <div className="px-5 py-5 sm:px-7 sm:py-6">
               <p className="text-base leading-relaxed text-black/80">{ev.blurb}</p>
+              {ev.description && (
+                <div className="mt-3 whitespace-pre-line border-l-2 border-ticket-red/40 bg-black/5 p-3 text-sm leading-relaxed text-black/85">
+                  {ev.description}
+                </div>
+              )}
               <dl className="mt-5 grid grid-cols-2 gap-4 border-y-[3px] border-dashed border-black/25 py-4 text-sm sm:grid-cols-4">
                 <div>
                   <dt className="font-semibold text-black/60">Time</dt>

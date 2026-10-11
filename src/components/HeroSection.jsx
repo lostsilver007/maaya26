@@ -181,7 +181,7 @@ export default function HeroSection() {
 
           <motion.div {...land(0.2, { x: 0, y: 120, r: 6 }, 0.6)} className="scrap relative mt-8 max-w-xl p-4 sm:p-5">
             <span className="tape -top-3 left-6 -rotate-6" aria-hidden="true" />
-            <p className="text-lg leading-snug font-extrabold sm:text-xl">Five days. Five identities. One world.</p>
+            <p className="text-lg leading-snug font-extrabold sm:text-xl">Six days. Six identities. One world.</p>
             <p className="mt-1.5 text-base leading-relaxed text-black/80">
               ECLECTRIA is a world where different styles, eras, cultures and identities come together.
             </p>
