@@ -89,6 +89,7 @@ export const EVENTS = [
     blurb: "A 3-hour digital art competition where participants create an original 1:1 artwork from scratch under timed checkpoints and creative constraints.",
     headline: false,
     paymentUrl: "https://forms.gle/tW5WTAYJvvt3E1Ha7",
+    rulesUrl: "https://drive.google.com/open?id=1dIEGH_qH5NAYzZw5GRiORTCzVPQWuJdK",
     teamSize: "Individual / Solo",
     contact: "Abhiroop (9036314996), Navya Kishor (6284123362)",
     rules: [
@@ -115,6 +116,7 @@ export const EVENTS = [
     blurb: "A mind-bending team challenge where you decode hidden rules, spot unexpected glitches, and adapt before the game changes again.",
     headline: false,
     paymentUrl: "https://forms.gle/a3DS8qVkqZkBmCyN8",
+    rulesUrl: "https://drive.google.com/open?id=1KBRk1_eylFPurmyP7VguWSsSak3jQ1lc",
     teamSize: "Teams of 2 to 4",
     contact: "Hrudhay Prakash (9448303526)",
     rules: [
@@ -141,6 +143,7 @@ export const EVENTS = [
     blurb: "Shazam offers a dynamic experience where participants listen to the given song snippets, clues, pictures, etc, and answer the given questions.",
     headline: false,
     paymentUrl: "https://forms.gle/JdWcmYm3q6m7oous5",
+    rulesUrl: "https://drive.google.com/open?id=1jaGgenM-wXKTqNhlE9fP7Hv-tlEVs3Fm",
     teamSize: "Teams of 2",
     contact: "Blason Raj (7406110532), Tanisha Dalmia (87924 94474)",
     rules: [
@@ -167,6 +170,7 @@ export const EVENTS = [
     blurb: "A campus-wide treasure hunt where teams solve coding challenges, uncover hidden clues, and race to unlock the next challenge.",
     headline: true,
     paymentUrl: "https://forms.gle/Gq14yKXfoCxCA98e7",
+    rulesUrl: "https://drive.google.com/open?id=11JYze8nWWHbuiL1z9MqZWtiDx6FEFYjb",
     teamSize: "Teams of 2 to 4",
     contact: "Aniket Barun (9431515754)",
     rules: [
@@ -193,6 +197,7 @@ export const EVENTS = [
     blurb: "Investigate a mysterious aircraft crash by analysing clues, evidence, and a preliminary airline report to reconstruct what actually happened.",
     headline: false,
     paymentUrl: "https://forms.gle/DYbfW75KNWKMFvYe8",
+    rulesUrl: "https://drive.google.com/open?id=17o7Eb9_0OhYSTDv7edMTsqEL-B8m4tzB",
     teamSize: "Teams of 2 to 3",
     contact: "Hemaksh B (96259 96922)",
     rules: [
@@ -218,6 +223,7 @@ export const EVENTS = [
     blurb: "Operation Infinity is a team-based, Avengers-themed mission game in which participants complete six challenges, recover the Infinity Stones, solve a final code and identify a secretly compromised teammate while demonstrating teamwork, logical reasoning, observation and problem-solving skills.",
     headline: true,
     paymentUrl: "https://forms.gle/yZD17gmvyL1uLsLQ6",
+    rulesUrl: "https://drive.google.com/open?id=1in9LxnJ01oLC6frvIw4ajrY1WVQTYX5A",
     teamSize: "Teams of 4",
     contact: "Kishan C M (9110416794), Soumodev Roy (7010464676)",
     rules: [
@@ -244,6 +250,7 @@ export const EVENTS = [
     blurb: "A mystery-heist challenge where teams race to recover Neural Hive's stolen AI model — through strategy, deduction, and risk, no coding required.",
     headline: false,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeh_fAGkaLaZCsdJmuCzCSOfToe-8Mr4FpVIDZNd1hVz-pHNw/viewform?usp=sharing&ouid=111032860154513717892",
+    rulesUrl: "https://drive.google.com/open?id=1fSZ48KoRwzDT73x9KRZfX03dkAzkor0-",
     teamSize: "Teams of 2 to 3",
     contact: "Yajat Soni (8073090546)",
     rules: [
@@ -270,6 +277,7 @@ export const EVENTS = [
     blurb: "A Celebration of art in motion, where teams from every style compete.",
     headline: true,
     paymentUrl: "https://forms.gle/LtxgHfNDYQPyxrjj7",
+    rulesUrl: "https://drive.google.com/open?id=1uMtQ6xzxpSjO49JPnAalYgF2Bje-2VAb",
     teamSize: "Teams of 6 to 25",
     contact: "Architha (9947562567), Nethra (900808730), Ruchitha (9964877270)",
     rules: [
@@ -295,7 +303,8 @@ export const EVENTS = [
     timeDisplay: "08:30 AM – 11:30 AM",
     blurb: "A fast-paced hybrid robotics competition combining digital puzzles, campus treasure hunts, and a hands-on robot challenge to test teamwork, logic, and robotics skills.",
     headline: false,
-    paymentUrl: "https://forms.gle/tnxFr4K8PorWAZEp7",
+    paymentUrl: "https://forms.gle/3yMff7zWCMZ2LS246",
+    rulesUrl: "https://drive.google.com/open?id=1ElFVwCSpOLDFDmUqnBptr__pO4cC2pw_",
     teamSize: "Teams of 2 to 4",
     contact: "Modhak Kushalappa (6362356827)",
     rules: [
@@ -321,6 +330,7 @@ export const EVENTS = [
     blurb: "A solo singing competition celebrating the beauty of Indian and Western music.",
     headline: false,
     paymentUrl: "https://forms.gle/6MJ6CAVAP2PWPq449",
+    rulesUrl: "https://drive.google.com/open?id=1Qx5t6xebsO7DWXu8o5dWTb4ao398lkBQ",
     teamSize: "Solo / Individual",
     contact: "Abhirama H Y & Blason Raj (9483202575)",
     rules: [
@@ -346,6 +356,7 @@ export const EVENTS = [
     blurb: "Venture Wars is a three-round startup simulation where teams bid for problem statements, sabotage rivals with crises, and pitch their way to the top.",
     headline: false,
     paymentUrl: "https://forms.gle/Ghq2ryL8NaUiueEY9",
+    rulesUrl: "https://drive.google.com/open?id=1xhI2PPQC2ALoqqIkPKcfUpSUpA91l4AY",
     teamSize: "Teams of 2 to 4",
     contact: "Krish Gupta (9682674911)",
     rules: [
@@ -371,6 +382,7 @@ export const EVENTS = [
     blurb: "ಮಾತಿಗೆ ಮಿತಿ ಇಲ್ಲ, ತರ್ಕಕ್ಕೆ ತಡೆ ಇಲ್ಲ — Words Without Limits, Reason Without Boundaries.",
     headline: false,
     paymentUrl: "https://forms.gle/cWkSVEhk9QePeXDN8",
+    rulesUrl: "https://drive.google.com/open?id=1nlnSJkwObJY9OX6PtrCOGvXmsBrReyHk",
     teamSize: "Teams of 2 (For & Against)",
     contact: "Manjunath V (8904753396)",
     rules: [
@@ -404,6 +416,7 @@ Round 3: Shortlisted teams defend their decisions during a press conference.
 Evaluation will be based on Strategic thinking, crisis management, diplomacy, negotiation, adaptability, decisions, and justification.`,
     headline: false,
     paymentUrl: "https://forms.gle/KhmYypGSZTP6RAQV7",
+    rulesUrl: "https://drive.google.com/open?id=1PuqeRTWLgzvnCFn0vCtTVa8id43sART2",
     teamSize: "Teams of 2",
     contact: "Yash Tadi (+91 70165 53540)",
     rules: [
@@ -432,6 +445,7 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "A high pressure filmmaking challenge where participants are given a genre on the spot and have around 3 hours to create an original 2-minute short film.",
     headline: false,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSelYoeIHlrdGbDi_Dqcm2g1mHjeaJEK3xd1laN-JgzmcP_y2A/viewform?usp=publish-editor",
+    rulesUrl: "https://drive.google.com/open?id=1OIp_8zI3v8b8x865d8e8o49isabLdQbs",
     teamSize: "Teams of 2 to 5",
     contact: "Dushyanth Reddy (8639498517)",
     rules: [
@@ -458,6 +472,7 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "A thrilling whodunit where teams of two solve riddles, uncover clues, and piece together the mystery through sharp detective work and teamwork.",
     headline: false,
     paymentUrl: "https://forms.gle/wo2PX1sHSDt4ZZNu8",
+    rulesUrl: "https://drive.google.com/open?id=1bXg6BepdvZNLKU0CoOKmbVC_LMQfJJ_2",
     teamSize: "Teams of 2",
     contact: "Shubhika Pradeep (9818270173), Ianna Elizabeth Reni (9036938896)",
     rules: [
@@ -483,6 +498,7 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "A fast-paced hands-on design challenge where teams build creative solutions out of scrap and recyclable materials.",
     headline: false,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSduLa9j-6KBgKoPSU24vT5ItG9NkO2Llq3iI6YYN9Ivcbs_PQ/viewform?usp=dialog",
+    rulesUrl: "https://drive.google.com/open?id=1VjK46_36yA-6DxRvKJR9NLKp1pWjd5hY",
     teamSize: "Teams of 2 to 3",
     contact: "Bhuvan V. (9880637357), Likitha Marella (81233 82455)",
     rules: [
@@ -508,6 +524,7 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "PES University's premier high-energy musical showdown featuring top student bands competing live for the championship title.",
     headline: true,
     paymentUrl: "https://forms.gle/JgJcPmLJfhkSPzAb7",
+    rulesUrl: "https://drive.google.com/open?id=18boZ1sUVxCj1U4szJ1C9Rq1vMByEoyeO",
     teamSize: "Bands of 3 to 8 members",
     contact: "Samarth Ramesha (8867195937)",
     rules: [
@@ -532,8 +549,10 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     timeDisplay: "09:00 AM – 12:00 PM",
     blurb: "A lively open-air wellness and fun decompression zone featuring interactive games, stress-busters, and engaging community activities to recharge your festival spirit.",
     headline: false,
-    paymentUrl: null,
+    paymentUrl: "https://forms.gle/YLZnaL6xyi2fJgUt9",
+    rulesUrl: "https://drive.google.com/open?id=1c35jiIvVAZuSdUlYlHTk2Cj4kDxpA73H",
     teamSize: "Individual / Open to all",
+    fee: "₹60 per person",
     contact: "Shubhika Pradeep (9818270173), Kalash Jain (8792300506)",
     rules: [
       "Open to all PES University students and registered fest attendees.",

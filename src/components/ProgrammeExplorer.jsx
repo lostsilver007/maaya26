@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from "react";
-import { Search, X, ExternalLink } from "lucide-react";
+import { Search, X, ExternalLink, FileText } from "lucide-react";
 import { EVENTS } from "../data/festivalData";
 import { playClick, playChime } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
@@ -144,6 +144,20 @@ function Ticket({ e, punched, onPunch, onRules }) {
             >
               Read the rules<span className="sr-only">: {e.name}</span>
             </button>
+            {e.rulesUrl && (
+              <a
+                href={e.rulesUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={playClick}
+                className="inline-flex min-h-11 items-center gap-1.5 border-[2px] border-black bg-white px-3.5 py-1.5 text-sm font-black text-black shadow-[2px_2px_0_#000] transition-all hover:-translate-y-0.5 hover:bg-riso-yellow hover:shadow-[4px_4px_0_#000] active:translate-y-0 active:shadow-none"
+                title={`Rules PDF: ${e.name}`}
+              >
+                <FileText size={15} aria-hidden="true" />
+                Rules PDF
+                <ExternalLink size={13} aria-hidden="true" />
+              </a>
+            )}
           </div>
         </div>
       </article>
@@ -378,17 +392,19 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                 </p>
               )}
               {ev.rulesUrl && (
-                <p className="mt-2 text-xs font-semibold">
+                <div className="mt-3">
                   <a
                     href={ev.rulesUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 font-bold text-ticket-red underline underline-offset-2 hover:text-black"
+                    onClick={playClick}
+                    className="inline-flex items-center gap-2 border-[2px] border-black bg-riso-yellow px-4 py-2 text-sm font-black text-black shadow-[3px_3px_0_#000] transition-all hover:-translate-y-0.5 hover:shadow-[5px_5px_0_#000]"
                   >
-                    View official rules & regulations document
-                    <ExternalLink size={12} aria-hidden="true" />
+                    <FileText size={16} aria-hidden="true" />
+                    Open Official Rules PDF (Google Drive)
+                    <ExternalLink size={14} aria-hidden="true" />
                   </a>
-                </p>
+                </div>
               )}
               <h3 className="mt-5 font-script text-2xl text-ticket-red">The fine print</h3>
               <ol className="mt-2 list-decimal space-y-2 pl-5 text-base leading-relaxed marker:font-black marker:text-ticket-red">

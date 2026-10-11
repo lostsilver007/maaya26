@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ExternalLink, Ticket } from "lucide-react";
+import { ExternalLink, Ticket, FileText } from "lucide-react";
 import { EVENTS } from "../data/festivalData";
 import { playChime, playClick } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
@@ -125,31 +125,47 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
             <button type="button" onClick={onClose} className="min-h-11 px-2 text-base font-bold underline underline-offset-4">
               {ev ? "Not now" : "Close"}
             </button>
-            {ev ? (
-              ev.paymentUrl ? (
+            <div className="flex flex-wrap items-center gap-3">
+              {ev?.rulesUrl && (
                 <a
-                  href={ev.paymentUrl}
+                  href={ev.rulesUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => {
-                    playChime();
-                    onClose();
-                  }}
-                  className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
+                  onClick={playClick}
+                  className="inline-flex min-h-12 items-center gap-2 border-[2px] border-black bg-white px-5 text-base font-black text-black shadow-[2px_2px_0_#000] hover:bg-riso-yellow transition-all"
+                  title={`Rules PDF: ${ev.name}`}
                 >
-                  Register now
-                  <ExternalLink size={15} aria-hidden="true" />
+                  <FileText size={16} aria-hidden="true" />
+                  Rules PDF
+                  <ExternalLink size={14} aria-hidden="true" />
                 </a>
+              )}
+              {ev ? (
+                ev.paymentUrl ? (
+                  <a
+                    href={ev.paymentUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      playChime();
+                      onClose();
+                    }}
+                    className="inline-flex min-h-12 items-center gap-2 bg-ticket-red px-6 text-base font-black text-ticket"
+                  >
+                    Register now
+                    <ExternalLink size={15} aria-hidden="true" />
+                  </a>
+                ) : (
+                  <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/40 bg-black/5 px-5 text-base font-bold text-black/60">
+                    Will be updated soon
+                  </span>
+                )
               ) : (
-                <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/40 bg-black/5 px-5 text-base font-bold text-black/60">
-                  Will be updated soon
+                <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/30 bg-black/5 px-4 text-sm font-bold text-black/50">
+                  Select an event to proceed
                 </span>
-              )
-            ) : (
-              <span className="inline-flex min-h-12 items-center border-[2px] border-dashed border-black/30 bg-black/5 px-4 text-sm font-bold text-black/50">
-                Select an event to proceed
-              </span>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
