@@ -1021,19 +1021,9 @@ export const VENUES_DATA = [
     role: "The open-air court inside the Engineering Block",
   },
   {
-    id: "oval",
-    name: "The Oval",
-    role: "The round sports ground",
-  },
-  {
     id: "trail",
     name: "Campus Trail",
     role: "A route across the whole island",
-  },
-  {
-    id: "online",
-    name: "Online Esports Arena",
-    role: "Official Discord and custom match lobbies",
   },
 ];
 
