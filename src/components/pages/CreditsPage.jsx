@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import PesuSeal from "../PesuSeal";
 
 // Support any file extension for cr1 and cr2 (png, jpg, jpeg, webp, avif)
 const creditPhotos = import.meta.glob("../../assets/credits/cr*.*", { eager: true, import: "default" });
@@ -164,8 +163,8 @@ export default function CreditsPage() {
       <div aria-hidden="true" className="halftone absolute inset-0 opacity-40 pointer-events-none" />
 
       <div className="relative z-[2] mx-auto max-w-5xl">
-        {/* Top Navigation & Official Seal */}
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        {/* Top Navigation */}
+        <div className="flex items-center gap-4">
           <a
             href="#top"
             className="inline-flex min-h-11 items-center gap-2 border-2 border-black bg-black px-4 text-sm font-black text-riso-yellow shadow-[4px_4px_0_#000] transition-transform hover:-translate-y-0.5"
@@ -173,7 +172,6 @@ export default function CreditsPage() {
             <ArrowLeft size={16} aria-hidden="true" />
             Back to the site
           </a>
-          <PesuSeal world="paper" size="sm" />
         </div>
 
         {/* Main Vibrant Festival Paper Container */}

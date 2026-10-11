@@ -2,7 +2,6 @@ import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { playClick, playWorldSwitch } from "../utils/audioEffects";
 import Hoop from "./fx/Hoop";
-import PesuSeal from "./PesuSeal";
 
 // World 4 — Sports & Athleisure. Two editions as two varsity jerseys pegged
 // to a washing line over the court (they swing when you touch them), each
@@ -51,10 +50,7 @@ export default function PastEditionsSection() {
 
       <div className="relative z-[2] mx-auto max-w-6xl">
         <div className="text-center">
-          <div className="flex flex-wrap items-center justify-center gap-3">
-            <p className="banner-notch inline-block -rotate-1 bg-varsity py-2 pr-9 pl-4 text-sm font-black whitespace-nowrap text-court-deep">World 4: Sports &amp; Athleisure</p>
-            <PesuSeal world="sports" size="sm" />
-          </div>
+          <p className="banner-notch inline-block -rotate-1 bg-varsity py-2 pr-9 pl-4 text-sm font-black whitespace-nowrap text-court-deep">World 4: Sports &amp; Athleisure</p>
           <h2 className="mt-5 font-varsity text-[2.6rem] leading-none sm:text-6xl lg:text-7xl">Last season, this season</h2>
           <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-white sm:text-lg">From Retronomia's vintage synthesis to Eclectria's five colliding aesthetics.</p>
         </div>

@@ -5,7 +5,6 @@ import { playClick, playChime } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
 import Curtains from "./fx/Curtains";
 import { finePointer, prefersReducedMotion } from "./fx/env";
-import PesuSeal from "./PesuSeal";
 
 // World 2 — Cinema & Retro. A marquee over the box office; every event is a
 // ticket stub (admit one), and its rules are the fine print.
@@ -222,10 +221,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
         <Curtains className="-mx-4 px-4 pt-20 pb-6 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
         <div className="marquee-frame mx-auto max-w-3xl text-center">
           <div className="relative rounded-md bg-[#140204] px-4 py-6 sm:px-8 sm:py-8">
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <p className="text-sm font-bold text-bulb/80">World 2: Cinema &amp; Retro</p>
-              <PesuSeal world="cinema" size="sm" />
-            </div>
+            <p className="text-sm font-bold text-bulb/80">World 2: Cinema &amp; Retro</p>
             <h2 className="mt-2 font-marquee text-[2.7rem] leading-none text-bulb [text-shadow:0_0_14px_rgb(255_211_107/0.75),0_0_42px_rgb(255_120_40/0.45)] sm:text-7xl">
               Now sho<span className="neon-flicker">w</span>ing
             </h2>

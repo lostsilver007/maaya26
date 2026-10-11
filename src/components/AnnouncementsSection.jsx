@@ -21,7 +21,6 @@ import {
 import { ANNOUNCEMENTS, ANNOUNCEMENT_BADGE_VARIANTS } from "../data/announcementsData";
 import { playClick, playChime } from "../utils/audioEffects";
 import Modal, { CloseButton } from "./Modal";
-import PesuSeal from "./PesuSeal";
 
 // Dynamic Lucide icon helper for badges
 function BadgeIcon({ name, size = 16, className = "" }) {
@@ -482,7 +481,6 @@ export default function AnnouncementsSection() {
               Loudspeaker Active
               <AudioWave />
             </span>
-            <PesuSeal world="denim" size="sm" />
           </div>
 
           <h2 className="mt-5 font-sans text-4xl sm:text-6xl font-black tracking-tight text-black">
