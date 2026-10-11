@@ -111,7 +111,7 @@ export default function AnnouncementsAndFAQ() {
               onClick={playClick}
               className="inline-flex items-center gap-1.5 border-[2px] border-madder bg-white px-3 py-1 text-xs font-black uppercase tracking-wider text-kumkum shadow-[2px_2px_0_var(--color-madder)] hover:bg-saffron hover:text-black transition-colors"
             >
-              <span>↑ Live Announcements &amp; Speaker Desk</span>
+              <span>↑ Live Announcements Desk</span>
             </a>
           </div>
           <Rangoli className="mx-auto mt-8 w-56 drop-shadow-[0_6px_0_rgb(158_42_43/0.25)] sm:w-72 lg:mx-0 lg:w-[22rem]" />

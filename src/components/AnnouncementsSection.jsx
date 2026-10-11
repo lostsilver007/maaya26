@@ -53,7 +53,7 @@ function AudioWave() {
   );
 }
 
-// Speaker Badge component with broadcast styling, avatar and role
+// Announcement Badge component with broadcast styling, optional avatar and desk tag
 function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
   const variant = ANNOUNCEMENT_BADGE_VARIANTS[badgeVariant] || ANNOUNCEMENT_BADGE_VARIANTS.broadcast;
 
@@ -66,15 +66,17 @@ function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
           <BadgeIcon name={variant.icon} size={13} />
           <span>{badgeText || variant.label}</span>
         </span>
-        <span className="inline-flex items-center gap-1.5 bg-black/5 px-2 py-0.5 rounded text-xs font-bold text-black/80">
-          <span
-            className="grid size-4 place-items-center rounded-full text-[9px] font-black text-white shrink-0"
-            style={{ backgroundColor: speaker.color || "#000" }}
-          >
-            {speaker.avatarText || "SP"}
+        {speaker && speaker.name && (
+          <span className="inline-flex items-center gap-1.5 bg-black/5 px-2 py-0.5 rounded text-xs font-bold text-black/80">
+            <span
+              className="grid size-4 place-items-center rounded-full text-[9px] font-black text-white shrink-0"
+              style={{ backgroundColor: speaker.color || "#000" }}
+            >
+              {speaker.avatarText || "SP"}
+            </span>
+            <span className="truncate max-w-[130px] sm:max-w-[180px]">{speaker.name}</span>
           </span>
-          <span className="truncate max-w-[130px] sm:max-w-[180px]">{speaker.name}</span>
-        </span>
+        )}
       </div>
     );
   }
@@ -97,22 +99,24 @@ function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
         </span>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div
-          className="grid size-10 place-items-center rounded-full border-2 border-black font-black text-sm text-white shadow-[2px_2px_0_#000] shrink-0"
-          style={{ backgroundColor: speaker.color || "#000" }}
-        >
-          {speaker.avatarText || "SP"}
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <h4 className="font-black text-sm text-black leading-tight truncate">{speaker.name}</h4>
+      {speaker && speaker.name && (
+        <div className="flex items-center gap-3">
+          <div
+            className="grid size-10 place-items-center rounded-full border-2 border-black font-black text-sm text-white shadow-[2px_2px_0_#000] shrink-0"
+            style={{ backgroundColor: speaker.color || "#000" }}
+          >
+            {speaker.avatarText || "SP"}
           </div>
-          <p className="text-xs font-semibold text-black/70 leading-tight truncate">
-            {speaker.role} • <span className="text-black/50">{speaker.affiliation}</span>
-          </p>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <h4 className="font-black text-sm text-black leading-tight truncate">{speaker.name}</h4>
+            </div>
+            <p className="text-xs font-semibold text-black/70 leading-tight truncate">
+              {speaker.role} • <span className="text-black/50">{speaker.affiliation}</span>
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -410,18 +414,16 @@ export default function AnnouncementsSection() {
     return ANNOUNCEMENTS.filter((item) => {
       const matchesCategory =
         filterCategory === "all" ||
-        (filterCategory === "speaker" && item.badgeVariant === "speaker") ||
         (filterCategory === "urgent" && item.badgeVariant === "urgent") ||
         (filterCategory === "pass" && item.badgeVariant === "pass") ||
-        (filterCategory === "broadcast" && item.badgeVariant === "broadcast") ||
-        (filterCategory === "stage" && item.badgeVariant === "stage");
+        (filterCategory === "broadcast" && item.badgeVariant === "broadcast");
 
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         !q ||
         item.title.toLowerCase().includes(q) ||
         item.summary.toLowerCase().includes(q) ||
-        item.speaker.name.toLowerCase().includes(q) ||
+        (item.speaker?.name && item.speaker.name.toLowerCase().includes(q)) ||
         item.tags.some((t) => t.toLowerCase().includes(q));
 
       return matchesCategory && matchesSearch;
@@ -471,7 +473,7 @@ export default function AnnouncementsSection() {
             Festival Announcements
           </h2>
           <p className="mt-3 text-base sm:text-lg leading-relaxed text-black/75 max-w-xl mx-auto">
-            Live broadcasts, keynote speaker badges, stage advisories, and ticket drops. Updated continuously by the core committee.
+            Live broadcasts, urgent notices, and ticket drops. Updated continuously by the core committee.
           </p>
         </div>
 
@@ -481,11 +483,9 @@ export default function AnnouncementsSection() {
           <div className="flex flex-wrap items-center gap-2">
             {[
               { id: "all", label: `All Updates (${ANNOUNCEMENTS.length})` },
-              { id: "speaker", label: "🎙️ Speaker Badges" },
               { id: "broadcast", label: "📢 Broadcasts" },
               { id: "urgent", label: "🚨 Urgent Notices" },
               { id: "pass", label: "🎟️ Pass Drops" },
-              { id: "stage", label: "⚡ Stage Briefs" },
             ].map((f) => {
               const active = filterCategory === f.id;
               return (
