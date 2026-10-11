@@ -16,7 +16,7 @@ export const FESTIVAL_INFO = {
     { name: "Vakalapudi Kushal", role: "Head", phone: "+91 80197 70591", email: "kushal.maaya@pes.edu" },
     { name: "Amrita Pradeep", role: "Head", phone: "+91 73977 87224", email: "amrita.maaya@pes.edu" },
     { name: "J Akhil", role: "Co-head", phone: "+91 63634 57241", email: "akhil.maaya@pes.edu" },
-    { name: "Thejus A Reddy", role: "Head of PR", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
+    { name: "Thejus A Reddy", role: "Head of Finance & PR", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
   ],
   socials: {
     instagram: "https://www.instagram.com/maayapesu/",
@@ -1146,7 +1146,7 @@ export const CORE_TEAM = [
   { name: "Marapareddy Deekshitha", post: "Head of Operations and Logistics", instagram: "deekshitha.marapareddy", linkedin: "https://www.linkedin.com/in/deekshitha-marapareddy-9180b5354", photo: "1pdOVzWsG6jQKS674CJuAbDNWKDbkr7JC" },
   { name: "Anirudh Nagarajan", post: "Head of Design", instagram: "_ani_nag_0825_", linkedin: "https://www.linkedin.com/in/anirudh-nagarajan-4301573bb/", photo: "1Lfj5decGXBXCDjyhs9S-QwrugHiqY0iA" },
   { name: "Sreenidhi K", post: "Head of Content Writing", instagram: "ihaveennui", linkedin: "https://www.linkedin.com/in/nidhi-k-422696334", photo: "1yPtZ6ZluSeAPXaH7W4q-YDW4pcPS5lHA" },
-  { name: "Thejus A Reddy", post: "Head of Finance", instagram: "thejus_a_reddy", linkedin: "https://www.linkedin.com/in/thejus-a-reddy/", photo: "1huwTxcCOfn0szqN7wxw3_efSUA-VpUd5" },
+  { name: "Thejus A Reddy", post: "Head of Finance & PR", instagram: "thejus_a_reddy", linkedin: "https://www.linkedin.com/in/thejus-a-reddy/", photo: "1huwTxcCOfn0szqN7wxw3_efSUA-VpUd5" },
   { name: "Deepthi N Reddy", post: "Head of Social Media", instagram: null, linkedin: "https://www.linkedin.com/in/deepthi-reddy-b25305375/", photo: "1nXvhKxUjW0fen541zgaWxqxsSdKWSWfy" },
   { name: "Malepati Viswajith", post: "Head of Stage, Infrastructure & Creatives", instagram: "_viswajith_m", linkedin: "https://www.linkedin.com/in/malepati-viswajith-202705405", photo: null },
   { name: "Aaryan Dubey", post: "Head of Tech", instagram: "aaryandubey19", linkedin: "https://www.linkedin.com/in/aaryan-dubey-72203b352", photo: null },
