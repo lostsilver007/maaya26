@@ -71,33 +71,6 @@ export const ECLECTRIA_AESTHETICS = [
 
 // OFFICIAL 19 EVENTS DIRECTLY FROM MAAYA 2026 CLUB EVENTS LIST (With Full Guidelines & Verified Details)
 export const EVENTS = [
-  // OCTOBER 23, 2026
-  {
-    id: "elysian-threads",
-    name: "Elysian Threads",
-    club: "Panache",
-    category: "Cultural",
-    venueId: "mrd",
-    venue: "MRD Student Center",
-    room: "MRD Auditorium",
-    day: "23 Oct",
-    date: "2026-10-23",
-    time: "16:45",
-    end: "19:00",
-    timeDisplay: "04:45 PM – 07:00 PM",
-    blurb: "Elysian Threads is an exciting intercollege fashion walk where students take to the runway to showcase their creativity, style, and individuality. Featuring bold designs, unique silhouettes, and creative styling, the event brings together diverse interpretations of fashion and celebrates self-expression.",
-    headline: true,
-    paymentUrl: null,
-    teamSize: "Teams of 8 to 16",
-    contact: "Kushi Niranjana (7975881735)",
-    rules: [
-      "Performance duration: 8 to 12 minutes (including stage setup and clearance).",
-      "Teams must submit their soundtrack audio tracks in advance to the tech desk on a USB drive.",
-      "Theme interpretation, costume craftsmanship, choreography, stage presence, and walking poise will be evaluated.",
-      "Use of hazardous materials (fire, water, excessive confetti, pyrotechnics) on stage is strictly banned.",
-      "Green rooms will be assigned on a first-come, first-served basis upon morning registration.",
-    ],
-  },
 
   // OCTOBER 24, 2026
   {

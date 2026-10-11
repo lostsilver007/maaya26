@@ -250,7 +250,7 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
           <fieldset className="mt-5 min-w-0">
             <legend className="text-sm font-bold text-bulb">Showtimes</legend>
             <div className="mt-2 flex flex-wrap gap-2">
-              {DAY_TABS.map((tab) => {
+              {DAY_TABS.filter((tab) => tab.value === "all" || countFor(tab.value) > 0).map((tab) => {
                 const on = currentDayTab === tab.value;
                 return (
                   <button
