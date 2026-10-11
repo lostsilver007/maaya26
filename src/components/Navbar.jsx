@@ -142,9 +142,9 @@ export default function Navbar({ onOpenRegister }) {
 
       {/* Phones: the menu is a full sheet of yellow riso paper. */}
       {mobileMenuOpen && (
-        <div id="zine-menu" className="slap-in grain fixed inset-x-3 top-[4.25rem] bottom-3 overflow-y-auto bg-riso-yellow p-5 shadow-[6px_6px_0_#000] lg:hidden">
-          <p className="relative z-[2] text-sm font-semibold">Pick a world</p>
-          <ul className="relative z-[2] mt-3 space-y-3">
+        <div id="zine-menu" className="slap-in grain fixed inset-x-3 top-[4.25rem] bottom-3 overflow-y-auto bg-riso-yellow p-3.5 sm:p-5 shadow-[6px_6px_0_#000] lg:hidden">
+          <p className="relative z-[2] text-xs font-black uppercase tracking-wider text-black/75">Pick a world</p>
+          <ul className="relative z-[2] mt-2 space-y-1.5 sm:space-y-2">
             {WORLDS.map((w, i) => (
               <li key={w.id}>
                 <a
@@ -153,12 +153,12 @@ export default function Navbar({ onOpenRegister }) {
                     playClick();
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex items-center gap-3 border-[3px] border-black bg-white p-2 pr-4 shadow-[4px_4px_0_#000] ${i % 2 ? "rotate-1" : "-rotate-1"}`}
+                  className={`flex items-center gap-2.5 border-[2px] border-black bg-white p-1.5 pr-3 shadow-[3px_3px_0_#000] transition-transform active:scale-98 ${i % 2 ? "rotate-0.5" : "-rotate-0.5"}`}
                 >
-                  <span aria-hidden="true" className={`${w.swatch} size-12 shrink-0 border-2 border-black`} />
-                  <span>
-                    <span className="block text-2xl leading-none font-black condensed uppercase">{w.part}</span>
-                    <span className="mt-1 block text-sm text-black/70">{w.title}</span>
+                  <span aria-hidden="true" className={`${w.swatch} size-8 sm:size-9 shrink-0 border-2 border-black`} />
+                  <span className="min-w-0">
+                    <span className="block text-lg sm:text-xl leading-none font-black condensed uppercase">{w.part}</span>
+                    <span className="mt-0.5 block text-xs text-black/70 truncate">{w.title}</span>
                   </span>
                 </a>
               </li>
@@ -170,23 +170,23 @@ export default function Navbar({ onOpenRegister }) {
               playClick();
               setMobileMenuOpen(false);
             }}
-            className="relative z-[2] mt-4 flex items-center justify-between border-[3px] border-black bg-white px-4 py-3 shadow-[4px_4px_0_#000] hover:bg-riso-yellow transition-colors"
+            className="relative z-[2] mt-2.5 flex items-center justify-between border-[2px] border-black bg-white px-3 py-2 shadow-[3px_3px_0_#000] hover:bg-riso-yellow transition-colors"
           >
             <span className="flex items-center gap-2">
-              <span className="relative flex size-2.5">
+              <span className="relative flex size-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-riso-pink opacity-75" />
-                <span className="relative inline-flex size-2.5 rounded-full bg-riso-pink" />
+                <span className="relative inline-flex size-2 rounded-full bg-riso-pink" />
               </span>
-              <span className="font-black uppercase text-base">Announcements</span>
+              <span className="font-black uppercase text-sm sm:text-base">Announcements</span>
             </span>
-            <span className="border border-black bg-riso-yellow px-2 py-0.5 text-xs font-black">
+            <span className="border border-black bg-riso-yellow px-2 py-0.5 text-[10px] font-black uppercase tracking-wider">
               LOUDSPEAKER
             </span>
           </a>
-          <p className="relative z-[2] mt-6 text-sm font-semibold">More</p>
-          <ul className="relative z-[2] mt-3 grid grid-cols-2 gap-3">
-            {PAGE_TABS.map((t, i) => (
-              <li key={t.path} className={i === 0 ? "col-span-2" : ""}>
+          <p className="relative z-[2] mt-3.5 text-xs font-black uppercase tracking-wider text-black/75">More</p>
+          <ul className="relative z-[2] mt-1.5 grid grid-cols-2 gap-2 sm:gap-2.5">
+            {PAGE_TABS.map((t) => (
+              <li key={t.path}>
                 <a
                   href={t.href}
                   onClick={() => {
@@ -194,9 +194,17 @@ export default function Navbar({ onOpenRegister }) {
                     setMobileMenuOpen(false);
                   }}
                   aria-current={page === t.path ? "page" : undefined}
-                  className="flex min-h-14 items-center justify-center border-[3px] border-black bg-white px-3 text-center text-base leading-tight font-black shadow-[4px_4px_0_#000]"
+                  className={`flex min-h-11 sm:min-h-12 items-center justify-center border-[2px] border-black bg-white px-2 py-1.5 text-center text-xs sm:text-sm leading-tight font-black shadow-[3px_3px_0_#000] transition-transform active:scale-98 ${
+                    page === t.path ? "bg-riso-yellow" : ""
+                  }`}
                 >
-                  {PAGES[t.path]}
+                  {t.path === "/rules"
+                    ? "Rules & Regulations"
+                    : t.path === "/legal"
+                    ? "Legal & Privacy"
+                    : t.path === "/core"
+                    ? "Core Team"
+                    : t.label || PAGES[t.path]}
                 </a>
               </li>
             ))}
@@ -208,7 +216,7 @@ export default function Navbar({ onOpenRegister }) {
               setMobileMenuOpen(false);
               onOpenRegister();
             }}
-            className="relative z-[2] mt-6 w-full bg-black py-4 text-lg font-black text-riso-yellow"
+            className="relative z-[2] mt-3.5 w-full border-[2px] border-black bg-black py-2.5 sm:py-3 text-sm sm:text-base font-black text-riso-yellow shadow-[3px_3px_0_#000] active:translate-y-0.5"
           >
             Register for an event
           </button>
