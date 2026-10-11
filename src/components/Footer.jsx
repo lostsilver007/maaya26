@@ -113,13 +113,67 @@ export default function Footer({ onOpenRegister }) {
           </div>
         </div>
 
+        {/* Dedicated Architects & Developers Scrapbook Banner */}
+        <div className="scrap relative mt-10 p-5 text-black sm:p-6 rotate-[0.4deg]">
+          <span className="tape -top-3.5 left-10 -rotate-3" aria-hidden="true" />
+          <span className="tape -top-3.5 right-12 rotate-4" aria-hidden="true" />
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="sticker -rotate-2 border-2 border-black bg-riso-yellow px-2.5 py-0.5 font-mono text-xs font-black uppercase text-black shadow-[2px_2px_0_#000]">
+                  ⚡ ARCHITECTS &amp; DEVELOPERS
+                </span>
+                <span className="font-script text-lg text-riso-pink-deep">Built for MAAYA '26</span>
+              </div>
+              <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-base font-bold sm:text-lg">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-block h-2 w-2 rounded-full bg-riso-blue" />
+                  <a
+                    href="#/credits"
+                    onClick={playClick}
+                    className="font-black text-black underline decoration-riso-pink decoration-2 underline-offset-4 transition-colors hover:text-riso-pink-deep"
+                  >
+                    Sreevatshan S
+                  </a>
+                  <span className="rounded border border-black/20 bg-black/5 px-2 py-0.5 font-mono text-xs font-semibold text-black/75">
+                    Architect &amp; Lead
+                  </span>
+                </div>
+                <span className="hidden text-black/30 md:inline">•</span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-block h-2 w-2 rounded-full bg-riso-pink" />
+                  <a
+                    href="#/credits"
+                    onClick={playClick}
+                    className="font-black text-black underline decoration-riso-yellow decoration-2 underline-offset-4 transition-colors hover:text-riso-pink-deep"
+                  >
+                    Swarnendu Bhattacharyya
+                  </a>
+                  <span className="rounded border border-black/20 bg-black/5 px-2 py-0.5 font-mono text-xs font-semibold text-black/75">
+                    Lead UI/UX Engineer
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="#/credits"
+              onClick={playClick}
+              className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 border-[2.5px] border-black bg-black px-5 py-2 text-sm font-black text-riso-yellow shadow-[4px_4px_0_#000] transition-all hover:-translate-y-0.5 hover:bg-riso-pink hover:text-black hover:shadow-[6px_6px_0_#000]"
+            >
+              <span>Meet the Creators</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
         <div className="mt-14 flex flex-col items-start justify-between gap-6 border-t-[3px] border-dashed border-white/40 pt-6 sm:flex-row sm:items-center">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
             <PesuSeal world="paper" size="sm" />
             <div className="text-sm font-semibold text-white">
               <p>© 2026 MAAYA, PES University Electronic City Campus</p>
               <p className="mt-1 text-xs text-white/85">
-                Credits:{" "}
+                Built by{" "}
                 <a href="#/credits" onClick={playClick} className="font-bold text-white underline decoration-riso-yellow decoration-2 underline-offset-2 hover:text-riso-yellow">
                   Sreevatshan S
                 </a>
