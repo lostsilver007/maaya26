@@ -70,10 +70,12 @@ function Ticket({ e, punched, onPunch, onRules }) {
             <span className="block text-2xl leading-none font-black condensed sm:text-3xl">{e.day}</span>
             <span className="block text-sm font-bold">{e.dayLabel || (e.date === "2026-10-23" ? "Friday" : e.date === "2026-10-24" ? "Saturday" : "Tournament")}</span>
           </p>
-          <p className="text-right sm:mt-2 sm:text-left">
-            <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
-            <span className="block text-sm font-semibold opacity-90">to {e.end}</span>
-          </p>
+          {e.time && (
+            <p className="text-right sm:mt-2 sm:text-left">
+              <span className="block text-3xl leading-none font-black tabular-nums condensed">{e.time}</span>
+              {e.end && <span className="block text-sm font-semibold opacity-90">to {e.end}</span>}
+            </p>
+          )}
         </div>
         {/* Body */}
         <div className="relative border-dashed border-black/30 p-5 sm:border-l-[3px] sm:p-6">
@@ -357,10 +359,12 @@ export default function ProgrammeExplorer({ selectedEventForModal, setSelectedEv
                 </div>
               )}
               <dl className="mt-5 grid grid-cols-2 gap-4 border-y-[3px] border-dashed border-black/25 py-4 text-sm sm:grid-cols-4">
-                <div>
-                  <dt className="font-semibold text-black/60">Time</dt>
-                  <dd className="font-black tabular-nums">{ev.timeDisplay || `${ev.time} – ${ev.end}`}</dd>
-                </div>
+                {(ev.timeDisplay || ev.time) && (
+                  <div>
+                    <dt className="font-semibold text-black/60">Time</dt>
+                    <dd className="font-black tabular-nums">{ev.timeDisplay || `${ev.time}${ev.end ? ` – ${ev.end}` : ""}`}</dd>
+                  </div>
+                )}
                 <div>
                   <dt className="font-semibold text-black/60">Venue</dt>
                   <dd className="font-black">{ev.venue}</dd>

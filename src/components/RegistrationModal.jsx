@@ -75,7 +75,7 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                   <div>
                     <dt className="font-semibold text-black/60">When</dt>
                     <dd className="font-black">
-                      {dayName(ev.day)}, {ev.timeDisplay}
+                      {dayName(ev.day)}{ev.timeDisplay ? `, ${ev.timeDisplay}` : ev.time ? `, ${ev.time}` : ""}
                     </dd>
                   </div>
                   <div>
