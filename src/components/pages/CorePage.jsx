@@ -3,12 +3,23 @@ import { CORE_TEAM } from "../../data/festivalData";
 import PageShell from "./PageShell";
 import kushalPhoto from "../../assets/core/vakalapudi-kushal.webp";
 import viswajithPhoto from "../../assets/core/malepati-viswajith.webp";
+import amritaPhoto from "../../assets/core/amrita-pradeep.jpg";
+import aaryanPhoto from "../../assets/core/aaryan-dubey.jpg";
 
 // Portraits sent directly (their sheet entries link a Drive folder, not a
 // photo), cropped to the card and bundled with the site.
 const LOCAL_PHOTOS = {
   "Vakalapudi Kushal": kushalPhoto,
+  "Amrita Pradeep": amritaPhoto,
+  "Amritha Pradeep": amritaPhoto,
   "Malepati Viswajith": viswajithPhoto,
+  "Aaryan Dubey": aaryanPhoto,
+  "Aryan Dubey": aaryanPhoto,
+};
+
+const PHOTO_POSITIONS = {
+  "Aaryan Dubey": "object-[50%_12%]",
+  "Aryan Dubey": "object-[50%_12%]",
 };
 
 // The core team as polaroids taped into the zine: the Head and Co-Head up top,
@@ -33,6 +44,7 @@ function Portrait({ person, index, big }) {
   const sources = local ? [local] : driveSources(person.photo);
   const [tryNo, setTryNo] = useState(0);
   const src = sources[tryNo];
+  const pos = PHOTO_POSITIONS[person.name] || "object-[50%_25%]";
   return (
     <div className={`relative aspect-[4/5] overflow-hidden border-2 border-black ${INKS[index % INKS.length]}`}>
       {src ? (
@@ -43,7 +55,7 @@ function Portrait({ person, index, big }) {
           decoding="async"
           referrerPolicy="no-referrer"
           onError={() => setTryNo((n) => n + 1)}
-          className="absolute inset-0 h-full w-full object-cover object-[50%_25%]"
+          className={`absolute inset-0 h-full w-full object-cover ${pos}`}
         />
       ) : (
         <span aria-hidden="true" className={`absolute inset-0 grid place-items-center font-black tracking-tight text-black/80 ${big ? "text-7xl" : "text-5xl"}`}>
@@ -113,12 +125,24 @@ function Polaroid({ person, index, big = false, className = "" }) {
 }
 
 export default function CorePage() {
-  const [head, coHead, ...domains] = CORE_TEAM;
+  const heads = CORE_TEAM.filter(
+    (p) => p.post.toLowerCase() === "head" || p.post.toLowerCase() === "co-head"
+  );
+  const domains = CORE_TEAM.filter(
+    (p) => p.post.toLowerCase() !== "head" && p.post.toLowerCase() !== "co-head"
+  );
+
   return (
     <PageShell wide kicker="The people behind Maaya '26" title="Core team" intro="Meet the team putting Maaya '26 together.">
-      <ul className="mx-auto mt-10 grid max-w-2xl justify-items-center gap-8 sm:grid-cols-2">
-        {[head, coHead].map((p, i) => (
-          <Polaroid key={p.name} person={p} index={i} big className="w-full max-w-[17rem] sm:max-w-none" />
+      <ul className="mx-auto mt-10 grid max-w-4xl justify-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {heads.map((p, i) => (
+          <Polaroid
+            key={p.name}
+            person={p}
+            index={i}
+            big
+            className={`w-full max-w-[17rem] ${i === 2 ? "sm:col-span-2 lg:col-span-1 sm:max-w-[17rem] lg:max-w-none" : "sm:max-w-none"}`}
+          />
         ))}
       </ul>
 
@@ -129,7 +153,7 @@ export default function CorePage() {
       </h2>
       <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4">
         {domains.map((p, i) => (
-          <Polaroid key={p.name} person={p} index={i + 2} />
+          <Polaroid key={p.name} person={p} index={i + heads.length} />
         ))}
       </ul>
     </PageShell>

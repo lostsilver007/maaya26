@@ -54,7 +54,7 @@ function AudioWave() {
 }
 
 // Announcement Badge component with broadcast styling, optional avatar and desk tag
-function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
+function SpeakerBadge({ speaker, badgeVariant, badgeText, secondaryBadge = null, compact = false }) {
   const variant = ANNOUNCEMENT_BADGE_VARIANTS[badgeVariant] || ANNOUNCEMENT_BADGE_VARIANTS.broadcast;
 
   if (compact) {
@@ -66,6 +66,14 @@ function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
           <BadgeIcon name={variant.icon} size={13} />
           <span>{badgeText || variant.label}</span>
         </span>
+        {secondaryBadge && (
+          <span
+            className="inline-flex items-center gap-1.5 border-[2px] border-black bg-riso-pink text-black px-2.5 py-0.5 text-xs font-black uppercase tracking-wider shadow-[2px_2px_0_#000]"
+          >
+            <BadgeIcon name="Megaphone" size={13} />
+            <span>{secondaryBadge}</span>
+          </span>
+        )}
         {speaker && speaker.name && (
           <span className="inline-flex items-center gap-1.5 bg-black/5 px-2 py-0.5 rounded text-xs font-bold text-black/80">
             <span
@@ -122,8 +130,15 @@ function SpeakerBadge({ speaker, badgeVariant, badgeText, compact = false }) {
 }
 
 // Single Announcement Box Card
-function AnnouncementCard({ item, onClick }) {
-  const variant = ANNOUNCEMENT_BADGE_VARIANTS[item.badgeVariant] || ANNOUNCEMENT_BADGE_VARIANTS.broadcast;
+function AnnouncementCard({ item, activeCategory = "all", onClick }) {
+  const isBroadcastFilter = activeCategory === "broadcast" && item.categories?.includes("broadcast");
+  const isAllFilter = activeCategory === "all";
+
+  const currentBadgeVariant = isBroadcastFilter ? "broadcast" : item.badgeVariant;
+  const currentBadgeText = isBroadcastFilter ? "OFFICIAL BROADCAST" : item.badge;
+  const secondaryBadge = isAllFilter && item.categories?.includes("broadcast") && item.categories?.includes("pass")
+    ? "BROADCAST"
+    : null;
 
   return (
     <article
@@ -151,8 +166,9 @@ function AnnouncementCard({ item, onClick }) {
         <div className="flex items-center justify-between gap-2 mb-3">
           <SpeakerBadge
             speaker={item.speaker}
-            badgeVariant={item.badgeVariant}
-            badgeText={item.badge}
+            badgeVariant={currentBadgeVariant}
+            badgeText={currentBadgeText}
+            secondaryBadge={secondaryBadge}
             compact
           />
 
@@ -251,6 +267,7 @@ function AnnouncementModal({ item, open, onClose, onNavigate, hasPrev, hasNext }
             speaker={item.speaker}
             badgeVariant={item.badgeVariant}
             badgeText={item.badge}
+            secondaryBadge={item.categories?.includes("broadcast") && item.categories?.includes("pass") ? "OFFICIAL BROADCAST" : null}
           />
 
           {/* Date & Meta Info */}
@@ -414,9 +431,8 @@ export default function AnnouncementsSection() {
     return ANNOUNCEMENTS.filter((item) => {
       const matchesCategory =
         filterCategory === "all" ||
-        (filterCategory === "urgent" && item.badgeVariant === "urgent") ||
-        (filterCategory === "pass" && item.badgeVariant === "pass") ||
-        (filterCategory === "broadcast" && item.badgeVariant === "broadcast");
+        item.badgeVariant === filterCategory ||
+        (Array.isArray(item.categories) && item.categories.includes(filterCategory));
 
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
@@ -546,6 +562,7 @@ export default function AnnouncementsSection() {
               <AnnouncementCard
                 key={item.id}
                 item={item}
+                activeCategory={filterCategory}
                 onClick={handleOpenAnnouncement}
               />
             ))}

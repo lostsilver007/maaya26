@@ -14,6 +14,7 @@ export const FESTIVAL_INFO = {
   festIslandUrl: "https://fest-island.vercel.app/#venues",
   contacts: [
     { name: "Vakalapudi Kushal", role: "Head", phone: "+91 80197 70591", email: "kushal.maaya@pes.edu" },
+    { name: "Amrita Pradeep", role: "Head", phone: "+91 73977 87224", email: "amrita.maaya@pes.edu" },
     { name: "J Akhil", role: "Co-head", phone: "+91 63634 57241", email: "akhil.maaya@pes.edu" },
     { name: "Thejus A Reddy", role: "Head of PR", phone: "+91 94493 38156", email: "thejus.maaya@pes.edu" },
   ],
@@ -1138,6 +1139,7 @@ export const CODE_OF_CONDUCT = [
 // or phone numbers.
 export const CORE_TEAM = [
   { name: "Vakalapudi Kushal", post: "Head", instagram: "kushal.vakalapudi", linkedin: "https://www.linkedin.com/in/vakalapudi-kushal-ba574b359", photo: null },
+  { name: "Amrita Pradeep", post: "Head", instagram: "aami_potter", linkedin: "https://www.linkedin.com/in/amrita-pradeep12", photo: null },
   { name: "J Akhil", post: "Co-Head", instagram: "akhil_01_aj", linkedin: "https://www.linkedin.com/in/j-akhil-987700325/", photo: "1XXTNAJjU20Dti2W37bAYhtjcGpf9aO56" },
   { name: "Arham Mayur Burad", post: "Head of DisCo", instagram: "arham_burad", linkedin: "https://www.linkedin.com/in/arham-burad-68a016366", photo: "1VEmnBLPIeUotuvvvQBeEqeHe8vPrDSAZ" },
   { name: "Pragya Chowdary S", post: "Head of Hospitality", instagram: "pragyachowdarys", linkedin: "https://www.linkedin.com/in/pragya-chowdary-s-6963a8377/", photo: "1ln_VyQD-7t20Zrp4EyB-0JaSgdoTjlhI" },
@@ -1147,7 +1149,7 @@ export const CORE_TEAM = [
   { name: "Thejus A Reddy", post: "Head of Finance", instagram: "thejus_a_reddy", linkedin: "https://www.linkedin.com/in/thejus-a-reddy/", photo: "1huwTxcCOfn0szqN7wxw3_efSUA-VpUd5" },
   { name: "Deepthi N Reddy", post: "Head of Social Media", instagram: null, linkedin: "https://www.linkedin.com/in/deepthi-reddy-b25305375/", photo: "1nXvhKxUjW0fen541zgaWxqxsSdKWSWfy" },
   { name: "Malepati Viswajith", post: "Head of Stage, Infrastructure & Creatives", instagram: "_viswajith_m", linkedin: "https://www.linkedin.com/in/malepati-viswajith-202705405", photo: null },
-  { name: "Aaryan Dubey", post: "Head of Tech", instagram: "aaryandubey19", linkedin: "https://www.linkedin.com/in/aaryan-dubey-72203b352", photo: "1IPqyq7-kfvQJWj7zUxZWcz58f1eq3DD8" },
+  { name: "Aaryan Dubey", post: "Head of Tech", instagram: "aaryandubey19", linkedin: "https://www.linkedin.com/in/aaryan-dubey-72203b352", photo: null },
   { name: "Tarun G K", post: "Head of Marketing & Sponsorship", instagram: "nxt_tarun_gk", linkedin: "https://www.linkedin.com/in/tarun-g-k-387709323", photo: "1EBMievHXILDcSmgWY8ZZvnwszxVxxyUi" },
 ];
 
