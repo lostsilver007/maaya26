@@ -9,7 +9,7 @@ const PAGE_TABS = [
   { href: "#/core", path: "/core", label: "Core" },
   { href: "#/credits", path: "/credits", label: "Credits" },
   { href: "#/rules", path: "/rules", label: "Rules" },
-  { href: "#/legal", path: "/legal", label: "Legal" },
+  { href: "#/legal", path: "/legal", label: "Legal & Privacy", shortLabel: "Legal" },
 ];
 
 // The nav is a strip of label-maker tape stuck across the top of the zine.
@@ -39,7 +39,7 @@ export default function Navbar({ onOpenRegister }) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
-      <div className="relative mx-auto flex max-w-6xl items-center gap-2">
+      <div className="relative mx-auto flex max-w-7xl items-center gap-2">
         {/* Masthead sticker */}
         <a
           href="#top"
@@ -51,14 +51,14 @@ export default function Navbar({ onOpenRegister }) {
         </a>
 
         {/* Label tape */}
-        <div className="label-tape flex min-h-11 flex-1 items-center gap-1 py-1.5 pr-1.5 pl-3 shadow-[0_6px_14px_-6px_rgb(0_0_0/0.6)] sm:pl-4">
+        <div className="label-tape flex min-h-11 flex-1 items-center gap-1 py-1 pr-1.5 pl-2.5 shadow-[0_6px_14px_-6px_rgb(0_0_0/0.6)] sm:pl-3.5">
           <nav aria-label="Sections" className="no-scrollbar hidden flex-1 items-center gap-0.5 overflow-x-auto lg:flex">
             {WORLDS.map((w) => (
               <a
                 key={w.id}
                 href={w.href}
                 onClick={playClick}
-                className="embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-3"
+                className="embossed shrink-0 rounded-sm px-1.5 py-1 text-[0.74rem] sm:text-[0.76rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-2.5 xl:text-[0.8rem]"
               >
                 {w.part}
               </a>
@@ -66,15 +66,15 @@ export default function Navbar({ onOpenRegister }) {
             <a
               href="#announcements"
               onClick={playClick}
-              className="embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-3 text-riso-yellow flex items-center gap-1.5"
+              className="embossed shrink-0 rounded-sm px-1.5 py-1 text-[0.74rem] sm:text-[0.76rem] font-bold uppercase condensed transition-colors hover:bg-white/15 xl:px-2.5 xl:text-[0.8rem] text-riso-yellow flex items-center gap-1.5"
             >
-              <span className="relative flex size-2">
+              <span className="relative flex size-1.5 xl:size-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-riso-yellow opacity-75" />
-                <span className="relative inline-flex size-2 rounded-full bg-riso-yellow" />
+                <span className="relative inline-flex size-1.5 xl:size-2 rounded-full bg-riso-yellow" />
               </span>
               Announcements
             </a>
-            <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-white/30 xl:mx-1.5" />
+            <span aria-hidden="true" className="mx-0.5 h-4 w-px shrink-0 bg-white/30 xl:mx-1" />
             {PAGE_TABS.map((t) => {
               const isActive = page === t.path;
               return (
@@ -83,13 +83,20 @@ export default function Navbar({ onOpenRegister }) {
                   href={t.href}
                   onClick={playClick}
                   aria-current={isActive ? "page" : undefined}
-                  className={`embossed shrink-0 rounded-sm px-2 py-1.5 text-[0.8rem] font-bold uppercase condensed transition-colors xl:px-3 ${
+                  className={`embossed shrink-0 rounded-sm px-1.5 py-1 text-[0.74rem] sm:text-[0.76rem] font-bold uppercase condensed transition-colors xl:px-2.5 xl:text-[0.8rem] ${
                     isActive
                       ? "bg-riso-yellow text-black [text-shadow:none]"
                       : "hover:bg-white/15"
                   }`}
                 >
-                  {t.label}
+                  {t.shortLabel ? (
+                    <>
+                      <span className="hidden min-[1180px]:inline">{t.label}</span>
+                      <span className="min-[1180px]:hidden">{t.shortLabel}</span>
+                    </>
+                  ) : (
+                    t.label
+                  )}
                 </a>
               );
             })}
