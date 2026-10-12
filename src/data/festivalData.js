@@ -588,7 +588,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Varun J C (9019871296 • varunjc.pesu@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Tournament follows standard BWF 21-point rally scoring system.",
       "Knockout elimination rounds conducted across October 15th, 22nd, and 24th.",
       "Players must report in proper sports attire with mandatory non-marking indoor court shoes.",
@@ -617,7 +616,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Varun J C (9019871296 • varunjc.pesu@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Official BWF doubles rules apply (best of 3 sets of 21 points for finals).",
       "Both players must be registered together; no on-the-spot partner changes permitted.",
       "Non-marking indoor shoes are strictly mandatory in the arena.",
@@ -646,7 +644,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Vikas N (6361699470 • vikivikasd@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "FIDE rapid chess rules apply with digital clocks.",
       "Strict touch-move rule enforced across all match tables.",
       "All electronic items, smartwatches, and phones must remain switched off.",
@@ -675,7 +672,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Mohammed Ayaan I (78998 43702 • Mohdayaan5662@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "All matches governed by All India Carrom Federation (AICF) standard rules.",
       "Points-based knockout boards (first to 21 points or 8 boards).",
       "Queen must be covered on the immediate succeeding stroke.",
@@ -704,7 +700,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Yashas K C (7760522073 • yashaskc23@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Standard WPA 8-Ball rules apply with alternate-break format.",
       "Open table after the break; solid or stripe decided by the first legally pocketed ball.",
       "Potting the 8-ball prematurely or scratching on the 8-ball results in loss of frame.",
@@ -733,7 +728,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Arav Ranjan (9148767140 • aravmysore@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "World Squash Federation (WSF) Point-a-Rally (PAR) scoring up to 11 points.",
       "Non-marking rubber-soled court shoes and protective eyewear are strictly mandatory.",
       "Knockout elimination format.",
@@ -762,7 +756,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Arrham Jain (7619526098 • arrhamjain@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Official ITTF 11-point scoring system (service alternates every 2 points; deuce requires 2-point lead).",
       "Prelims are Best of 3 sets; semifinals and finals are Best of 5 sets.",
       "Players must bring their own standard TT racquets; 3-star tournament balls provided.",
@@ -791,7 +784,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Arrham Jain (7619526098 • arrhamjain@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Standard ITTF doubles rules: players must hit alternately on all returns.",
       "Diagonal service from right court to opponent's right court strictly enforced.",
       "Knockout elimination format (Best of 3 prelims, Best of 5 finals).",
@@ -820,7 +812,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Karthik R (9886249144 • rkarthik6127@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Official USA Pickleball rules apply (11 points, win by 2).",
       "Underhand serve and two-bounce rule strictly enforced.",
       "No volleys permitted inside the non-volley zone (the Kitchen).",
@@ -845,18 +836,24 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     blurb: "Drop hot into Erangel and Miramar. Coordinate rotations, frag out, and survive the final zones in the collegiate BGMI squad battle royale.",
     headline: true,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfqJnW5-J9kFGSGWZApw-05xcXzAJ5Cqr0vrtWEYmuR1YhKbg/viewform?usp=dialog",
-    rulesUrl: "https://drive.google.com/file/d/1yIaIFvBuBLymCv_CNPu_cH_sQXzIR8Qs/view?usp=sharing",
+    rulesUrl: "https://drive.google.com/file/d/1HcnRM90scnMNitY_pTDYgj24bhWKsztK/view?usp=sharing",
     teamSize: "Squad (4 Players)",
     fee: "₹400 per team",
     mode: "ONLINE",
     contact: "Vishwas Hosamath (7975770165 • vishwashosamath47@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
-      "Squad TPP mode on competitive maps (Erangel, Miramar, Sanhok).",
-      "Official BGIS point distribution (Position points + 1 point per kill).",
-      "Strictly handheld mobile phones only; emulators, tablets/iPads, triggers, and third-party tools are banned.",
-      "Team captains must join the tournament Discord server for credentials and screenshot submission.",
-      "Organizers reserve the right to audit suspicious gameplay or request POV recordings.",
+      "Only registered participants are eligible to compete. Each team must consist of 4 players (each player may register for only one team).",
+      "Tournament Format: 50 total teams. Qualifiers feature two groups of 25 teams each, with the top 8 teams from each group advancing to the 16-team Grand Finals.",
+      "Tournament Flow: Day 1 & Day 2 Qualifiers (Match 1: Erangel, Match 2: Miramar, Match 3: Sanhok). Day 3 Grand Finals (Match 1: Erangel, Match 2: Miramar, Match 3: Erangel).",
+      "Scoring System: Total Match Points = Placement Points + Finish Points (1 point per finish/elimination). The team with the highest cumulative points across all 3 final matches wins.",
+      "Placement Points (Qualifiers — 25 teams): 1st: 10, 2nd: 8, 3rd: 7, 4th: 6, 5th: 5, 6th: 4, 7th: 3, 8th: 2, 9th–16th: 1, 17th–25th: 0.",
+      "Placement Points (Grand Finals — 16 teams): 1st: 10, 2nd: 6, 3rd: 5, 4th: 4, 5th: 3, 6th–8th: 2, 9th–16th: 1.",
+      "Schedule & Reporting: Teams must join the designated communication group for announcements, match timings, room IDs, and passwords.",
+      "Teams must report at least 15 minutes before their scheduled match. Failure to join the assigned custom room on time may result in disqualification.",
+      "Matches will be played in BGMI custom rooms using announced settings. Handheld mobile phones only; players are responsible for their devices and internet connections.",
+      "Zero tolerance for hacking, cheating, scripts, exploits, unintended glitch mechanics, or unauthorized third-party tools.",
+      "Teaming with opposing squads, match-fixing, or sharing room credentials with unauthorised players is strictly prohibited and leads to immediate disqualification without warning.",
+      "The organiser reserves the right to investigate violations, disqualify teams, and withhold prizes. The organiser's decision on all disputes is final.",
     ],
   },
   {
@@ -880,7 +877,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "ONLINE",
     contact: "R Sai Pranav Reddy (8884775334 • saipranavreddyr@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Squad battle royale on Bermuda, Purgatory, and Kalahari maps.",
       "Mobile devices only; emulators, script hacks, and third-party overlays result in immediate team disqualification.",
       "Official FFIC point table applied across qualifier and final matches.",
@@ -909,7 +905,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "OFFLINE",
     contact: "Akhilesh S Kumar (8073599672 • akhilesh140906@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Tournament standard card levels (Level 11) applied in friendly battle mode.",
       "Format: 1v1 Best of 3 games (Single Elimination Knockout bracket).",
       "Tower Troops and Evolutions allowed as per active official season rules.",
@@ -938,7 +933,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "ONLINE",
     contact: "Rohit Rajan (9945575371 • rohitspes2@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Standard Tournament Mode 5v5 on Mumbai Server with Cheats Turned OFF.",
       "Current official competitive map pool; map veto process coordinated via Discord.",
       "Prelims and quarter-finals are BO1; semifinals and grand finals are BO3.",
@@ -967,7 +961,6 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     mode: "ONLINE",
     contact: "Adithya D H (8050277124 • adityadheggadal@gmail.com)",
     rules: [
-      "Students of the same college and same campus only can form teams.",
       "Free-for-All multiplayer kart battles hosted in private custom rooms.",
       "Players battle across timed elimination rounds; top fraggers advance.",
       "Playable seamlessly on desktop browser or mobile without additional downloads.",
