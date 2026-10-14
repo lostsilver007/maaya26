@@ -197,7 +197,7 @@ export const EVENTS = [
     headline: false,
     paymentUrl: "https://forms.gle/DYbfW75KNWKMFvYe8",
     rulesUrl: "https://drive.google.com/open?id=17o7Eb9_0OhYSTDv7edMTsqEL-B8m4tzB",
-    teamSize: "Teams of 2 to 3",
+    teamSize: "Teams of 3 to 4",
     contact: "Hemaksh B (96259 96922)",
     rules: [
       "Teams are provided with aircraft telemetry data, black box audio transcripts, and eyewitness testimonies.",
