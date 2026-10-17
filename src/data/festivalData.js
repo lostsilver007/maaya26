@@ -504,13 +504,13 @@ Evaluation will be based on Strategic thinking, crisis management, diplomacy, ne
     headline: false,
     paymentUrl: "https://docs.google.com/forms/d/e/1FAIpQLSduLa9j-6KBgKoPSU24vT5ItG9NkO2Llq3iI6YYN9Ivcbs_PQ/viewform?usp=dialog",
     rulesUrl: "https://drive.google.com/open?id=1VjK46_36yA-6DxRvKJR9NLKp1pWjd5hY",
-    teamSize: "Teams of 2 to 3",
+    teamSize: "1–2 Members",
     contact: "Bhuvan V. (9880637357), Likitha Marella (81233 82455)",
     rules: [
-      "All raw building materials (cardboard, e-waste scrap, plastics, wire, fabric) will be provided.",
-      "Participants may bring basic tools (scissors, glue guns, utility knives, tape).",
-      "Models must serve a practical functional purpose or represent an artistic sustainable statement.",
-      "Evaluation criteria: Resourcefulness, structural stability, aesthetic finish, and utility.",
+      "Materials & Inspection: Bring raw scrap or recyclables (no pre-assembled parts). Mandatory desk check before building.",
+      "Format: 3-hour build sprint followed by a 3-minute pitch and 2-minute Q&A.",
+      "Judging: Evaluated on Resource Efficiency (35%), Practical Utility (30%), Innovation (20%), and Pitch (15%).",
+      "Authority: Organizers may disqualify rule-breakers; judge decisions are final.",
     ],
   },
   {
