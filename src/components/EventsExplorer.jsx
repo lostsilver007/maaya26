@@ -209,9 +209,15 @@ export default function EventsExplorer({
                       {world.name} · {world.era.split("—")[0]}
                     </span>
 
-                    <span className="text-[11px] font-space font-bold px-2 py-0.5 rounded-md bg-white/5 text-[#93A29B]">
-                      {ev.day}
-                    </span>
+                    {ev.isClosed ? (
+                      <span className="text-[10px] font-space font-black tracking-widest px-2.5 py-0.5 rounded-full uppercase bg-red-600 text-white border border-red-500 shadow-sm">
+                        Closed
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-space font-bold px-2 py-0.5 rounded-md bg-white/5 text-[#93A29B]">
+                        {ev.day}
+                      </span>
+                    )}
                   </div>
 
                   <h3 className="font-space font-black text-xl text-[#E9EFEA] group-hover:text-[#CDFA4E] transition-colors leading-snug">
@@ -271,17 +277,23 @@ export default function EventsExplorer({
                     <ChevronRight size={14} />
                   </button>
 
-                  <button
-                    onClick={() => {
-                      playChime();
-                      onOpenRegisterForEvent(ev);
-                    }}
-                    className="py-2.5 px-4 rounded-xl text-xs font-space font-black text-black transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
-                    style={{ backgroundColor: world.accentColor }}
-                  >
-                    <Sparkles size={13} />
-                    <span>Register</span>
-                  </button>
+                  {ev.isClosed ? (
+                    <span className="py-2.5 px-4 rounded-xl text-xs font-space font-black bg-red-600 text-white border border-red-500/50 cursor-not-allowed select-none flex items-center gap-1.5">
+                      <span>Closed</span>
+                    </span>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        playChime();
+                        onOpenRegisterForEvent(ev);
+                      }}
+                      className="py-2.5 px-4 rounded-xl text-xs font-space font-black text-black transition-all hover:scale-105 active:scale-95 shadow-md flex items-center gap-1.5"
+                      style={{ backgroundColor: world.accentColor }}
+                    >
+                      <Sparkles size={13} />
+                      <span>Register</span>
+                    </button>
+                  )}
                 </div>
               </div>
             );
@@ -381,17 +393,23 @@ export default function EventsExplorer({
               >
                 Close
               </button>
-              <button
-                onClick={() => {
-                  const ev = selectedEventForModal;
-                  setSelectedEventForModal(null);
-                  onOpenRegisterForEvent(ev);
-                }}
-                className="px-6 py-2.5 rounded-xl bg-[#CDFA4E] text-black font-space font-black text-xs hover:scale-105 transition-transform flex items-center gap-2"
-              >
-                <Sparkles size={14} />
-                <span>Register for this Event</span>
-              </button>
+              {selectedEventForModal?.isClosed ? (
+                <span className="px-6 py-2.5 rounded-xl bg-red-600 text-white font-space font-black text-xs cursor-not-allowed select-none">
+                  Closed
+                </span>
+              ) : (
+                <button
+                  onClick={() => {
+                    const ev = selectedEventForModal;
+                    setSelectedEventForModal(null);
+                    onOpenRegisterForEvent(ev);
+                  }}
+                  className="px-6 py-2.5 rounded-xl bg-[#CDFA4E] text-black font-space font-black text-xs hover:scale-105 transition-transform flex items-center gap-2"
+                >
+                  <Sparkles size={14} />
+                  <span>Register for this Event</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

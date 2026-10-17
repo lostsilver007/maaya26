@@ -43,7 +43,7 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
             </option>
             {EVENTS.map((e) => (
               <option key={e.id} value={e.id}>
-                {e.name} ({dayName(e.day)})
+                {e.name} ({dayName(e.day)}){e.isClosed ? " — [CLOSED]" : ""}
               </option>
             ))}
           </select>
@@ -63,7 +63,14 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
           ) : (
             <>
               <div className="mt-5 border-y-[3px] border-dashed border-black/25 py-4">
-                <p className="text-sm font-bold text-ticket-red">Hosted by {ev.club}</p>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-sm font-bold text-ticket-red">Hosted by {ev.club}</p>
+                  {ev.isClosed && (
+                    <span className="inline-flex items-center rounded border border-black bg-red-600 px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-white shadow-[2px_2px_0_#000]">
+                      Closed
+                    </span>
+                  )}
+                </div>
                 <h3 className="mt-0.5 text-xl leading-tight font-black">{ev.name}</h3>
                 <p className="mt-2 text-base leading-relaxed text-black/75">{ev.blurb}</p>
                 {ev.description && (
@@ -113,7 +120,11 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                 </dl>
               </div>
 
-              {ev.paymentUrl ? (
+              {ev.isClosed ? (
+                <div className="mt-4 rounded border-2 border-red-600 bg-red-100 p-3 text-sm font-bold text-red-700">
+                  Registrations for this event are officially closed.
+                </div>
+              ) : ev.paymentUrl ? (
                 <p className="mt-4 text-sm text-black/70">Registration finishes on the event's official registration form, which opens in a new tab.</p>
               ) : (
                 <p className="mt-4 text-sm font-bold text-ticket-red">Registration form link will be updated soon.</p>
@@ -141,7 +152,14 @@ export default function RegistrationModal({ isOpen, onClose, initialEvent }) {
                 </a>
               )}
               {ev ? (
-                ev.paymentUrl ? (
+                ev.isClosed ? (
+                  <span
+                    aria-disabled="true"
+                    className="inline-flex min-h-12 cursor-not-allowed items-center gap-2 border-[2px] border-black bg-red-600 px-6 text-base font-black text-white shadow-[2px_2px_0_#000] select-none"
+                  >
+                    Closed
+                  </span>
+                ) : ev.paymentUrl ? (
                   <a
                     href={ev.paymentUrl}
                     target="_blank"
